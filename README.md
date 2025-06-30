@@ -1,6 +1,6 @@
-# 🚀 MediumLite – A Modern Blogging Platform
+# 🚀 Blogsy – A Modern Blogging Platform
 
-Welcome to **MediumLite** – a lightweight, clean, and powerful blogging platform built with **Flask**. Whether you're a writer, reader, or developer, MediumLite gives you a beautiful space to create and explore ideas.
+Welcome to **Blogsy** – a lightweight, clean, and powerful blogging platform built with **Flask**. Whether you're a writer, reader, or developer, MediumLite gives you a beautiful space to create and explore ideas.
 
 ---
 
@@ -20,7 +20,6 @@ Welcome to **MediumLite** – a lightweight, clean, and powerful blogging platfo
 
 ## 📸 Preview
 
-![MediumLite Screenshot](https://your-image-url.com/screenshot.png)
 
 ---
 
