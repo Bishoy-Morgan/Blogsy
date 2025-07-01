@@ -1,9 +1,22 @@
 {% extends "base.html" %}
-    {% block title %}
-        Home
-    {% endblock %}
-    {% block content %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
     <div class="container">
         <h2 class="align-center">Welcome {{ user.first_name }}</h2>
+        <div class="blog-list mt-5">
+            {% for blog in blogs %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ blog.title }}</h4>
+                        <p class="card-text">{{ blog.content }}</p>
+                        <small class="text-muted">Posted on {{ blog.date_created.strftime('%Y-%m-%d') }}</small>
+                    </div>
+                </div>
+            {% else %}
+                <p>No blogs yet.</p>
+            {% endfor %}
+        </div>
     </div>
-    {% endblock %}
+{% endblock %}
