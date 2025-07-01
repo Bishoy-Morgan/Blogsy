@@ -7,30 +7,31 @@
         method="POST"
         class="login-form"
         >
-            <h3>Login</h3>
-            <div class="form-group">
-                <label for="email">Email Address</label>
+            <h2>Login</h2>
+            <div class="form-group d-flex flex-column mb-3 mt-3  ">
+                <label for="email">Email</label>
                 <input 
                 type="email" 
-                class="form-control"
                 id="email"
                 name="email" 
-                placeholder="Email Address" 
+                placeholder="Enter your email" 
                 required
                 >
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex flex-column  ">
                 <label for="password">Password</label>
                 <input 
                 type="password" 
-                class="form-control"
                 id="password"
                 name="password" 
-                placeholder="Password" 
+                placeholder="Enter your password" 
                 required
                 >
             </div>
-            <hr>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <div>
+                <span class="font-11">No account?</span>
+                <a  href="{{ url_for('auth.sign_up') }}" class="create-one">Create one</a>
+            </div>
+            <button type="submit" class="button-style">Login</button>
         </form>
     {% endblock %}

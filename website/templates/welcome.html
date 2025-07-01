@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="hero-section d-flex text-left w-100 ">
+    <div class="container d-flex justify-content-center align-items-center text-left ">
         <div class="w-50">
             <h1>Read, Write <br/> Connect</h1>
             <p class="subtitle my-5 ">A Place to read and share ideas</p>
-            <button class="button-style m-0">
+            <a  href="{{ url_for('auth.login') }}" class="button-style m-0 ">
                 Get started
-            </button>
+            </a>
         </div>
         <div class="w-50">
             <img 
