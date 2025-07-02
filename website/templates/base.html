@@ -27,7 +27,7 @@
             <nav>
                 <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
                         <a href="/" class="blogsy-font text-left">Blogsy</a>
-                        <div class="navbar-nav d-flex flex-row align-items-center ">
+                        <div class="position-relative navbar-nav d-flex flex-row align-items-center ">
                             {% if user.is_authenticated %}
                                 <div class="d-flex align-items-center justify-content-center">
                                     <img
@@ -42,9 +42,30 @@
                                     {{ user.first_name[0] }}
                                 </button>
                                 <div id="profileContainer" class="profile-container d-none">
-                                    <a href="/" class="links">Profile</a>
-                                    <a href="/" class="links">Blogs</a>
-                                    <a href="/" class="links">Stories</a>
+                                    <div class="w-100 d-flex gap-3">
+                                        <img
+                                        src="{{ url_for('static', filename='images/profile.svg')}}"
+                                        alt="Profile"
+                                        class="write-img"
+                                        />
+                                        <a href="/" class="links">Profile</a>
+                                    </div>
+                                    <div class="w-100 d-flex gap-3">
+                                        <img
+                                        src="{{ url_for('static', filename='images/blog.svg')}}"
+                                        alt="Profile"
+                                        class="write-img"
+                                        />
+                                        <a href="/" class="links">Blogs</a>
+                                    </div>
+                                    <div class="w-100 d-flex gap-3 mb-2">
+                                        <img
+                                        src="{{ url_for('static', filename='images/stories.svg')}}"
+                                        alt="Profile"
+                                        class="write-img"
+                                        />
+                                        <a href="/" class="links">Stories</a>
+                                    </div>
                                     <a class="logout-link links" id="logout" href="/logout">Logout</a>
                                 </div>
                             {% else %}
