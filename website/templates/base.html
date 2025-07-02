@@ -26,24 +26,21 @@
         class="navbar navbar-expand-lg navbar-light bg-transparent d-flex align-items-center" 
         style="height: 12vh;"
         >
-            <div class="{% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
+                <!-- <div class="collapse navbar-collapse justify-content-between" id="navbarNav"> -->
                     <a href="/" class="blogsy-font text-left">Blogsy</a>
-                    <div class="navbar-nav">
+                    <div class="navbar-nav d-flex flex-row align-items-center ">
                         {% if user.is_authenticated %}
-                        <div class="d-flex align-items-center justify-content-center">
-                            <img
-                            src="{{ url_for('static', filename='images/write.svg')}}"
-                            alt="write and pencile"
-                            class="write-img"
-                            />
-                            <a class="nav-item nav-link " style="margin-left: 0px;" id="home" href="/write">Write</a>
-                        </div>
-                        <a class="nav-item nav-link" id="home" href="/home">Home</a>
-                            <button id="profileBtn" class="position-relative button-style">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img
+                                src="{{ url_for('static', filename='images/write.svg')}}"
+                                alt="write and pencile"
+                                class="write-img"
+                                />
+                                <a class="nav-item nav-link " style="margin-left: 0px;" id="home" href="/write">Write</a>
+                            </div>
+                            <a class="nav-item nav-link " id="home" href="/home">Home</a>
+                            <button id="profileBtn" class="position-relative">
                                 {{ user.first_name[0] }}
                             </button>
                             <div id="profileContainer" class="profile-container d-none">
@@ -57,7 +54,10 @@
                             <a class="sign-up-link " id="sign-up" href="/sign-up">Sign Up</a>
                         {% endif %}
                     </div>
-                </div>
+                <!-- </div> -->
+                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button> -->
             </div>
         </nav>
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -81,12 +81,12 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div class="w-100 d-flex justify-content-center align-items-center" style="height: 78vh;">
+        <div class="main-content w-100 d-flex justify-content-center align-items-center">
             {% block content %}
             {% endblock %}
         </div>
-        <footer class="d-flex align-items-center " style="height: 10vh;">
-            <div class="container d-flex flex-row justify-content-between align-items-center">
+        <footer class="d-flex align-items-center">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <ul class="nav d-flex ">
                     <li class="nav-item ">
                         <a class="font-11 nav-link" href="/about">About</a>

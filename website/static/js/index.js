@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const profileBtn = document.querySelector('.button-style.position-relative');
+    const profileBtn = document.querySelector('.position-relative');
     const profileContainer = document.querySelector('.profile-container');
 
     if (profileBtn && profileContainer) {
