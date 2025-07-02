@@ -16,6 +16,10 @@ def home():
     blogs = Blog.query.order_by(Blog.date_created.desc()).all()
     return render_template('home.html', user=current_user, blogs=blogs)
 
+@views.route('/about')
+def about():
+    return render_template('about.html', user=current_user)
+
 @views.route('/write', methods=['GET', 'POST'])
 @login_required
 def write():
