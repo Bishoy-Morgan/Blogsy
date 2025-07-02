@@ -1,33 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %}About{% endblock %}
+{% block title %}About – Blogsy{% endblock %}
 
 {% block content %}
-<section class="container p-3 d-flex justify-content-center align-items-center">
-    <div class="w-50 text-center">
-        <h2>About Blogsy</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6;">
-            <strong>Blogsy</strong> is a modern publishing platform built for people who care about quality content. Inspired by <a href="https://medium.com" target="_blank">Medium</a>, our mission is to empower writers and readers with a beautiful, distraction-free experience.
-        </p>
+<div class="about-medium-style">
 
-        <h2>Why Blogsy?</h2>
-        <ul class="list-unstyled">
-            <li>📝 Simple and elegant writing interface</li>
-            <li>🌍 Community-driven platform — share your voice with the world</li>
-            <li>📚 Discover insightful stories, ideas, and knowledge</li>
-        </ul>
+    <!-- Hero Section -->
+    <section class="hero-section text-start d-flex align-items-center">
+        <div class="container">
+            <div class="col-lg-7">
+                <h1 class="display-2 fw-bold">Blogsy is where ideas take shape, come to life, and spread.</h1>
+                <p class="lead mt-4">Where the world’s deepest thinkers and storytellers publish their ideas. We're building Blogsy to be the best place for writing and reading on the internet — without distractions.</p>
+            </div>
+        </div>
+    </section>
 
-        <h2>Our Vision</h2>
-        <p>
-            We believe that writing changes minds and moves the world forward. Blogsy was created to make publishing more open, democratic, and enjoyable for everyone — from casual bloggers to professional journalists.
-        </p>
+    <!-- Community Section -->
+    <section class="light-section py-5">
+        <div class="container">
+            <div class="row justify-content-center text-start">
+                <div class="col-lg-8">
+                <h2 class="fw-bold mb-4">A place to belong</h2>
+                <p>We believe that writing is powerful. That people from all walks of life have something to share. Blogsy is an open platform that allows anyone — from amateur bloggers to professional journalists — to write and publish freely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <h2>Join Us</h2>
-        <p>
-            Whether you want to write your first article or discover stories that matter to you, Blogsy is here to support your journey.
-        </p>
+    <!-- Clean Interface Section -->
+    <section class="dark-section text-white py-5">
+        <div class="container">
+            <div class="row justify-content-center text-start">
+                <div class="col-lg-8">
+                <h2 class="fw-bold mb-4">A beautiful, focused space for writing</h2>
+                <p>We’ve designed Blogsy with simplicity in mind — free from distractions, popups, and noise — so your ideas shine and your voice is heard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <p><em>Made with ❤️ by creators who love writing, technology, and community.</em></p>
-    </div>
-</section>
+    <!-- Call to Action -->
+    <section class="cta-section py-5 text-center">
+        <div class="container">
+            <h2 class="fw-bold mb-5">Join us on the journey</h2>
+            <a href="{{ url_for('views.home') }}" class="button-style ">Start Reading</a>
+        </div>
+    </section>
+</div>
 {% endblock %}

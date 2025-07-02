@@ -37,8 +37,10 @@
     --floral-color: #fffaf0;
     --gray-color: #6b6b6b;
     --paleWhite-color: #fffdfabf;
-    --success-color: #28a745;
-    --danger-color: #e36e79;
+    --success-color: #0f5132;
+    --success-background: #d1e7dd;
+    --danger-color: #842029;
+    --danger-background: #f8d7da;
     --warning-color: #ffc107;
 }
 
@@ -49,6 +51,13 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--floral-color);
     color: var(--primary-color);
+}
+
+.layout {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -115,10 +124,11 @@ nav {
 
 .main-content {
     width: 100%;
-    height: 78vh;
+    flex: 1; 
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
 }
 
 .sign-up-link, .button-style  {
@@ -254,27 +264,26 @@ footer .nav-link {
     }
 }
 
-.alert-message, .success-message {
+.alert {
     position: absolute;
-    top: 5%;
+    top: 8%;
     left: 50%;
     transform: translateX(-50%);
-    padding: 1rem 3rem;
-    background-color: var(--danger-color);
-    color: var(--primary-color);
-}
-
-
-.alert-message button, .success-message button {
-    margin-left: 2rem;
-    background-color: var(--primary-color);
-    border: 0;
+    width: 25%;
     border-radius: 100px;
-    color: var(--white-color);
+    padding-inline: 2rem;
 }
 
-.success-message {
-    background-color: var(--success-color);
+.alert-danger {
+    background-color: var(--danger-background);
+    color: var(--danger-color);
+    border-color: #f5c2c7;
+}
+
+.alert-success {
+    background-color: var(--success-background);
+    color: var(--success-color);
+    border-color: #badbcc;
 }
 
 #profileBtn {
@@ -286,6 +295,7 @@ footer .nav-link {
     font-size: 1rem;
     border: 2px solid transparent;
     border-radius: 100%;
+    margin-left: 1rem;
     &:focus {
         border: 2px solid var(--primary-color);
         background-color: transparent;
@@ -340,7 +350,7 @@ footer .nav-link {
         justify-content: end;
     }
     .main-content {
-        height: 80vh;
+        padding: 0;
     }
     .login-form, .signUp-form {
         width: 90%;
@@ -353,6 +363,9 @@ footer .nav-link {
         gap: 0;
         margin: 1.5rem 0;
     }
+    .alert {
+        width: 80%;
+    }
 }
 
 @media (max-width: 391px) {
@@ -364,3 +377,15 @@ footer .nav-link {
         overflow-x: hidden;
     }
 }
+
+/* About Page  */
+.about-medium-style .hero-section {
+    padding: 6rem 0;
+}
+
+.about-medium-style p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+}
+

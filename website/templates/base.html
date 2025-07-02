@@ -23,77 +23,73 @@
     </head>
 
     <body>
-        <nav>
-            <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
-                    <a href="/" class="blogsy-font text-left">Blogsy</a>
-                    <div class="navbar-nav d-flex flex-row align-items-center ">
-                        {% if user.is_authenticated %}
-                            <div class="d-flex align-items-center justify-content-center">
-                                <img
-                                src="{{ url_for('static', filename='images/write.svg')}}"
-                                alt="write and pencile"
-                                class="write-img"
-                                />
-                                <a class="nav-item nav-link " style="margin-left: 0px;" id="home" href="/write">Write</a>
+        <div class="layout">
+            <nav>
+                <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
+                        <a href="/" class="blogsy-font text-left">Blogsy</a>
+                        <div class="navbar-nav d-flex flex-row align-items-center ">
+                            {% if user.is_authenticated %}
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <img
+                                    src="{{ url_for('static', filename='images/write.svg')}}"
+                                    alt="write and pencile"
+                                    class="write-img"
+                                    />
+                                    <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 1rem" id="home" href="/write">Write</a>
+                                </div>
+                                <a class="nav-item nav-link " id="home" href="/home">Home</a>
+                                <button id="profileBtn" class="position-relative">
+                                    {{ user.first_name[0] }}
+                                </button>
+                                <div id="profileContainer" class="profile-container d-none">
+                                    <a href="/" class="links">Profile</a>
+                                    <a href="/" class="links">Blogs</a>
+                                    <a href="/" class="links">Stories</a>
+                                    <a class="logout-link links" id="logout" href="/logout">Logout</a>
+                                </div>
+                            {% else %}
+                                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                                <a class="sign-up-link " id="sign-up" href="/sign-up">Sign Up</a>
+                            {% endif %}
+                        </div>
+                </div>
+            </nav>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="container mt-3">
+                        {% for category, message in messages %}
+                            <div
+                            class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show "
+                            role="alert"
+                            >
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
-                            <a class="nav-item nav-link " id="home" href="/home">Home</a>
-                            <button id="profileBtn" class="position-relative">
-                                {{ user.first_name[0] }}
-                            </button>
-                            <div id="profileContainer" class="profile-container d-none">
-                                <a href="/" class="links">Profile</a>
-                                <a href="/" class="links">Blogs</a>
-                                <a href="/" class="links">Stories</a>
-                                <a class="logout-link links" id="logout" href="/logout">Logout</a>
-                            </div>
-                        {% else %}
-                            <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                            <a class="sign-up-link " id="sign-up" href="/sign-up">Sign Up</a>
-                        {% endif %}
+                        {% endfor %}
                     </div>
-            </div>
-        </nav>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category == 'error' %}
-                    <div class="alert-message alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-bs-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% else %}
-                    <div class="success-message alert alert-success alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-bs-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <div class="main-content">
-            {% block content %}
-            {% endblock %}
+                {% endif %}
+            {% endwith %}
+            <main class="main-content">
+                {% block content %}
+                {% endblock %}
+            </main>
+            <footer>
+                <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <ul class="nav d-flex ">
+                        <li class="nav-item ">
+                            <a class="font-11 nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="font-11 nav-link" href="/contact">Contact</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="font-11 nav-link" href="/privacy">Privacy Policy</a>
+                        </li>
+                    </ul>
+                    <p class="font-11 mb-0 ">© 2025 Blogsy. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
-        <footer>
-            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-                <ul class="nav d-flex ">
-                    <li class="nav-item ">
-                        <a class="font-11 nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="font-11 nav-link" href="/contact">Contact</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="font-11 nav-link" href="/privacy">Privacy Policy</a>
-                    </li>
-                </ul>
-                <p class="font-11 mb-0 ">© 2025 Blogsy. All rights reserved.</p>
-            </div>
-        </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </body>
