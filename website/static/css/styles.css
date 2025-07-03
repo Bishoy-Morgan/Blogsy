@@ -459,6 +459,16 @@ aside {
     .alert {
         width: 80%;
     }
+    .blog-list {
+        width: 90%;
+        margin: 2rem auto 0 auto;
+    }
+    .post {
+        width: 100%;
+    }
+    aside {
+        display: none;
+    }
 }
 
 @media (max-width: 391px) {
