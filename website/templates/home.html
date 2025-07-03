@@ -3,20 +3,98 @@
     Home
 {% endblock %}
 {% block content %}
-    <section class="container">
-        <h2 class="align-center">Welcome {{ user.first_name }}</h2>
-        <div class="blog-list mt-5">
+    <section class="w-100 h-100 d-flex align-items-start justify-content-between ">
+        <div class="blog-list">
             {% for blog in blogs %}
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ blog.title }}</h4>
-                        <p class="card-text">{{ blog.content }}</p>
-                        <small class="text-muted">Posted on {{ blog.date_created.strftime('%Y-%m-%d') }}</small>
+                <div class="post mb-4 pb-4">
+                    <div class="post-content">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="author-profile-img">
+                                <span>{{ user.first_name[0] }}</span>
+                            </div>
+                            <span class="font-11 mb-0 by-name">by {{ user.first_name }}</span>
+                        </div>
+                        <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
+                        <p class="post-paragraph">{{ blog.content }}</p>
+                        <small class="font-11">Posted on {{ blog.date_created.strftime('%b %d') }}</small>
+                    </div>
+                    <div class="post-img-container">
+                        
                     </div>
                 </div>
             {% else %}
                 <p>No blogs yet.</p>
             {% endfor %}
         </div>
+        <aside>
+            <div class="mb-3">
+                <h6 class="mb-4 poppins ">Recommended topics</h6>
+                <div>
+                    <span class="topic">Write</span>
+                    <span class="topic">Politics</span>
+                    <span class="topic">Money</span>
+                    <span class="topic">Relationships</span>
+                    <span class="topic">Machin Learning</span>
+                    <span class="topic">Psychology</span>
+                </div>
+            </div>
+            <div class="follow-content">
+                <h6 class="mb-4 poppins">Who to follow</h6>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex flex-column ">
+                        <h6 class="fw-bold poppins">Daniel Scott</h6>
+                        <p>Full stack developer with 8 years experience</p>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex flex-column ">
+                        <h6 class="fw-bold poppins">JavaScript in Plain English</h6>
+                        <p>New javaScript and web development content</p>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex flex-column ">
+                        <h6 class="fw-bold poppins">Chris Dunlop</h6>
+                        <p>I'll help you code with AI, Using cursor and Claude</p>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <span class="font-11">See more suggestions</span>
+            </div>
+            <div>
+                <h6 class="mb-2 poppins">Reading list</h6>
+                <p class="font-11">Click the  on any story to easily add it to your reading list or a custom list that you can share.</p>
+            </div>
+            <div class="aside-links">
+                <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap ">
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <li>
+                        <a href="#">Status</a>
+                    </li>
+                    <li>
+                        <a href="#">Career</a>
+                    </li>
+                    <li>
+                        <a href="#">Blog</a>
+                    </li>
+                    <li>
+                        <a href="#">Privacy</a>
+                    </li>
+                    <li>
+                        <a href="#">Rules</a>
+                    </li>
+                    <li>
+                        <a href="#">Terms</a>
+                    </li>
+                    <li>
+                        <a href="#">Text to speech</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
     </section>
 {% endblock %}
