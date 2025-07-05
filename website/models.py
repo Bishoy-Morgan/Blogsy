@@ -8,6 +8,7 @@ class Blog(db.Model):
     content = db.Column(db.Text)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.relationship('User', backref='user_blogs')
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

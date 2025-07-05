@@ -43,3 +43,10 @@ def write():
             return redirect(url_for('views.home'))
     return render_template('write.html', user=current_user)
 
+@views.route('/terms')
+def terms():
+    return render_template('terms.html', user=current_user)
+
+@views.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy-policy.html', user=current_user)

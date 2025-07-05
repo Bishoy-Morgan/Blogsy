@@ -10,9 +10,9 @@
                     <div class="post-content">
                         <div class="d-flex align-items-center gap-2">
                             <div class="author-profile-img">
-                                <span>{{ user.first_name[0] }}</span>
+                                <span>{{ blog.author.first_name[0] }}</span>
                             </div>
-                            <span class="font-11 mb-0 by-name">by {{ user.first_name }}</span>
+                            <span class="font-11 mb-0 by-name">by {{ blog.author.first_name }}</span>
                         </div>
                         <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
                         <p class="post-paragraph">{{ blog.content }}</p>

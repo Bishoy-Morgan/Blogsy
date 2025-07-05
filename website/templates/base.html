@@ -26,7 +26,7 @@
         <div class="layout">
             <nav>
                 <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
-                        <a href="/" class="blogsy-font text-left">Blogsy</a>
+                        <a href="{% if user.is_authenticated %}/home{% else %}/{% endif %}" class="blogsy-font text-left">Blogsy</a>
                         <div class="position-relative navbar-nav d-flex flex-row align-items-center ">
                             {% if user.is_authenticated %}
                                 <div class="d-flex align-items-center justify-content-center">
@@ -102,10 +102,10 @@
                                 <a class="font-11 nav-link" href="/about">About</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="font-11 nav-link" href="/contact">Contact</a>
+                                <a class="font-11 nav-link" href="/privacy-policy">Privacy</a>
                             </li>
                             <li class="nav-item ">
-                                <a class="font-11 nav-link" href="/privacy">Privacy Policy</a>
+                                <a class="font-11 nav-link" href="/terms">Terms</a>
                             </li>
                         </ul>
                         <p class="font-11 mb-0 ">© 2025 Blogsy. All rights reserved.</p>
