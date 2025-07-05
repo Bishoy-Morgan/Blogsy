@@ -120,10 +120,8 @@ def toggle_reading_list(blog_id):
 
     if blog in current_user.reading_list:
         current_user.reading_list.remove(blog)
-        # flash('Removed from your reading list.', 'info')
     else:
         current_user.reading_list.append(blog)
-        # flash('Added to your reading list!', 'success')
 
     db.session.commit()
     return redirect(request.referrer or url_for('views.home'))
