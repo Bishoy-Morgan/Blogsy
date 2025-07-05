@@ -19,3 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Alert Button function
+document.addEventListener("DOMContentLoaded", function () {
+    const closeButtons = document.querySelectorAll(".alert-style");
+    closeButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            const alertBox = btn.closest(".alert-style");
+            if (alertBox) {
+                alertBox.remove();
+            }
+        });
+    });
+});

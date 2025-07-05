@@ -4,10 +4,12 @@ import os
 from os import path
 from flask_login import LoginManager
 from dotenv import load_dotenv
+from flask_migrate import Migrate 
 load_dotenv()
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+migrate = Migrate() 
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +26,8 @@ def create_app():
     from .models import User, Blog
 
     create_database(app)
+
+    migrate.init_app(app, db) 
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

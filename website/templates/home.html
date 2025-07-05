@@ -6,25 +6,73 @@
     <section class="w-100 h-100 d-flex align-items-start justify-content-between ">
         <div class="blog-list">
             {% for blog in blogs %}
-                <div class="post mb-4 pb-4">
-                    <div class="post-content">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="author-profile-img">
-                                <span>{{ blog.author.first_name[0] }}</span>
-                            </div>
-                            <span class="font-11 mb-0 by-name">by {{ blog.author.first_name }}</span>
+                <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="post mb-5 pb-5">
+                    <div class="post-content ">
+                        <div class="d-flex align-items-center">
+                            <button class="blog-author">
+                                {{ blog.author.first_name[0] if blog.author.first_name else '' }}
+                            </button>
+                            <small class="text-gray">In </small>
+                            <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
+                            <small class="text-gray">by</small>
+                            <small class="text-black mx-1">{{ blog.author.first_name }}</small>
                         </div>
                         <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
-                        <p class="post-paragraph">{{ blog.content }}</p>
-                        <small class="font-11">Posted on {{ blog.date_created.strftime('%b %d') }}</small>
+                        <p class="text-gray">{{ blog.content[:150] }}...</p>
+                        <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
+                            <div class="d-flex align-items-center gap-4 font-11">
+                                <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img
+                                    src="{{ url_for('static', filename='images/clap.svg')}}"
+                                    alt="Clap hands"
+                                    class="clap-svg"
+                                    style="width: 1.25rem; height: 1.25rem;"
+                                    />
+                                    <span class="text-black ">{{ blog.likes|length }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img
+                                    src="{{ url_for('static', filename='images/comments.svg')}}"
+                                    alt="Comments"
+                                    class="comments-svg"
+                                    style="width: 1.75rem; height: 1.75rem;"
+                                    />
+                                    <span class="text-black ">{{ blog.comments|length }}</span>
+                                </div>
+                            </div>
+                            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}">
+                                <button type="submit" class="btn btn-link p-0 border-0 bg-transparent">
+                                    {% if blog in current_user.reading_list %}
+                                        <img 
+                                        src="{{ url_for('static', filename='images/save-remove.svg') }}" 
+                                        alt="Remove-save"
+                                        class="comments-svg"
+                                        style="width: 1.5rem; height: 1.5rem;"
+                                        />
+                                    {% else %}
+                                        <img 
+                                        src="{{ url_for('static', filename='images/save.svg') }}"
+                                        alt="Save"
+                                        class="comments-svg"
+                                        style="width: 1.5rem; height: 1.5rem;"
+                                        />
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="post-img-container">
-                        
+                    <div class="post-image">
+                        <img 
+                            src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
+                            alt="Image for {{ blog.title }}" 
+                            style="max-width: 100%; height: auto; border-radius: 8px;"
+                        >
                     </div>
-                </div>
-            {% else %}
+                </a>
+                {% else %}
                 <p>No blogs yet.</p>
-            {% endfor %}
+                {% endfor %}
         </div>
         <aside>
             <div class="mb-3">
@@ -82,13 +130,13 @@
                         <a href="#">Blog</a>
                     </li>
                     <li>
-                        <a href="#">Privacy</a>
+                        <a href="privacy">Privacy</a>
                     </li>
                     <li>
                         <a href="#">Rules</a>
                     </li>
                     <li>
-                        <a href="#">Terms</a>
+                        <a href="/terms">Terms</a>
                     </li>
                     <li>
                         <a href="#">Text to speech</a>
@@ -98,3 +146,4 @@
         </aside>
     </section>
 {% endblock %}
+

@@ -81,6 +81,10 @@ h2 {
     line-height: 0.95;
 }
 
+.text-black {
+    color: var(--primary-color);
+}
+
 .poppins {
     font-family: 'Poppins', sans-serif;
 }
@@ -274,14 +278,18 @@ footer .nav-link {
     }
 }
 
-.alert {
+.alert-style {
     position: absolute;
-    top: 8%;
+    top: 3%;
     left: 50%;
     transform: translateX(-50%);
-    width: 25%;
     border-radius: 100px;
-    padding-inline: 2rem;
+    padding: .75rem 1rem;
+    font-size: .75rem;
+    display: flex;
+    place-items: center space-between;
+    gap: 2rem
+
 }
 
 .alert-danger {
@@ -355,15 +363,31 @@ footer .nav-link {
     width: 80%;
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid rgba(107, 107, 107, 0.25);
+    text-decoration: none;
+    gap: 1rem;
 } 
 
 .post-content {
-    width: 70%;
+    width: 65%;
 }
 
-.by-name {
-    color: var(--gray-color);
+.post-image {
+    width: 30%;
+}
+
+.blog-author {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    place-items: center center;
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: var(--floral-color);
+    margin-right: 1rem;
 }
 
 .author-profile-img {
@@ -382,7 +406,7 @@ footer .nav-link {
     width: 30%;
 }
 
-.post-content p, small {
+.text-gray {
     color: var(--gray-color);
 }
 
@@ -425,6 +449,12 @@ aside {
     &:hover {
         color: var(--primary-color);
     }
+}
+
+.clap-comment-section {
+    margin-block: 2rem;
+    padding: 1rem 0.5rem;
+    border-block: 1px solid rgba(107, 107, 107, 0.25);
 }
 
 @media (max-width: 768px) {

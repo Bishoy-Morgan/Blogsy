@@ -2,31 +2,60 @@
 {% block title %}
     Create a blog
 {% endblock %}
+
 {% block content %}
-    <section class="container">
-        <h2 class="mb-5">Create a New Blog Post</h2>
-        <form class="post-form" method="POST">
-            <div class="d-flex flex-column mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input 
-                type="text" 
-                id="title" 
-                name="title" 
-                required
-                placeholder="Start with something catchy..."
-                >
-            </div>
-            <div class="d-flex flex-column mb-5">
-                <label for="content" class="form-label">Content</label>
-                <textarea 
-                id="content" 
-                name="content" 
-                rows="6" 
-                required
-                placeholder="Share your thoughts, experiences, or insights"
-                ></textarea>
-            </div>
-            <button type="submit" class="button-style ">Post</button>
-        </form>
-    </section>
+<section class="container my-5">
+  <h2 class="mb-4">Create a New Blog Post</h2>
+
+  <form class="post-form" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        required
+        placeholder="Start with something catchy..."
+      >
+    </div>
+
+    <div class="mb-4">
+      <label for="content" class="form-label">Content</label>
+      <textarea
+        id="content"
+        name="content"
+        class="form-control"
+        rows="6"
+        required
+        placeholder="Share your thoughts, experiences, or insights"
+      ></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="tags" class="form-label">Topic</label>
+      <input
+        type="text"
+        id="tags"
+        name="tags"
+        class="form-control"
+        placeholder="e.g. AI, productivity, Mental Health, writing"
+      >
+    </div>
+
+    <div class="mb-4">
+      <label for="image" class="form-label">Post Image (required)</label>
+      <input
+        type="file"
+        id="image"
+        name="image"
+        class="form-control"
+        accept="image/*"
+        required
+      >
+    </div>
+
+    <button type="submit" class="button-style">Post</button>
+  </form>
+</section>
 {% endblock %}

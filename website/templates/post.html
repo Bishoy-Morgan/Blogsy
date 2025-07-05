@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+    <div class="w-50 mx-auto my-5">
+        <h2>{{ blog.title }}</h2>
+        <p class="text-muted font-11 mt-3">by {{ blog.author.first_name }} on {{ blog.date_created.strftime('%B %d, %Y') }}</p>
+
+        <div class="mb-3">
+            {% for tag in blog.tags %}
+                <span class="topic text-capitalize">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+        
+
+        <div class="clap-comment-section d-flex align-items-center justify-content-between gap-3">
+            <form method="POST" action="{{ url_for('views.like_post', blog_id=blog.id) }}" class="d-flex align-items-center justify-content-between gap-4">
+                <button type="submit" class="btn p-0 border-0 bg-transparent ">
+                    <img
+                    src="{{ url_for('static', filename='images/clap.svg')}}"
+                    alt="Clap hands"
+                    class="clap-svg"
+                    style="width: 1.25rem; height: 1.25rem;"
+                    />
+                    <span class="text-black ">{{ blog.likes|length }}</span>
+                </button>
+                <button type="submit" class="btn p-0 border-0 bg-transparent ">
+                    <img
+                    src="{{ url_for('static', filename='images/comments.svg')}}"
+                    alt="Comments"
+                    class="comments-svg"
+                    style="width: 1.75rem; height: 1.75rem;"
+                    />
+                    <span class="text-black ">{{ blog.comments|length }}</span>
+                </button>
+            </form>
+            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}">
+                <button type="submit" class="btn p-0 border-0 bg-transparent">
+                    {% if blog in current_user.reading_list %}
+                        <img 
+                        src="{{ url_for('static', filename='images/save-remove.svg') }}" 
+                        alt="Remove-save"
+                        class="comments-svg"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        />
+                    {% else %}
+                        <img 
+                        src="{{ url_for('static', filename='images/save.svg') }}"
+                        alt="Save"
+                        class="comments-svg"
+                        style="width: 1.5rem; height: 1.5rem;"
+                        />
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+
+        <div class="w-100 mb-5">
+            <img 
+                src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
+                alt="Image for {{ blog.title }}" 
+                style="max-width: 100%; height: auto; border-radius: 8px;"
+            >
+        </div>
+
+        <p class="text-gray" style="font-size: 1.25rem; line-height: 2rem;">{{ blog.content }}</p>
+
+        <div class="comments-section mt-5">
+            <h4>Responses ({{ blog.comments|length }})</h4>
+
+            {% for comment in blog.comments %}
+                <div class="comment mb-3 p-2 border rounded">
+                    <strong>{{ comment.user.first_name }}</strong> said:
+                    <p>{{ comment.content }}</p>
+                    <small class="text-muted">{{ comment.timestamp.strftime('%B %d, %Y %H:%M') }}</small>
+                </div>
+            {% else %}
+                <p>No comments yet.</p>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+                <form method="POST" action="{{ url_for('views.add_comment', blog_id=blog.id) }}">
+                    <textarea name="content" class="mb-2" rows="3" placeholder="Leave a comment..." required></textarea>
+                    <button type="submit" class="button-style mx-0 mt-3">Respond</button>
+                </form>
+            {% else %}
+                <p><a href="{{ url_for('auth.login') }}">Log in</a> to comment.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
