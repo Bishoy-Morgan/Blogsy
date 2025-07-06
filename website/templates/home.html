@@ -43,26 +43,15 @@
                             </div>
                             <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
                                 <button type="submit" class="btn p-0 border-0 bg-transparent">
-                                    {% set reading_ids = current_user.reading_list | map(attribute='id') | list %}
-                                    {% if blog.id in reading_ids %}
+                                    {% set is_saved = blog.id in (current_user.reading_list | map(attribute='id') | list) %}
                                         <img
-                                            src="{{ url_for('static', filename='images/save.svg') }}"
-                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
-                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                                            alt="Save"
-                                            class="reading-list-icon"
-                                            style="width: 1.5rem; height: 1.5rem;"
+                                        src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
+                                        data-save="{{ url_for('static', filename='images/save.svg') }}"
+                                        data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                        alt="Save"
+                                        class="reading-list-icon"
+                                        style="width: 1.5rem; height: 1.5rem;"
                                         />
-                                    {% else %}
-                                        <img
-                                            src="{{ url_for('static', filename='images/save-remove.svg') }}"
-                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
-                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                                            alt="Save"
-                                            class="reading-list-icon"
-                                            style="width: 1.5rem; height: 1.5rem;"
-                                        />
-                                    {% endif %}
                                 </button>
                             </form>
                         </div>
