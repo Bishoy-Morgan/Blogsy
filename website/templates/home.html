@@ -41,21 +41,26 @@
                                     <span class="text-black ">{{ blog.comments|length }}</span>
                                 </div>
                             </div>
-                            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}">
-                                <button type="submit" class="btn btn-link p-0 border-0 bg-transparent">
-                                    {% if blog in current_user.reading_list %}
-                                        <img 
-                                        src="{{ url_for('static', filename='images/save-remove.svg') }}" 
-                                        alt="Remove-save"
-                                        class="comments-svg"
-                                        style="width: 1.5rem; height: 1.5rem;"
+                            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
+                                <button type="submit" class="btn p-0 border-0 bg-transparent">
+                                    {% set reading_ids = current_user.reading_list | map(attribute='id') | list %}
+                                    {% if blog.id in reading_ids %}
+                                        <img
+                                            src="{{ url_for('static', filename='images/save.svg') }}"
+                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
+                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                            alt="Save"
+                                            class="reading-list-icon"
+                                            style="width: 1.5rem; height: 1.5rem;"
                                         />
                                     {% else %}
-                                        <img 
-                                        src="{{ url_for('static', filename='images/save.svg') }}"
-                                        alt="Save"
-                                        class="comments-svg"
-                                        style="width: 1.5rem; height: 1.5rem;"
+                                        <img
+                                            src="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
+                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                            alt="Save"
+                                            class="reading-list-icon"
+                                            style="width: 1.5rem; height: 1.5rem;"
                                         />
                                     {% endif %}
                                 </button>
@@ -71,7 +76,7 @@
                     </div>
                 </a>
                 {% else %}
-                <p>No blogs yet.</p>
+                    <p>No blogs yet.</p>
                 {% endfor %}
         </div>
         <aside>

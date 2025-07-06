@@ -266,6 +266,10 @@ footer .nav-link {
     }
 }
 
+.font-10 {
+    font-size: .7rem;
+}
+
 .font-11, .create-one {
     font-size: .8rem;
 }
@@ -313,7 +317,6 @@ footer .nav-link {
     font-size: 1rem;
     border: 2px solid transparent;
     border-radius: 100%;
-    margin-left: 1rem;
     &:focus {
         border: 2px solid var(--primary-color);
         background-color: transparent;
@@ -451,10 +454,20 @@ aside {
     }
 }
 
+.comment {
+    padding: 2rem 0;
+    border-block: 1px solid rgba(107, 107, 107, 0.10);
+}
+
 .clap-comment-section {
     margin-block: 2rem;
     padding: 1rem 0.5rem;
     border-block: 1px solid rgba(107, 107, 107, 0.25);
+}
+
+.custom-width {
+    width: 50%;
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
@@ -495,9 +508,22 @@ aside {
     }
     .post {
         width: 100%;
+        flex-flow: column nowrap;
+        justify-content: start;
+        align-items: start;
+    }
+    .post-content {
+        width: 100%;
+    }
+    .post-image {
+        width: 100%;
     }
     aside {
         display: none;
+    }
+    .custom-width {
+        width: 95%;
+        margin: 0 auto;
     }
 }
 
@@ -521,4 +547,3 @@ aside {
     line-height: 1.8;
     color: #444;
 }
-

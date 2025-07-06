@@ -4,7 +4,9 @@ from . import db
 from .models import Blog, Like, Comment, Tag
 import os
 from werkzeug.utils import secure_filename
-from flask import current_app
+# from flask import current_app
+from flask import jsonify, request
+
 
 views = Blueprint('views', __name__)
 
@@ -74,22 +76,22 @@ def write():
 @views.route('/post/<int:blog_id>', methods=['GET', 'POST'])
 def view_post(blog_id):
     blog = Blog.query.get_or_404(blog_id)
-    return render_template('post.html', blog=blog, user=current_user)
 
+    reading_ids = [b.id for b in current_user.reading_list]
+
+    return render_template('post.html', blog=blog, user=current_user, reading_ids=reading_ids)
 
 @views.route('/like/<int:blog_id>', methods=['POST'])
 @login_required
 def like_post(blog_id):
     blog = Blog.query.get_or_404(blog_id)
-    like = next((like for like in current_user.likes if like.blog_id == blog_id), None)
-
-    if like:
-        db.session.delete(like)
-    else:
-        new_like = Like(user_id=current_user.id, blog_id=blog_id)
-        db.session.add(new_like)
-
+    new_like = Like(user_id=current_user.id, blog_id=blog_id)
+    db.session.add(new_like)
     db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True, 'likes': len(blog.likes)})
+
     return redirect(request.referrer or url_for('views.home'))
 
 @views.route('/comment/add/<int:blog_id>', methods=['POST'])
@@ -112,7 +114,6 @@ def add_comment(blog_id):
     flash('Comment added!', 'success')
     return redirect(request.referrer or url_for('views.home'))
 
-
 @views.route('/reading-list/toggle/<int:blog_id>', methods=['POST'])
 @login_required
 def toggle_reading_list(blog_id):
@@ -120,11 +121,21 @@ def toggle_reading_list(blog_id):
 
     if blog in current_user.reading_list:
         current_user.reading_list.remove(blog)
+        saved = False
     else:
         current_user.reading_list.append(blog)
+        saved = True
 
     db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'saved': saved})
+
     return redirect(request.referrer or url_for('views.home'))
+
+@views.route('/reading-list')
+def reading_list():
+    return render_template('reading-list.html', user=current_user, reading_list=current_user.reading_list)
 
 @views.route('/terms')
 def terms():

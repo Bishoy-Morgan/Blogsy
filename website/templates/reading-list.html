@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Reading list{% endblock %}
+
+{% block content %}
+<div class="w-95 mx-auto my-5">
+    {% if reading_list %}
+        {% for blog in reading_list %}
+            <div class="custom-width mx-auto d-flex flex-md-row flex-column align-items-center justify-content-between ">
+                <div class="w-100 w-m-75 mx-auto">
+                    <h3>{{ blog.title }}</h3>
+                    <p class="text-muted small">by {{ blog.author.first_name }}</p>
+                </div>
+                <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="button-style mx-0">View</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center text-muted">You have no saved blogs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
