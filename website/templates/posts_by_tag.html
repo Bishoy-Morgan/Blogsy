@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ tag.name | capitalize }}
+{% endblock %}
+
+{% block content %}
+    <section class="w-100 h-100 d-flex flex-column">
+        <div class="d-flex align-items-start justify-content-between">
+            <!-- Blog list (same as home.html) -->
+            <div class="blog-list">
+                <div class="w-50 mb-5">
+                    <h3 class="poppins fw-bold  text-capitalize text-left">
+                    {{ tag.name }} topic
+                </h3>
+                </div>
+                {% for blog in blogs %}
+                    <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="post mb-5 pb-5">
+                        <div class="post-content">
+                            <div class="d-flex align-items-center">
+                                {% if blog.author.profile_image %}
+                                    <img 
+                                        src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
+                                        alt="{{ blog.author.first_name }}'s Profile Image" 
+                                        class="author-profile-img"
+                                        style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover;"
+                                        loading="lazy"
+                                    />
+                                {% else %}
+                                    <button class="blog-author">
+                                        {{ blog.author.first_name[0] if blog.author.first_name else '' }}
+                                    </button>
+                                {% endif %}
+                                <small class="text-gray">In </small>
+                                <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
+                                <small class="text-gray">by</small>
+                                <small class="text-black mx-1">{{ blog.author.first_name }}</small>
+                            </div>
+                            <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
+                            <p class="text-gray">
+                                {{ blog.content[:150].replace('\n', '<br>') | safe }}...
+                            </p>
+                            <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
+                                <div class="d-flex align-items-center gap-4 font-11">
+                                    <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <img
+                                        src="{{ url_for('static', filename='images/clap.svg')}}"
+                                        alt="Clap hands"
+                                        class="clap-svg"
+                                        style="width: 1.25rem; height: 1.25rem;"
+                                        />
+                                        <span class="text-black">{{ blog.likes|length }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <img
+                                        src="{{ url_for('static', filename='images/comments.svg')}}"
+                                        alt="Comments"
+                                        class="comments-svg"
+                                        style="width: 1.75rem; height: 1.75rem;"
+                                        />
+                                        <span class="text-black">{{ blog.comments|length }}</span>
+                                    </div>
+                                </div>
+                                <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
+                                    <button type="submit" class="btn p-0 border-0 bg-transparent">
+                                        {% set is_saved = blog.id in (current_user.reading_list | map(attribute='id') | list) %}
+                                        <img
+                                            src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
+                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
+                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                            alt="Save"
+                                            class="reading-list-icon"
+                                            style="width: 1.5rem; height: 1.5rem;"
+                                        />
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="post-image">
+                            <img 
+                                src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
+                                alt="Image for {{ blog.title }}" 
+                                style="max-width: 100%; height: auto; border-radius: 8px;"
+                            >
+                        </div>
+                    </a>
+                {% else %}
+                    <p>No posts under this topic yet.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar (same as home.html) -->
+            <aside>
+                <div class="mb-3">
+                    <h6 class="mb-4 poppins ">Recommended topics</h6>
+                    <div>
+                        {% for tag in tags %}
+                            <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="topic text-decoration-none">
+                                {{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="follow-content">
+                    <h6 class="mb-4 poppins">Who to follow</h6>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex flex-column">
+                            <h6 class="fw-bold poppins">Daniel Scott</h6>
+                            <p>Full stack developer with 8 years experience</p>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex flex-column">
+                            <h6 class="fw-bold poppins">JavaScript in Plain English</h6>
+                            <p>New JavaScript and web development content</p>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex flex-column">
+                            <h6 class="fw-bold poppins">Chris Dunlop</h6>
+                            <p>I'll help you code with AI, using Cursor and Claude</p>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                    <span class="font-11">See more suggestions</span>
+                </div>
+                <div>
+                    <h6 class="mb-2 poppins">Reading list</h6>
+                    <p class="font-11">Click the  on any story to easily add it to your reading list or a custom list that you can share.</p>
+                </div>
+                <div class="aside-links">
+                    <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Status</a></li>
+                        <li><a href="#">Career</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="privacy">Privacy</a></li>
+                        <li><a href="#">Rules</a></li>
+                        <li><a href="/terms">Terms</a></li>
+                        <li><a href="#">Text to speech</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </section>
+{% endblock %}

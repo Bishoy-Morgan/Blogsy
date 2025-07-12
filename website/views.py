@@ -23,7 +23,8 @@ def welcome():
 @login_required
 def home():
     blogs = Blog.query.order_by(Blog.date_created.desc()).all()
-    return render_template('home.html', user=current_user, blogs=blogs)
+    tags = Tag.query.all()
+    return render_template('home.html', user=current_user, blogs=blogs, tags=tags)
 
 @views.route('/about')
 def about():
@@ -207,3 +208,23 @@ def update_profile():
     db.session.commit()
     flash('Profile updated!', 'success')
     return redirect(url_for('views.profile', first_name=new_name.replace(' ', '-')))
+
+
+@views.route('/tag/<int:tag_id>')
+def posts_by_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    blogs = Blog.query\
+        .join(Blog.tags)\
+        .filter(Tag.id == tag_id)\
+        .order_by(Blog.date_created.desc())\
+        .all()
+    tags = Tag.query.all()
+
+    return render_template(
+        'posts_by_tag.html',
+        blogs=blogs,
+        tag=tag,
+        tags=tags,
+        user=current_user
+    )
+

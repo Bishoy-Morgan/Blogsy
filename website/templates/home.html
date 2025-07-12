@@ -84,12 +84,12 @@
             <div class="mb-3">
                 <h6 class="mb-4 poppins ">Recommended topics</h6>
                 <div>
-                    <span class="topic">Write</span>
-                    <span class="topic">Politics</span>
-                    <span class="topic">Money</span>
-                    <span class="topic">Relationships</span>
-                    <span class="topic">Machin Learning</span>
-                    <span class="topic">Psychology</span>
+                    {% for tag in tags %}
+                        <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="topic text-decoration-none">
+                            {{ tag.name }}
+                        </a>
+                    {% endfor %}
+
                 </div>
             </div>
             <div class="follow-content">
