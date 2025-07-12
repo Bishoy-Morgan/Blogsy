@@ -7,11 +7,11 @@
 ## 🖼️ Screenshot
 
 <p align="center">
-  <img src="website/static/images/screenshot1.png" alt="Blogsy Screenshot" width="800">
+  <img src="website/static/images/Screenshot1.png" alt="Blogsy Screenshot" width="800">
 </p>
 
 <p align="center">
-  <img src="website/static/images/screenshot2.png" alt="Blogsy Screenshot" width="800">
+  <img src="website/static/images/Screenshot2.png" alt="Blogsy Screenshot" width="800">
 </p>
 
 ---
