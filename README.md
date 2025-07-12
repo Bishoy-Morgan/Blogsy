@@ -1,61 +1,70 @@
-# 🚀 Blogsy – A Modern Blogging Platform
+# 📝 Blogsy
 
-Welcome to **Blogsy** – a lightweight, clean, and powerful blogging platform built with **Flask**. Whether you're a writer, reader, or developer, MediumLite gives you a beautiful space to create and explore ideas.
-
----
-
-## ✨ Features
-
-- 📝 Rich-text editor for creating and editing posts
-- 🔐 User authentication (signup/login/logout)
-- 🧑‍💻 User profiles with public posts
-- 🧠 Tags and categories for content discovery
-- 📱 Fully responsive and mobile-friendly UI
-- 🔍 SEO-optimized with clean URLs
-- 📊 Admin dashboard for managing content
-- 💬 Comments system (optional)
-- 🌐 Multilingual support (optional)
+**Blogsy** is a full-featured blog platform built with Flask. It allows users to write blog posts with images and tags, like and comment on others’ posts, upload profile pictures, and build a personal reading list — all with a clean, modern interface.
 
 ---
 
-## 📸 Preview
+## 🖼️ Screenshot
 
+<p align="center">
+  <img src="website/static/images/screenshot1.png" alt="Blogsy Screenshot" width="800">
+</p>
 
----
-
-## ⚙️ Tech Stack
-
-- **Backend:** Flask, Python
-- **Frontend:** HTML5, CSS3, Bootstrap / TailwindCSS
-- **Database:** SQLite (for dev) / PostgreSQL (for production)
-- **Deployment:** Render / Heroku / Vercel / Fly.io
+<p align="center">
+  <img src="website/static/images/screenshot2.png" alt="Blogsy Screenshot" width="800">
+</p>
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Features
 
-Follow these steps to set up the project locally:
+- 🧑‍💻 **User Authentication**
+  - Register / Login / Logout
+- 📝 **Blog Posts**
+  - Title, rich content, tags, and image (converted to WebP automatically)
+  - Add multiple tags/topics per post
+- 📸 **Image Uploads**
+  - Blog images saved as compressed `.webp`
+  - Profile image upload and display
+- 💬 **Interaction**
+  - Like & comment on posts
+  - Add posts to your personal reading list
+- 🔎 **Tags**
+  - Browse posts by tag
+- 📱 **Responsive Design**
+  - Mobile-friendly with clean UI
+- ✨ **Extras**
+  - Drop-cap styling for the first letter of posts
+  - Arabic and English support possible (future-ready)
 
-```bash
-# Clone the repository
-git clone https://github.com/your-username/MediumLite.git
-cd MediumLite
+---
 
-# (Optional) Create a virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+## 📂 Project Structure
 
-# Install dependencies
-pip install -r requirements.txt
+blogsy/
+├── website/
+│ ├── static/
+│ │ ├── uploads/
+│ │ ├── profile_images/
+│ │ ├── js/
+│ │ ├── css/
+│ │ ├── fonts/
+│ │ └── images/
+│ ├── templates/
+│ ├── init.py
+│ ├── views.py
+│ ├── models.py
+│ └── utils.py
+├── run.py
+├── requirements.txt
+└── README.md
 
-# Set environment variables
-export FLASK_APP=app.py
-export FLASK_ENV=development
+🧰 Tech Stack
 
-# Initialize the database
-flask db init
-flask db migrate
-flask db upgrade
+Backend: Python, Flask, Flask-Login, SQLAlchemy
 
-# Run the server
-flask run
+Frontend: HTML, Jinja2, Tailwind CSS (or Bootstrap)
+
+Image Processing: Pillow (for WebP conversion)
+
+Database: SQLite (for simplicity)
