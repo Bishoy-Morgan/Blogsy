@@ -41,23 +41,7 @@
 
 ## 📂 Project Structure
 
-blogsy/
-├── website/
-│ ├── static/
-│ │ ├── uploads/
-│ │ ├── profile_images/
-│ │ ├── js/
-│ │ ├── css/
-│ │ ├── fonts/
-│ │ └── images/
-│ ├── templates/
-│ ├── init.py
-│ ├── views.py
-│ ├── models.py
-│ └── utils.py
-├── run.py
-├── requirements.txt
-└── README.md
+<pre> ``` blogsy/ ├── website/ │ ├── static/ │ │ ├── uploads/ │ │ ├── profile_images/ │ │ ├── js/ │ │ ├── css/ │ │ ├── fonts/ │ │ └── images/ │ ├── templates/ │ ├── __init__.py │ ├── views.py │ ├── models.py │ └── utils.py ├── run.py ├── requirements.txt └── README.md ``` </pre>
 
 🧰 Tech Stack
 
