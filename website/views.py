@@ -189,3 +189,21 @@ def upload_profile_image():
         flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
     
     return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+
+
+@views.route('/update-profile', methods=['POST'])
+@login_required
+def update_profile():
+    new_name = request.form.get('first_name')
+    new_password = request.form.get('password')
+
+    if new_name:
+        current_user.first_name = new_name
+
+    if new_password:
+        from werkzeug.security import generate_password_hash
+        current_user.password = generate_password_hash(new_password, method='sha256')
+
+    db.session.commit()
+    flash('Profile updated!', 'success')
+    return redirect(url_for('views.profile', first_name=new_name.replace(' ', '-')))

@@ -14,8 +14,9 @@
                                     src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
                                     alt="{{ blog.author.first_name }}'s Profile Image" 
                                     class="author-profile-img"
-                                    style="width: 1.5rem; height: 1.5rem; border-radius: 8px; object-fit: cover;"
-                                >
+                                    style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover; image-rendering: auto;"
+                                    loading="lazy"
+                                />
                             {% else %}
                                 <button class="blog-author">
                                     {{ blog.author.first_name[0] if blog.author.first_name else '' }}

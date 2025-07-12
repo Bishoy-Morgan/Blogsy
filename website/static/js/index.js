@@ -171,7 +171,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Update Profile 
+document.addEventListener('DOMContentLoaded', () => {
+    const editBtn = document.getElementById('edit-btn');
+    const uploadForm = document.getElementById('upload-form');
+    const closeBtn = document.getElementById('close-form-btn');
 
+    editBtn.addEventListener('click', () => {
+        uploadForm.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        uploadForm.style.display = 'none';
+    });
+
+    // Handle profile modal
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const profileModal = document.getElementById('edit-profile-modal');
+    const closeProfileModal = document.getElementById('close-edit-modal');
+
+    editProfileBtn.addEventListener('click', () => {
+        profileModal.style.display = 'block';
+    });
+
+    closeProfileModal.addEventListener('click', () => {
+        profileModal.style.display = 'none';
+    });
+});
 
 
 

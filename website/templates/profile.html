@@ -8,8 +8,11 @@
 
 {% block content %}
 <section class="w-100 d-flex align-items-center justify-content-center">
-    <div class="w-50 text-left position-relative">
-        <h2>{{ user.first_name }}</h2>
+    <div class="w-50 text-left ">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>{{ user.first_name }}</h2>
+            <button id="edit-profile-btn" class="edit-btn mt-2">Edit Profile</button>
+        </div>
 
         {% if user.profile_image %}
             <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
@@ -27,22 +30,61 @@
         </div>
 
         <form 
-        id="upload-form" 
-        action="{{ url_for('views.upload_profile_image') }}" 
-        method="POST" 
-        enctype="multipart/form-data" 
-        class="upload-img-form"
-        style="display: none;"
-        
+            id="upload-form" 
+            action="{{ url_for('views.upload_profile_image') }}" 
+            method="POST" 
+            enctype="multipart/form-data" 
+            class="edit-modal"
+            style="display: none;"
         >
-            <button type="button" id="close-form-btn" class="close-btn" aria-label="Close">&times;</button>
-            <div class="custom-file-input-wrapper">
-                <button type="button" id="choose-file-btn" class="choose-btn">Choose File</button>
-                <span id="file-name" class="file-name">No file chosen</span>
-                <input type="file" name="profile_image" id="real-file" accept="image/*" required hidden />
+            <div class="edit-modal-content">
+                <button type="button" id="close-form-btn" class="close-btn" aria-label="Close">&times;</button>
+                <h4>Upload New Profile Image</h4>
+                <div class="form-group mt-5">
+                    <div class="custom-file-input-wrapper d-flex align-items-center gap-2">
+                        <button type="button" id="choose-file-btn" class="choose-btn btn ">Choose File</button>
+                        <span id="file-name" class="file-name text-muted">No file chosen</span>
+                        <input type="file" name="profile_image" id="real-file" accept="image/*" required hidden />
+                    </div>
+                </div>
+                <button type="submit" class="button-style ms-0 mt-5">Upload</button>
             </div>
-            <button type="submit" class="button-style ml-0">Upload</button>
         </form>
+
+
+        <!-- Edit Profile Modal -->
+        <div id="edit-profile-modal" class="edit-modal" style="display: none;">
+            <div class="edit-modal-content">
+                <button type="button" id="close-edit-modal" class="close-btn">&times;</button>
+                <h4>Edit Profile</h4>
+                <form action="{{ url_for('views.update_profile') }}" method="POST">
+                    <div class="form-group d-flex flex-column mb-2 mt-4">
+                        <label for="first_name">New Name</label>
+                        <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" required />
+                    </div>
+                    <div class="form-group d-flex flex-column ">
+                        <label for="password">New Password</label>
+                        <input type="password" name="password" id="password" placeholder="Leave blank to keep old password" />
+                    </div>
+                    <button type="submit" class="button-style ms-0 mt-5">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <hr class="my-5">
+        <h3>{{ user.first_name }}'s Posts</h3>
+        {% if user.blogs %}
+            <ul class="list-group mt-3">
+                {% for blog in user.blogs %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-4">
+                        <a href="{{ url_for('views.view_post', blog_id=blog.id) }}">{{ blog.title }}</a>
+                        <small class="text-muted">{{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No posts yet.</p>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
