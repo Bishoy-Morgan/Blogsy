@@ -9,16 +9,27 @@
                 <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="post mb-5 pb-5">
                     <div class="post-content ">
                         <div class="d-flex align-items-center">
-                            <button class="blog-author">
-                                {{ blog.author.first_name[0] if blog.author.first_name else '' }}
-                            </button>
+                            {% if blog.author.profile_image %}
+                                <img 
+                                    src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
+                                    alt="{{ blog.author.first_name }}'s Profile Image" 
+                                    class="author-profile-img"
+                                    style="width: 1.5rem; height: 1.5rem; border-radius: 8px; object-fit: cover;"
+                                >
+                            {% else %}
+                                <button class="blog-author">
+                                    {{ blog.author.first_name[0] if blog.author.first_name else '' }}
+                                </button>
+                            {% endif %}
                             <small class="text-gray">In </small>
                             <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
                             <small class="text-gray">by</small>
                             <small class="text-black mx-1">{{ blog.author.first_name }}</small>
                         </div>
                         <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
-                        <p class="text-gray">{{ blog.content[:150] }}...</p>
+                        <p class="text-gray">
+                            {{ blog.content[:150].replace('\n', '<br>') | safe }}...
+                        </p>
                         <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
                             <div class="d-flex align-items-center gap-4 font-11">
                                 <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>

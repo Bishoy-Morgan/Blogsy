@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
-from .models import Blog, Like, Comment, Tag
+from .models import Blog, Like, Comment, Tag, User
 import os
 from werkzeug.utils import secure_filename
 # from flask import current_app
@@ -134,8 +134,18 @@ def toggle_reading_list(blog_id):
     return redirect(request.referrer or url_for('views.home'))
 
 @views.route('/reading-list')
+@login_required
 def reading_list():
     return render_template('reading-list.html', user=current_user, reading_list=current_user.reading_list)
+
+@views.route('/<first_name>')
+@login_required
+def profile(first_name):
+    first_name_cleaned = first_name.replace('-', ' ')
+    user = User.query.filter_by(first_name=first_name_cleaned).first()
+    if not user:
+        return render_template('not-found.html'), 404
+    return render_template('profile.html', user=current_user, profile_user=user)
 
 @views.route('/terms')
 def terms():
@@ -144,3 +154,38 @@ def terms():
 @views.route('/privacy-policy')
 def privacy_policy():
     return render_template('privacy-policy.html', user=current_user)
+
+
+@views.route('/upload_profile_image', methods=['POST'])
+@login_required
+def upload_profile_image():
+    if 'profile_image' not in request.files:
+        flash('No file part', category='error')
+        return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+    
+    file = request.files['profile_image']
+    if file.filename == '':
+        flash('No selected file', category='error')
+        return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        # Rename to ensure uniqueness, e.g., userID + extension
+        _, ext = os.path.splitext(filename)
+        filename = f"user_{current_user.id}{ext}"
+        
+        upload_folder = os.path.join('website', 'static', 'profile_images')
+        os.makedirs(upload_folder, exist_ok=True)
+        
+        file_path = os.path.join(upload_folder, filename)
+        file.save(file_path)
+        
+        # Update user profile_image field
+        current_user.profile_image = filename
+        db.session.commit()
+        
+        flash('Profile image updated successfully!', category='success')
+    else:
+        flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
+    
+    return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))

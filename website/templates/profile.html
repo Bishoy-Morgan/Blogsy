@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="w-100 d-flex align-items-center justify-content-center">
+    <div class="w-50 text-left position-relative">
+        <h2>{{ user.first_name }}</h2>
+
+        {% if user.profile_image %}
+            <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
+                    alt="{{ user.first_name }}'s Profile Image"
+                    class="rounded-circle img-thumbnail mt-5"
+                    style="width: 120px; height: 120px; object-fit: cover;" />
+        {% else %}
+            <div class="letter-avatar mt-5 d-flex align-items-center justify-content-center rounded-circle">
+                {{ user.first_name[0]|upper }}
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <button id="edit-btn" class="edit-btn">Edit Profile Image</button>
+        </div>
+
+        <form 
+        id="upload-form" 
+        action="{{ url_for('views.upload_profile_image') }}" 
+        method="POST" 
+        enctype="multipart/form-data" 
+        class="upload-img-form"
+        style="display: none;"
+        
+        >
+            <button type="button" id="close-form-btn" class="close-btn" aria-label="Close">&times;</button>
+            <div class="custom-file-input-wrapper">
+                <button type="button" id="choose-file-btn" class="choose-btn">Choose File</button>
+                <span id="file-name" class="file-name">No file chosen</span>
+                <input type="file" name="profile_image" id="real-file" accept="image/*" required hidden />
+            </div>
+            <button type="submit" class="button-style ml-0">Upload</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

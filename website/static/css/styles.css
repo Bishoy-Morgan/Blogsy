@@ -317,12 +317,21 @@ footer .nav-link {
     font-size: 1rem;
     border: 2px solid transparent;
     border-radius: 100%;
-    &:focus {
-        border: 2px solid var(--primary-color);
-        background-color: transparent;
-        color: var(--primary-color);
-    }
+    transition: all 0.3s ease;
 }
+
+#profileBtn:focus {
+    border: 2px solid var(--primary-color);
+    background-color: transparent;
+    color: var(--primary-color);
+    box-shadow: 0 8px 32px rgba(36, 36, 36, 0.20);
+    outline: none; /* remove default outline */
+}
+
+#profileBtn:hover {
+    box-shadow: 0 8px 32px rgba(36, 36, 36, 0.20);
+}
+
 
 .profile-container {
     position: absolute;
@@ -546,4 +555,97 @@ aside {
     font-size: 1.15rem;
     line-height: 1.8;
     color: #444;
+}
+
+/* profile Image  */
+.letter-avatar {
+    width: 8rem;
+    height: 8rem;
+    background-color: black;
+    color: white;
+    font-size: 4.5rem;
+    font-weight: bold;
+    user-select: none;
+}
+
+.edit-btn, .choose-btn {
+    padding: .5rem 1.5rem;
+    background-color: var(--floral-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 100px;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        color: var(--white-color);
+        background-color: var(--primary-color);
+    }
+}
+
+.choose-btn {
+    background-color: white;
+    &:hover{
+        color: var(--primary-color);
+        background-color: var(--floral-color);
+    }
+}
+
+.upload-img-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40rem;
+    padding: 4rem 0;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(5px); 
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.custom-file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.file-name {
+    font-style: italic;
+    color: var(--gray-color);
+    min-width: 120px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    user-select: none;
+    &:hover {
+        color: var(--danger-color);
+    }
+}
+
+.author-profile-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+    background-color: transparent;
+    margin-right: 1rem;
 }

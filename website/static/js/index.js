@@ -126,5 +126,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Profile Image 
+document.addEventListener('DOMContentLoaded', () => {
+    const editBtn = document.getElementById('edit-btn');
+    const uploadForm = document.getElementById('upload-form');
+    const closeFormBtn = document.getElementById('close-form-btn');
+    const realFileInput = document.getElementById('real-file');
+    const chooseFileBtn = document.getElementById('choose-file-btn');
+    const fileName = document.getElementById('file-name');
+
+    // Toggle upload form visibility
+    editBtn.addEventListener('click', () => {
+        if (uploadForm.style.display === 'none' || uploadForm.style.display === '') {
+            uploadForm.style.display = 'flex'; // since form uses flexbox
+        } else {
+            uploadForm.style.display = 'none';
+        }
+    });
+
+    // Close button hides the form
+    closeFormBtn.addEventListener('click', () => {
+        uploadForm.style.display = 'none';
+    });
+
+    // Trigger real file input when custom button clicked
+    chooseFileBtn.addEventListener('click', () => {
+        realFileInput.click();
+    });
+
+    // Update displayed filename when file chosen
+    realFileInput.addEventListener('change', () => {
+        if (realFileInput.files.length > 0) {
+            fileName.textContent = realFileInput.files[0].name;
+        } else {
+            fileName.textContent = 'No file chosen';
+        }
+    });
+});
+
+
+
 
 

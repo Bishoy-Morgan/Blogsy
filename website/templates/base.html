@@ -38,9 +38,18 @@
                                     <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 1rem" id="home" href="/write">Write</a>
                                 </div>
                                 <a class="nav-item nav-link pe-md-4" id="home" href="/home">Home</a>
-                                <button id="profileBtn" class="position-relative">
-                                    {{ user.first_name[0] }}
-                                </button>
+                                {% if user.profile_image %}
+                                    <img 
+                                    id="profileBtn" 
+                                    src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
+                                    alt="{{ user.first_name }}'s Profile Image"
+                                    class=" position-relative "
+                                    style="width: 35px; height: 35px; object-fit: cover; border: 0px; cursor: pointer;" />
+                                {% else %}
+                                    <button id="profileBtn" class="position-relative">
+                                        {{ user.first_name[0] }}
+                                    </button>
+                                {% endif %}
                                 <div id="profileContainer" class="profile-container d-none">
                                     <div class="w-100 d-flex gap-3">
                                         <img
@@ -48,7 +57,7 @@
                                         alt="Profile"
                                         class="write-img"
                                         />
-                                        <a href="/" class="links">Profile</a>
+                                        <a href="/{{ current_user.first_name.replace(' ', '-') }}" class="links">Profile</a>
                                     </div>
                                     <div class="w-100 d-flex gap-3">
                                         <img

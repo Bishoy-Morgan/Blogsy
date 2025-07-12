@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
+    profile_image = db.Column(db.String(200), nullable=True)
     blogs = db.relationship('Blog')
 
     # Followers system
