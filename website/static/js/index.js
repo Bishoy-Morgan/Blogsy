@@ -33,26 +33,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Like button 
-    document.querySelectorAll('.like-btn').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-                const blogId = this.dataset.blogId;
-                const countSpan = this.querySelector('.like-count');
+// Clap button 
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
 
-                fetch(`/like/${blogId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    credentials: 'include'
-                }).then(res => {
-                    if (res.ok) {
-                        countSpan.textContent = parseInt(countSpan.textContent) + 1;
-                    }
-            });
+        const blogId = this.dataset.blogId;
+        const countSpan = this.querySelector('.like-count');
+        const clapIcon = this.querySelector('img');
+
+        fetch(`/like/${blogId}`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'include'
+        }).then(res => {
+            if (res.ok) {
+                // Increase count visually
+                countSpan.textContent = parseInt(countSpan.textContent) + 1;
+
+                // Toggle orange effect
+                clapIcon.classList.add('clapped');  // Add orange color
+            }
         });
+    });
 });
+
 
 document.querySelectorAll('.comment-form').forEach(form => {
     form.addEventListener('submit', async e => {

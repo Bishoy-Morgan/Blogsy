@@ -2,115 +2,140 @@
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block content %}
-    <div class="custom-width mx-auto my-5">
-        <h2>{{ blog.title }}</h2>
-        <p class="text-muted font-11 mt-3">by {{ blog.author.first_name }} on {{ blog.date_created.strftime('%B %d, %Y') }}</p>
+<div class="custom-width mx-auto my-5">
+    <h2>{{ blog.title }}</h2>
+    <p class="text-muted font-11 mt-3">
+        by {{ blog.author.first_name }} on {{ blog.date_created.strftime('%B %d, %Y') }}
+    </p>
 
-        <div class="mb-3">
-            {% for tag in blog.tags %}
-                <span class="topic text-capitalize">{{ tag.name }}</span>
-            {% endfor %}
-        </div>
-        
+    <div class="mb-3">
+        {% for tag in blog.tags %}
+            <span class="topic text-capitalize">{{ tag.name }}</span>
+        {% endfor %}
+    </div>
 
-        <div class="clap-comment-section d-flex align-items-center justify-content-between gap-3">
-            <div class="d-flex align-items-center justify-content-between gap-4">
-                <!-- Like button  -->
-                <button class="like-btn btn p-0 border-0 bg-transparent" data-blog-id="{{ blog.id }}">
-                    <img
-                        src="{{ url_for('static', filename='images/clap.svg') }}"
-                        alt="Clap hands"
-                        class="clap-svg"
-                        style="width: 1.25rem; height: 1.25rem;"
-                    />
-                    <span class="like-count text-black">{{ blog.likes|length }}</span>
-                </button>
-                <!-- Comment Button  -->
-                <button type="submit" class="btn p-0 border-0 bg-transparent comment-btn" data-blog-id="{{ blog.id }}">
-                    <img
-                        src="{{ url_for('static', filename='images/comments.svg')}}"
-                        alt="Comments"
-                        class="comments-svg"
-                        style="width: 1.75rem; height: 1.75rem;"
-                    />
-                    <span class="text-black comment-count">{{ blog.comments|length }}</span>
-                </button>
-                <div class="comment-input-wrapper " data-blog-id="{{ blog.id }}" style="display: none;">
-                    <form class="comment-form " data-blog-id="{{ blog.id }}">
-                        <input type="text" name="content" placeholder="Add a comment..." required />
-                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                    </form>
-                    <div class="comments-list">
-                        {% for comment in blog.comments %}
-                            <p><strong>{{ comment.user.first_name }}:</strong> {{ comment.content }}</p>
-                        {% endfor %}
-                    </div>
+    <div class="clap-comment-section d-flex align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center justify-content-between gap-4">
+            <!-- Like button -->
+            <button class="like-btn btn p-0 border-0 bg-transparent" data-blog-id="{{ blog.id }}">
+                <img
+                    src="{{ url_for('static', filename='images/clap.svg') }}"
+                    alt="Clap hands"
+                    class="clap-svg"
+                    data-clapped="false"
+                    style="width: 1.25rem; height: 1.25rem;"
+                />
+                <span class="like-count text-black">{{ blog.likes|length }}</span>
+            </button>
+
+            <!-- Comment Button -->
+            <button type="button" class="btn p-0 border-0 bg-transparent comment-btn" data-blog-id="{{ blog.id }}">
+                <img
+                    src="{{ url_for('static', filename='images/comments.svg') }}"
+                    alt="Comments"
+                    class="comments-svg"
+                    style="width: 1.75rem; height: 1.75rem;"
+                />
+                <span class="text-black comment-count">{{ blog.comments|length }}</span>
+            </button>
+
+            <!-- Hidden Comment Box -->
+            <div class="comment-input-wrapper" data-blog-id="{{ blog.id }}" style="display: none;">
+                <form class="comment-form" data-blog-id="{{ blog.id }}">
+                    <input type="text" name="content" placeholder="Add a comment..." required />
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+                <div class="comments-list">
+                    {% for comment in blog.comments %}
+                        <p><strong>{{ comment.user.first_name }}:</strong> {{ comment.content }}</p>
+                    {% endfor %}
                 </div>
-
             </div>
-            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
-                <button type="submit" class="btn p-0 border-0 bg-transparent">
-                    {% if blog.id in reading_ids %}
-                        <img
-                            src="{{ url_for('static', filename='images/save.svg') }}"
-                            data-save="{{ url_for('static', filename='images/save.svg') }}"
-                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                            alt="Save"
-                            class="reading-list-icon"
-                            style="width: 1.5rem; height: 1.5rem;"
+        </div>
+
+        <!-- Reading List Button -->
+        <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
+            <button type="submit" class="btn p-0 border-0 bg-transparent">
+                {% if blog.id in reading_ids %}
+                    <img
+                        src="{{ url_for('static', filename='images/save.svg') }}"
+                        alt="Saved"
+                        style="width: 1.5rem; height: 1.5rem;"
+                    />
+                {% else %}
+                    <img
+                        src="{{ url_for('static', filename='images/save-remove.svg') }}"
+                        alt="Save"
+                        style="width: 1.5rem; height: 1.5rem;"
+                    />
+                {% endif %}
+            </button>
+        </form>
+    </div>
+
+    <!-- Blog Image -->
+    <div class="w-100 mb-5">
+        <img 
+            src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
+            alt="Image for {{ blog.title }}" 
+            style="max-width: 100%; height: auto; border-radius: 8px;"
+        >
+    </div>
+
+    <!-- Blog Content -->
+    <div class="text-gray" style="font-size: 1.25rem; line-height: 2rem; white-space: pre-wrap;">
+        {{ blog.content }}
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section mt-5">
+        <h4 class="mb-3">Responses ({{ blog.comments|length }})</h4>
+
+        {% for comment in blog.comments %}
+            <div class="comment mb-3">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {% if comment.user.profile_image %}
+                        <img 
+                            src="{{ url_for('static', filename='profile_images/' + comment.user.profile_image) }}" 
+                            alt="{{ comment.user.first_name }}'s profile image"
+                            style="width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover;"
                         />
                     {% else %}
-                        <img
-                            src="{{ url_for('static', filename='images/save-remove.svg') }}"
-                            data-save="{{ url_for('static', filename='images/save.svg') }}"
-                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                            alt="Save"
-                            class="reading-list-icon"
-                            style="width: 1.5rem; height: 1.5rem;"
-                        />
-                    {% endif %}
-                </button>
-            </form>
-        </div>
-
-        <div class="w-100 mb-5">
-            <img 
-                src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
-                alt="Image for {{ blog.title }}" 
-                style="max-width: 100%; height: auto; border-radius: 8px;"
-            >
-        </div>
-
-        <p class="text-gray" style="font-size: 1.25rem; line-height: 2rem;">{{ blog.content }}</p>
-
-        <div class="comments-section mt-5">
-            <h4 class="mb-3">Responses ({{ blog.comments|length }})</h4>
-
-            {% for comment in blog.comments %}
-                <div class="comment mb-3 ">
-                    <div class="d-flex align-items-center gap-1 mb-4">
-                        <button class="blog-author">
-                            {{ blog.author.first_name[0] if blog.author.first_name else '' }}
-                        </button>
-                        <div class="d-flex flex-column ">
-                            <span>{{ comment.user.first_name }}</span>
-                            <small class="text-muted font-10 ">{{ comment.timestamp.strftime('%B %d, %Y %H:%M') }}</small>
+                        <div style="
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: 50%;
+                            background-color: black;
+                            color: white;
+                            font-size: 1rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                        ">
+                            {{ comment.user.first_name[0]|upper }}
                         </div>
+                    {% endif %}
+                    <div class="d-flex flex-column">
+                        <span>{{ comment.user.first_name }}</span>
+                        <small class="text-muted font-10">{{ comment.timestamp.strftime('%B %d, %Y %H:%M') }}</small>
                     </div>
-                    <p class="text-black ">{{ comment.content }}</p>
                 </div>
-            {% else %}
-                <p>No comments yet.</p>
-            {% endfor %}
+                <p class="text-black">{{ comment.content }}</p>
+            </div>
+        {% else %}
+            <p>No comments yet.</p>
+        {% endfor %}
 
-            {% if user.is_authenticated %}
-                <form method="POST" action="{{ url_for('views.add_comment', blog_id=blog.id) }}">
-                    <textarea name="content" class="mb-2" rows="3" placeholder="Leave a comment..." required></textarea>
-                    <button type="submit" class="button-style mx-0 mt-3">Respond</button>
-                </form>
-            {% else %}
-                <p><a href="{{ url_for('auth.login') }}">Log in</a> to comment.</p>
-            {% endif %}
-        </div>
+        <!-- Comment Form -->
+        {% if user.is_authenticated %}
+            <form method="POST" action="{{ url_for('views.add_comment', blog_id=blog.id) }}">
+                <textarea name="content" class="mb-2 form-control" rows="3" placeholder="Leave a comment..." required></textarea>
+                <button type="submit" class="button-style mx-0 mt-3">Respond</button>
+            </form>
+        {% else %}
+            <p><a href="{{ url_for('auth.login') }}">Log in</a> to comment.</p>
+        {% endif %}
     </div>
+</div>
 {% endblock %}

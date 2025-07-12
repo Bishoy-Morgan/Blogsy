@@ -52,6 +52,7 @@
 
 body {
     position: relative;
+    color: #ffa500;
     height: 100%;
     min-height: 100svh;
     font-family: 'Poppins', sans-serif;
@@ -649,3 +650,8 @@ aside {
     background-color: transparent;
     margin-right: 1rem;
 }
+
+.clapped {
+    filter: brightness(0) saturate(100%) invert(60%) sepia(90%) saturate(700%) hue-rotate(-10deg) brightness(100%) contrast(95%);
+}
+
