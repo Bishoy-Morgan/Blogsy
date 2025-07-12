@@ -18,24 +18,51 @@
 
 ## 🚀 Features
 
-- 🧑‍💻 **User Authentication**
-  - Register / Login / Logout
-- 📝 **Blog Posts**
-  - Title, rich content, tags, and image (converted to WebP automatically)
-  - Add multiple tags/topics per post
-- 📸 **Image Uploads**
-  - Blog images saved as compressed `.webp`
-  - Profile image upload and display
+- 🔐 **Authentication & Users**
+  - Register, login, logout
+  - Update profile information (name, password)
+  - Upload profile image (validated and renamed per user)
+  - Profile page via `/your-name`
+
+- ✍️ **Post Creation**
+  - Create a blog post with:
+    - Title, content, tags (comma-separated), and image
+    - Uploaded image is auto-converted and saved as `.webp`
+    - Validates minimum content and title length
+  - Drop-cap styling on the first letter of blog content
+
+- 🏷️ **Tags & Topics**
+  - Automatically link or create tags during post creation
+  - View all posts by tag using `/tag/<id>`
+
 - 💬 **Interaction**
-  - Like & comment on posts
-  - Add posts to your personal reading list
-- 🔎 **Tags**
-  - Browse posts by tag
-- 📱 **Responsive Design**
-  - Mobile-friendly with clean UI
-- ✨ **Extras**
-  - Drop-cap styling for the first letter of posts
-  - Arabic and English support possible (future-ready)
+  - Add comments to posts (with empty check)
+  - Like posts (AJAX-friendly)
+  - Save/remove posts to/from reading list (AJAX-friendly)
+
+- 📚 **Reading List**
+  - Logged-in users can save any post to a personal reading list
+  - Accessible at `/reading-list`
+
+- 📃 **Static Pages**
+  - Terms of use (`/terms`)
+  - Privacy policy (`/privacy-policy`)
+  - About page (`/about`)
+  - Welcome page (`/`)
+
+- ⚙️ **Image Upload & Processing**
+  - All blog images are converted to `.webp` with compression
+  - Profile images are renamed uniquely per user
+
+- 🧠 **Responsive and Accessible**
+  - tyled for readability, performance, and clarity
+  - Styled with Jinja2 templates + Bootstrap 5 components
+
+- 🧰 **Tech Stack**
+  - Flask + Flask-Login + SQLAlchemy
+  - Pillow (image processing)
+  - HTML/CSS (Bootstrap)
+
 
 ---
 
@@ -61,12 +88,9 @@ blogsy/
 └── README.md
 ```
 
-🧰 Tech Stack
+## 🧰 Tech Stack
 
-- Backend: Python, Flask, Flask-Login, SQLAlchemy
-
-- Frontend: HTML, Jinja2, Tailwind CSS (or Bootstrap)
-
-- Image Processing: Pillow (for WebP conversion)
-
-- Database: SQLite (for simplicity)
+- **Backend:** Python, Flask, Flask-Login, SQLAlchemy
+- **Frontend:** HTML, Jinja2, Bootstrap 5
+- **Image Processing:** Pillow (for WebP compression)
+- **Database:** SQLite (for development and simplicity)
