@@ -4,7 +4,7 @@ from . import db
 from .models import Blog, Like, Comment, Tag, User
 import os
 from werkzeug.utils import secure_filename
-# from flask import current_app
+from .utils import save_compressed_image
 from flask import jsonify, request
 
 
@@ -48,14 +48,21 @@ def write():
         elif not allowed_file(image.filename):
             flash('Invalid image type. Allowed types: png, jpg, jpeg, gif.', category='error')
         else:
-            filename = secure_filename(image.filename)
-            image.save(os.path.join('website/static/uploads', filename))
+            # filename = secure_filename(image.filename)
+            # image.save(os.path.join('website/static/uploads', filename))
+            try:
+                filename_base = secure_filename(os.path.splitext(image.filename)[0])
+                webp_filename = save_compressed_image(image, filename_base)
+            except Exception as e:
+                flash('Error processing image: ' + str(e), category='error')
+                return redirect(request.url)
+
 
             new_blog = Blog(
                 title=title,
                 content=content,
                 author_id=current_user.id,
-                image_filename=filename
+                image_filename=webp_filename
             )
 
             # Process tags
