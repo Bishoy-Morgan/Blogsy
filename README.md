@@ -41,14 +41,32 @@
 
 ## 📂 Project Structure
 
-<pre> ``` blogsy/ ├── website/ │ ├── static/ │ │ ├── uploads/ │ │ ├── profile_images/ │ │ ├── js/ │ │ ├── css/ │ │ ├── fonts/ │ │ └── images/ │ ├── templates/ │ ├── __init__.py │ ├── views.py │ ├── models.py │ └── utils.py ├── run.py ├── requirements.txt └── README.md ``` </pre>
+```bash
+blogsy/
+├── website/
+│   ├── static/
+│   │   ├── uploads/
+│   │   ├── profile_images/
+│   │   ├── js/
+│   │   ├── css/
+│   │   ├── fonts/
+│   │   └── images/
+│   ├── templates/
+│   ├── __init__.py
+│   ├── views.py
+│   ├── models.py
+│   └── utils.py
+├── run.py
+├── requirements.txt
+└── README.md
+```
 
 🧰 Tech Stack
 
-Backend: Python, Flask, Flask-Login, SQLAlchemy
+- Backend: Python, Flask, Flask-Login, SQLAlchemy
 
-Frontend: HTML, Jinja2, Tailwind CSS (or Bootstrap)
+- Frontend: HTML, Jinja2, Tailwind CSS (or Bootstrap)
 
-Image Processing: Pillow (for WebP conversion)
+- Image Processing: Pillow (for WebP conversion)
 
-Database: SQLite (for simplicity)
+- Database: SQLite (for simplicity)
