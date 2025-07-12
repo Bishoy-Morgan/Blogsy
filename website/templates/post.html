@@ -24,6 +24,7 @@
                     class="clap-svg"
                     data-clapped="false"
                     style="width: 1.25rem; height: 1.25rem;"
+                    loading="lazy"
                 />
                 <span class="like-count text-black">{{ blog.likes|length }}</span>
             </button>
@@ -35,6 +36,7 @@
                     alt="Comments"
                     class="comments-svg"
                     style="width: 1.75rem; height: 1.75rem;"
+                    loading="lazy"
                 />
                 <span class="text-black comment-count">{{ blog.comments|length }}</span>
             </button>
@@ -61,12 +63,14 @@
                         src="{{ url_for('static', filename='images/save.svg') }}"
                         alt="Saved"
                         style="width: 1.5rem; height: 1.5rem;"
+                        loading="lazy"
                     />
                 {% else %}
                     <img
                         src="{{ url_for('static', filename='images/save-remove.svg') }}"
                         alt="Save"
                         style="width: 1.5rem; height: 1.5rem;"
+                        loading="lazy"
                     />
                 {% endif %}
             </button>
@@ -79,6 +83,7 @@
             src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
             alt="Image for {{ blog.title }}" 
             style="max-width: 100%; height: auto; border-radius: 8px;"
+            loading="lazy"
         >
     </div>
 
@@ -99,6 +104,7 @@
                             src="{{ url_for('static', filename='profile_images/' + comment.user.profile_image) }}" 
                             alt="{{ comment.user.first_name }}'s profile image"
                             style="width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover;"
+                            loading="lazy"
                         />
                     {% else %}
                         <div style="

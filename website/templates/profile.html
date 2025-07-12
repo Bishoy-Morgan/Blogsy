@@ -18,7 +18,9 @@
             <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
                     alt="{{ user.first_name }}'s Profile Image"
                     class="rounded-circle img-thumbnail mt-5"
-                    style="width: 120px; height: 120px; object-fit: cover;" />
+                    style="width: 120px; height: 120px; object-fit: cover;" 
+                    loading="lazy"
+                    />
         {% else %}
             <div class="letter-avatar mt-5 d-flex align-items-center justify-content-center rounded-circle">
                 {{ user.first_name[0]|upper }}

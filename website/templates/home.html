@@ -40,6 +40,7 @@
                                     alt="Clap hands"
                                     class="clap-svg"
                                     style="width: 1.25rem; height: 1.25rem;"
+                                    loading="lazy"
                                     />
                                     <span class="text-black ">{{ blog.likes|length }}</span>
                                 </div>
@@ -49,6 +50,7 @@
                                     alt="Comments"
                                     class="comments-svg"
                                     style="width: 1.75rem; height: 1.75rem;"
+                                    loading="lazy"
                                     />
                                     <span class="text-black ">{{ blog.comments|length }}</span>
                                 </div>
@@ -63,6 +65,7 @@
                                         alt="Save"
                                         class="reading-list-icon"
                                         style="width: 1.5rem; height: 1.5rem;"
+                                        loading="lazy"
                                         />
                                 </button>
                             </form>
@@ -73,6 +76,7 @@
                             src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
                             alt="Image for {{ blog.title }}" 
                             style="max-width: 100%; height: auto; border-radius: 8px;"
+                            loading="lazy"
                         >
                     </div>
                 </a>

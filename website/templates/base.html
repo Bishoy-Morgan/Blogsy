@@ -34,6 +34,7 @@
                                     src="{{ url_for('static', filename='images/write.svg')}}"
                                     alt="write and pencile"
                                     class="write-img"
+                                    loading="lazy"
                                     />
                                     <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 1rem" id="home" href="/write">Write</a>
                                 </div>
@@ -44,7 +45,9 @@
                                     src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
                                     alt="{{ user.first_name }}'s Profile Image"
                                     class=" position-relative "
-                                    style="width: 35px; height: 35px; object-fit: cover; border: 0px; cursor: pointer;" />
+                                    style="width: 35px; height: 35px; object-fit: cover; border: 0px; cursor: pointer;" 
+                                    loading="lazy"
+                                    />
                                 {% else %}
                                     <button id="profileBtn" class="position-relative">
                                         {{ user.first_name[0] }}
@@ -56,6 +59,7 @@
                                         src="{{ url_for('static', filename='images/profile.svg')}}"
                                         alt="Profile"
                                         class="write-img"
+                                        loading="lazy"
                                         />
                                         <a href="/{{ current_user.first_name.replace(' ', '-') }}" class="links">Profile</a>
                                     </div>
@@ -64,6 +68,7 @@
                                         src="{{ url_for('static', filename='images/blog.svg')}}"
                                         alt="Profile"
                                         class="write-img"
+                                        loading="lazy"
                                         />
                                         <a href="/reading-list" class="links">Reading List</a>
                                     </div>
@@ -72,6 +77,7 @@
                                         src="{{ url_for('static', filename='images/stories.svg')}}"
                                         alt="Profile"
                                         class="write-img"
+                                        loading="lazy"
                                         />
                                         <a href="/" class="links">Stories</a>
                                     </div>
