@@ -697,11 +697,34 @@ aside {
     background-color: white;
 }
 
-.list-group-item a {
+.list-group-item .blog-title {
     max-width: 75%;
     font-family: 'GT-Super', sans-serif;
     color: var(--primary-color);
     font-size: 1.2rem;
     text-decoration: none;
     
+}
+
+.edit-post-btn {
+    background-color: transparent;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    color: var(--gray-color);
+}
+
+.edit-post-btn:hover {
+    color: var(--primary-color);
+}
+
+.delete-post-btn {
+    border-radius: 8px;
+    background-color: transparent;
+    border: 0;
+    color: var(--gray-color);
+}
+
+.delete-post-btn:hover {
+    background-color: var(--danger-background);
+    color: var(--primary-color);
 }

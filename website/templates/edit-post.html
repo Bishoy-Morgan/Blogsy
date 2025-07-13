@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Your Post</h2>
+    <form action="{{ url_for('views.edit_post', blog_id=blog.id) }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group mb-3">
+            <label for="title">Title</label>
+            <input type="text" name="title" class="form-control" value="{{ blog.title }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="content">Content</label>
+            <textarea name="content" rows="10" class="form-control" required>{{ blog.content }}</textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="tags">Tags (comma-separated)</label>
+            <input type="text" name="tags" class="form-control"
+            value="{% for tag in blog.tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Current Image:</label><br>
+            <img src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}"
+                alt="Current Image" class="img-thumbnail mt-2" style="max-width: 200px;">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="image">Change Image (optional)</label>
+            <input type="file" name="image" accept="image/*" class="form-control">
+        </div>
+
+        <button type="submit" class="button-style ms-0 me-3">Save Changes</button>
+        <a href="{{ url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')) }}" class="text-decoration-none text-gray">Cancel</a>
+    </form>
+</div>
+{% endblock %}

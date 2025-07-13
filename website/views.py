@@ -235,3 +235,35 @@ def posts_by_tag(tag_id):
         user=current_user
     )
 
+# Edit Post 
+@views.route('/post/edit/<int:blog_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(blog_id):
+    blog = Blog.query.get_or_404(blog_id)
+    if blog.author_id != current_user.id:
+        flash("You don't have permission to edit this post.", 'error')
+        return redirect(url_for('views.home'))
+
+    if request.method == 'POST':
+        blog.title = request.form.get('title')
+        blog.content = request.form.get('content')
+        db.session.commit()
+        flash('Post updated successfully!', 'success')
+        return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+
+    return render_template('edit-post.html', blog=blog, user=current_user)
+
+
+# Delete Post 
+@views.route('/post/delete/<int:blog_id>', methods=['POST'])
+@login_required
+def delete_post(blog_id):
+    blog = Blog.query.get_or_404(blog_id)
+    if blog.author_id != current_user.id:
+        flash("You don't have permission to delete this post.", 'error')
+        return redirect(url_for('views.home'))
+
+    db.session.delete(blog)
+    db.session.commit()
+    flash('Post deleted successfully!', 'success')
+    return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
