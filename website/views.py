@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from . import db
 from .models import Blog, Like, Comment, Tag, User
@@ -17,7 +17,7 @@ def allowed_file(filename):
 
 @views.route('/')
 def welcome():
-    return render_template('welcome.html', user=current_user)
+    return render_template('welcome.html', user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
 
 @views.route('/home')
 @login_required

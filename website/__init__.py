@@ -15,6 +15,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', f'sqlite:///{DB_NAME}')
+    app.config['GA_MEASUREMENT_ID'] = os.getenv('GA_MEASUREMENT_ID')
     db.init_app(app)
 
     from .views import views
