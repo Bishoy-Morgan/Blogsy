@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from datetime import datetime, timezone
 
 # Association table for many-to-many Blog <-> Tag
 blog_tags = db.Table('blog_tags',
@@ -45,6 +46,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     profile_image = db.Column(db.String(200), nullable=True)
+    date_created = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     blogs = db.relationship('Blog')
 
     # Followers system
