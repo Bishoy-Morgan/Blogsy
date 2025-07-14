@@ -37,6 +37,10 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+    
+    @app.context_processor
+    def inject_ga_id():
+        return dict(GA_MEASUREMENT_ID=app.config['GA_MEASUREMENT_ID'])
 
     return app
 
