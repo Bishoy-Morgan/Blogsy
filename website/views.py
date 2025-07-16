@@ -267,3 +267,26 @@ def delete_post(blog_id):
     db.session.commit()
     flash('Post deleted successfully!', 'success')
     return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+
+
+# Following system 
+@views.route('/follow/<int:user_id>')
+@login_required
+def follow(user_id):
+    user_to_follow = User.query.get_or_404(user_id)
+    if user_to_follow == current_user:
+        flash("You can't follow yourself!", 'warning')
+    else:
+        current_user.follow(user_to_follow)
+        db.session.commit()
+        flash(f'You are now following {user_to_follow.first_name}!', 'success')
+    return redirect(url_for('views.profile', user_id=user_id))
+
+@views.route('/unfollow/<int:user_id>')
+@login_required
+def unfollow(user_id):
+    user_to_unfollow = User.query.get_or_404(user_id)
+    current_user.unfollow(user_to_unfollow)
+    db.session.commit()
+    flash(f'You have unfollowed {user_to_unfollow.first_name}.', 'info')
+    return redirect(url_for('views.profile', user_id=user_id))

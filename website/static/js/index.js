@@ -20,15 +20,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Password visibility
+document.addEventListener("DOMContentLoaded", function () {
+    const eye = "/static/images/eye.svg";
+    const eyeSlash = "/static/images/eye-slash.svg";
+
+    const toggleConfigs = [
+        {
+            inputId: "password",
+            buttonId: "toggle-password",
+            iconId: "toggle-icon"
+        },
+        {
+            inputId: "password1",
+            buttonId: "toggle-password1",
+            iconId: "toggle-icon1"
+        }
+    ];
+
+    toggleConfigs.forEach(config => {
+        const passwordInput = document.getElementById(config.inputId);
+        const toggleBtn = document.getElementById(config.buttonId);
+        const toggleIcon = document.getElementById(config.iconId);
+
+        if (passwordInput && toggleBtn && toggleIcon) {
+            toggleBtn.addEventListener("click", function () {
+                const isHidden = passwordInput.type === "password";
+                passwordInput.type = isHidden ? "text" : "password";
+                toggleIcon.src = isHidden ? eyeSlash : eye;
+                toggleIcon.alt = isHidden ? "Hide Password" : "Show Password";
+            });
+        }
+    });
+});
+
+
 // Alert Button function
 document.addEventListener("DOMContentLoaded", function () {
-    const closeButtons = document.querySelectorAll(".alert-style");
-    closeButtons.forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            const alertBox = btn.closest(".alert-style");
-            if (alertBox) {
-                alertBox.remove();
-            }
+    const alertBoxes = document.querySelectorAll(".alert-style");
+
+    alertBoxes.forEach(function (alertBox) {
+        // setTimeout(() => {
+        //     alertBox.remove();
+        // }, 3000);
+
+        alertBox.addEventListener("click", function () {
+            alertBox.remove();
         });
     });
 });

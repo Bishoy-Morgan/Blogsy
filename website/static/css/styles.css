@@ -52,7 +52,7 @@
 
 body {
     position: relative;
-    color: #ffa500;
+    /* color: #ffa500; */
     height: 100%;
     min-height: 100svh;
     font-family: 'Poppins', sans-serif;
@@ -216,16 +216,14 @@ input {
     }
 }
 
+
 .post-form div input {
     background-color: var(--paleWhite-color);
     opacity: 1;
     border: 1px solid rgba(107, 107, 107, 0.25);
     outline: none;
     color: var(--black-color);
-    &:focus {
-        background-color: white;
-        box-shadow: 0 8px 32px rgba(36,36,36,0.25);
-    }
+    
 }
 
 input[type="file"] {
@@ -250,6 +248,11 @@ input[type="file"]::file-selector-button {
     margin-right: 1rem;
     cursor: pointer;
     transition: 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 8px 32px rgba(36,36,36,0.4);
 }
 
 textarea {
@@ -309,15 +312,18 @@ footer .nav-link {
 
 .alert-style {
     position: absolute;
-    top: 3%;
+    top: 2rem;
     left: 50%;
+    width: auto;
     transform: translateX(-50%);
     border-radius: 100px;
     padding: .75rem 1rem;
     font-size: .75rem;
     display: flex;
-    place-items: center space-between;
-    gap: 2rem
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5%;
 
 }
 
@@ -374,10 +380,16 @@ footer .nav-link {
 }
 
 .logout-link {
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-    border-top: 1px solid var(--gray-color)
+    padding: 0.5rem 2rem;
+    border-radius: 50px;
+    background-color: rgba(36, 36, 36, 0.25);
+    text-decoration: none;
+    color: var(--paleWhite-color);
+}
+
+.logout-link:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 .links {
@@ -515,72 +527,6 @@ aside {
     margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 80px ;
-        line-height: 72px ;
-    }
-    .hero-img {
-        display: none;
-    }
-    nav {
-        height: 10vh;
-    }
-    nav .navbar-nav {
-        width: 55%;
-        justify-content: end;
-    }
-    .main-content {
-        padding: 0;
-    }
-    .login-form, .signUp-form {
-        width: 90%;
-        padding: 2rem;
-    }
-    .signUp-form .form-group {
-        flex-direction: column;
-        justify-content: center;
-        align-items: start;
-        gap: 0;
-        margin: 1.5rem 0;
-    }
-    .alert {
-        width: 80%;
-    }
-    .blog-list {
-        width: 90%;
-        margin: 2rem auto 0 auto;
-    }
-    .post {
-        width: 100%;
-        flex-flow: column nowrap;
-        justify-content: start;
-        align-items: start;
-    }
-    .post-content {
-        width: 100%;
-    }
-    .post-image {
-        width: 100%;
-    }
-    aside {
-        display: none;
-    }
-    .custom-width {
-        width: 95%;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 391px) {
-    .signUp-form {
-        width: 100%;
-        padding: 1rem;
-        max-height: 76vh;
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
-}
 
 /* About Page  */
 .about-medium-style .hero-section {
@@ -727,4 +673,82 @@ aside {
 .delete-post-btn:hover {
     background-color: var(--danger-background);
     color: var(--primary-color);
+}
+
+#toggle-password {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 80px ;
+        line-height: 72px ;
+    }
+    .hero-img {
+        display: none;
+    }
+    nav {
+        height: 10vh;
+    }
+    nav .navbar-nav {
+        width: 55%;
+        justify-content: end;
+    }
+    .main-content {
+        padding: 0;
+    }
+    .login-form, .signUp-form {
+        width: 90%;
+        padding: 2rem;
+    }
+    .signUp-form .form-group {
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        gap: 0;
+        margin: 1.5rem 0;
+    }
+    .alert-style {
+        width: 65%;
+        top: 5rem;
+    }
+    .blog-list {
+        width: 90%;
+        margin: 2rem auto 0 auto;
+    }
+    .post {
+        width: 100%;
+        flex-flow: column nowrap;
+        justify-content: start;
+        align-items: start;
+    }
+    .post-content {
+        width: 100%;
+    }
+    .post-image {
+        width: 100%;
+    }
+    aside {
+        display: none;
+    }
+    .custom-width {
+        width: 95%;
+        margin: 0 auto;
+    }
+    .edit-modal-content {
+        width: 90%;
+    }
+}
+
+@media (max-width: 391px) {
+    .signUp-form {
+        width: 100%;
+        padding: 1rem;
+        max-height: 76vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
