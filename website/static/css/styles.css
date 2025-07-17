@@ -315,6 +315,7 @@ footer .nav-link {
     top: 2rem;
     left: 50%;
     width: auto;
+    min-width: 30%;
     transform: translateX(-50%);
     border-radius: 100px;
     padding: .75rem 1rem;

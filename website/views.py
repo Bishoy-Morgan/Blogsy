@@ -290,3 +290,15 @@ def unfollow(user_id):
     db.session.commit()
     flash(f'You have unfollowed {user_to_unfollow.first_name}.', 'info')
     return redirect(url_for('views.profile', user_id=user_id))
+
+# User Profile 
+@views.route('/user/<username>')
+def user_profile(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("User not found", category='error')
+        return redirect(url_for('views.home'))
+
+    blogs = Blog.query.filter_by(author_id=user.id).order_by(Blog.date_created.desc()).all()
+
+    return render_template("user-profile.html", user=user, blogs=blogs, current_user=current_user)

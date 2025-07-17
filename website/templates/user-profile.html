@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ user.first_name }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="d-flex align-items-center mb-3">
+        {% if user.profile_image %}
+            <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}" 
+                 style="width: 5rem; height: 5rem; border-radius: 50%; object-fit: cover;"
+                 alt="{{ user.first_name }}'s profile image">
+        {% else %}
+            <div class="bg-primary text-white d-flex justify-content-center align-items-center"
+                 style="width: 5rem; height: 5rem; border-radius: 50%;">
+                {{ user.first_name[0] }}
+            </div>
+        {% endif %}
+
+        <div class="ms-3">
+            <h3 class="mb-0">{{ user.first_name }}</h3>
+            <p class="mb-1 text-muted">{{ user.followers|length }} followers</p>
+
+            {% if user.id != current_user.id %}
+                {% if current_user.is_following(user) %}
+                    <form method="POST" action="{{ url_for('views.unfollow', user_id=user.id) }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Follow</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <h4 class="mb-3">{{ user.first_name }}'s Posts</h4>
+
+    {% for blog in blogs %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ blog.title }}</h5>
+                <p class="card-text">{{ blog.content[:200] }}...</p>
+                <a href="{{ url_for('views.blog_detail', blog_id=blog.id) }}" class="btn btn-sm btn-primary">Read more</a>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-muted">No posts yet.</p>
+    {% endfor %}
+
+</div>
+{% endblock %}

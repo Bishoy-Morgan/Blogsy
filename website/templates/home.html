@@ -75,7 +75,7 @@
                         <img 
                             src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
                             alt="Image for {{ blog.title }}" 
-                            style="max-width: 100%; height: auto; border-radius: 8px;"
+                            style="width: 100%; min-width: 100%; height: auto; border-radius: 8px; max-height: 150px; object-fit: cover;"
                             loading="lazy"
                         >
                     </div>
