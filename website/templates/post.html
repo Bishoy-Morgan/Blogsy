@@ -97,8 +97,8 @@
         <h4 class="mb-3">Responses ({{ blog.comments|length }})</h4>
 
         {% for comment in blog.comments %}
-            <div class="comment mb-3">
-                <div class="d-flex align-items-center gap-2 mb-2">
+            <div class="comment mb-3 ">
+                <div class="d-flex align-items-center gap-2 mb-4">
                     {% if comment.user.profile_image %}
                         <img 
                             src="{{ url_for('static', filename='profile_images/' + comment.user.profile_image) }}" 
@@ -127,14 +127,15 @@
                         <small class="text-muted font-10">{{ comment.timestamp.strftime('%B %d, %Y %H:%M') }}</small>
                     </div>
                 </div>
-                <p class="text-black">{{ comment.content }}</p>
+                <p class="text-black ms-4">{{ comment.content }}</p>
             </div>
         {% else %}
             <p>No comments yet.</p>
         {% endfor %}
 
+
         <!-- Comment Form -->
-        {% if user.is_authenticated %}
+        {% if current_user.is_authenticated %}
             <form method="POST" action="{{ url_for('views.add_comment', blog_id=blog.id) }}">
                 <textarea name="content" class="mb-2 form-control" rows="3" placeholder="Leave a comment..." required></textarea>
                 <button type="submit" class="button-style mx-0 mt-3">Respond</button>

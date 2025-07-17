@@ -85,7 +85,6 @@ class User(db.Model, UserMixin):
 
 # Event listener to generate username before insert/update
 def generate_username(target, value, oldvalue, initiator):
-    # Only generate username if it's missing or still the default 'user'
     if not target.username or target.username == "user":
         base = (target.first_name or "user").strip().lower().replace(" ", "_")
         session = object_session(target)

@@ -35,10 +35,10 @@
     <body>
         <div class="layout">
             <nav>
-                <div class="d-flex align-items-center justify-content-between {% if user.is_authenticated %} w-95 {% else %}container{% endif %}">
-                        <a href="{% if user.is_authenticated %}/home{% else %}/{% endif %}" class="blogsy-font text-left">Blogsy</a>
+                <div class="d-flex align-items-center justify-content-between {% if current_user.is_authenticated %} w-95 {% else %}container{% endif %}">
+                        <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}" class="blogsy-font text-left">Blogsy</a>
                         <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1 ">
-                            {% if user.is_authenticated %}
+                            {% if current_user.is_authenticated %}
                                 <div class="d-flex align-items-center justify-content-center">
                                     <img
                                     src="{{ url_for('static', filename='images/write.svg')}}"
@@ -49,18 +49,18 @@
                                     <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 1rem" id="home" href="/write">Write</a>
                                 </div>
                                 <a class="nav-item nav-link pe-md-4" id="home" href="/home">Home</a>
-                                {% if user.profile_image %}
+                                {% if current_user.profile_image %}
                                     <img 
                                     id="profileBtn" 
-                                    src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
-                                    alt="{{ user.first_name }}'s Profile Image"
+                                    src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}"
+                                    alt="{{ current_user.first_name }}'s Profile Image"
                                     class=" position-relative "
                                     style="width: 35px; height: 35px; object-fit: cover; border: 0px; cursor: pointer;" 
                                     loading="lazy"
                                     />
                                 {% else %}
                                     <button id="profileBtn" class="position-relative">
-                                        {{ user.first_name[0] }}
+                                        {{ current_user.first_name[0] }}
                                     </button>
                                 {% endif %}
                                 <div id="profileContainer" class="profile-container d-none">
@@ -109,10 +109,10 @@
                         class="alert-style alert-{{ 'danger' if category == 'error' else category }} "
                         role="alert"
                         >
-                            <div class="d-flex align-items-center justify-content-start " style="width: 90%;">
+                            <div class="d-flex align-items-center justify-content-start " >
                                 <span class="d-block no-wrap">{{ message }}</span>
                             </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" style="width: 5%;" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endfor %}
                 {% endif %}

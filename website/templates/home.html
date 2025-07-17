@@ -6,70 +6,104 @@
     <section class="w-100 h-100 d-flex align-items-start justify-content-between ">
         <div class="blog-list">
             {% for blog in blogs %}
-                <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="post mb-5 pb-5">
+                <div class="post mb-5 pb-5">
                     <div class="post-content ">
-                        <div class="d-flex align-items-center">
-                            {% if blog.author.profile_image %}
-                                <img 
-                                    src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
-                                    alt="{{ blog.author.first_name }}'s Profile Image" 
-                                    class="author-profile-img"
-                                    style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover; image-rendering: auto;"
-                                    loading="lazy"
-                                />
-                            {% else %}
-                                <button class="blog-author">
-                                    {{ blog.author.first_name[0] if blog.author.first_name else '' }}
-                                </button>
-                            {% endif %}
-                            <small class="text-gray">In </small>
-                            <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
-                            <small class="text-gray">by</small>
-                            <small class="text-black mx-1">{{ blog.author.first_name }}</small>
-                        </div>
-                        <h3 class="my-4 fw-bold">{{ blog.title }}</h3>
-                        <p class="text-gray">
-                            {{ blog.content[:150].replace('\n', '<br>') | safe }}...
-                        </p>
-                        <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
-                            <div class="d-flex align-items-center gap-4 font-11">
-                                <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>
-                                <div class="d-flex align-items-center gap-1">
-                                    <img
-                                    src="{{ url_for('static', filename='images/clap.svg')}}"
-                                    alt="Clap hands"
-                                    class="clap-svg"
-                                    style="width: 1.25rem; height: 1.25rem;"
-                                    loading="lazy"
+                        <div class="author-hover-zone">
+                            <div class="author-profile d-flex align-items-center">
+                                {% if blog.author.profile_image %}
+                                    <img 
+                                        src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
+                                        alt="{{ blog.author.first_name }}'s Profile Image" 
+                                        class="author-profile-img"
+                                        style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover; image-rendering: auto;"
+                                        loading="lazy"
                                     />
-                                    <span class="text-black ">{{ blog.likes|length }}</span>
-                                </div>
-                                <div class="d-flex align-items-center gap-1">
-                                    <img
-                                    src="{{ url_for('static', filename='images/comments.svg')}}"
-                                    alt="Comments"
-                                    class="comments-svg"
-                                    style="width: 1.75rem; height: 1.75rem;"
-                                    loading="lazy"
-                                    />
-                                    <span class="text-black ">{{ blog.comments|length }}</span>
-                                </div>
+                                {% else %}
+                                    <button class="blog-author">
+                                        {{ blog.author.first_name[0] if blog.author.first_name else '' }}
+                                    </button>
+                                {% endif %}
+                                <small class="text-gray">In </small>
+                                <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
+                                <small class="text-gray">by</small>
+                                <small class="text-black mx-1">{{ blog.author.first_name }}</small>
                             </div>
-                            <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
-                                <button type="submit" class="btn p-0 border-0 bg-transparent">
-                                    {% set is_saved = blog.id in (current_user.reading_list | map(attribute='id') | list) %}
+
+                            <!-- HOVER PREVIEW -->
+                            <div class="author-preview-card">
+                                {% if blog.author.profile_image %}
+                                    <img 
+                                        src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}"
+                                        class="hover-img mb-4"
+                                        style="width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover;"
+                                        alt="{{ blog.author.first_name }}'s profile"
+                                    />
+                                {% else %}
+                                    <button class="blog-author mb-4 " style="width: 2rem; height: 2rem;">
+                                        {{ blog.author.first_name[0] if blog.author.first_name else '' }}
+                                    </button>
+                                {% endif %}
+                                <a href="{{ url_for('views.user_profile', username=blog.author.username) }}" class="fw-bold my-2 text-black text-decoration-none d-block">{{ blog.author.first_name }}</a>
+                                <p class="font-11 text-muted mb-3">{{ blog.author.followers.count() }} followers</p>
+                                
+                                {% if blog.author.id != current_user.id %}
+                                    {% if current_user.is_following(blog.author) %}
+                                        <form method="POST" action="{{ url_for('views.unfollow', user_id=blog.author.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Unfollow</button>
+                                        </form>
+                                    {% else %}
+                                        <form method="POST" action="{{ url_for('views.follow', user_id=blog.author.id) }}">
+                                            <button type="submit" class="follow-btn ms-0">Follow</button>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="text-decoration-none">
+                            <h3 class="mb-4 mt-1 fw-bold">{{ blog.title }}</h3>
+                            <p class="text-gray">
+                                {{ blog.content[:150].replace('\n', '<br>') | safe }}...
+                            </p>
+                            <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
+                                <div class="d-flex align-items-center gap-4 font-11">
+                                    <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                                    <div class="d-flex align-items-center gap-1">
                                         <img
-                                        src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
-                                        data-save="{{ url_for('static', filename='images/save.svg') }}"
-                                        data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                                        alt="Save"
-                                        class="reading-list-icon"
-                                        style="width: 1.5rem; height: 1.5rem;"
+                                        src="{{ url_for('static', filename='images/clap.svg')}}"
+                                        alt="Clap hands"
+                                        class="clap-svg"
+                                        style="width: 1.25rem; height: 1.25rem;"
                                         loading="lazy"
                                         />
-                                </button>
-                            </form>
-                        </div>
+                                        <span class="text-black ">{{ blog.likes|length }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <img
+                                        src="{{ url_for('static', filename='images/comments.svg')}}"
+                                        alt="Comments"
+                                        class="comments-svg"
+                                        style="width: 1.75rem; height: 1.75rem;"
+                                        loading="lazy"
+                                        />
+                                        <span class="text-black ">{{ blog.comments|length }}</span>
+                                    </div>
+                                </div>
+                                <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
+                                    <button type="submit" class="btn p-0 border-0 bg-transparent">
+                                        {% set is_saved = blog.id in (current_user.reading_list | map(attribute='id') | list) %}
+                                            <img
+                                            src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
+                                            data-save="{{ url_for('static', filename='images/save.svg') }}"
+                                            data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
+                                            alt="Save"
+                                            class="reading-list-icon"
+                                            style="width: 1.5rem; height: 1.5rem;"
+                                            loading="lazy"
+                                            />
+                                    </button>
+                                </form>
+                            </div>
+                        </a>
                     </div>
                     <div class="post-image">
                         <img 
@@ -79,7 +113,7 @@
                             loading="lazy"
                         >
                     </div>
-                </a>
+                </div>
                 {% else %}
                     <p>No blogs yet.</p>
                 {% endfor %}

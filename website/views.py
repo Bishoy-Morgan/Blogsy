@@ -17,18 +17,18 @@ def allowed_file(filename):
 
 @views.route('/')
 def welcome():
-    return render_template('welcome.html', user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
+    return render_template('welcome.html', current_user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
 
 @views.route('/home')
 @login_required
 def home():
     blogs = Blog.query.order_by(Blog.date_created.desc()).all()
     tags = Tag.query.all()
-    return render_template('home.html', user=current_user, blogs=blogs, tags=tags)
+    return render_template('home.html', current_user=current_user, blogs=blogs, tags=tags)
 
 @views.route('/about')
 def about():
-    return render_template('about.html', user=current_user)
+    return render_template('about.html')
 
 @views.route('/write', methods=['GET', 'POST'])
 @login_required
@@ -48,8 +48,6 @@ def write():
         elif not allowed_file(image.filename):
             flash('Invalid image type. Allowed types: png, jpg, jpeg, gif.', category='error')
         else:
-            # filename = secure_filename(image.filename)
-            # image.save(os.path.join('website/static/uploads', filename))
             try:
                 filename_base = secure_filename(os.path.splitext(image.filename)[0])
                 webp_filename = save_compressed_image(image, filename_base)
@@ -79,7 +77,7 @@ def write():
             flash('Post created successfully!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template('write.html', user=current_user)
+    return render_template('write.html')
 
 @views.route('/post/<int:blog_id>', methods=['GET', 'POST'])
 def view_post(blog_id):
@@ -87,7 +85,7 @@ def view_post(blog_id):
 
     reading_ids = [b.id for b in current_user.reading_list]
 
-    return render_template('post.html', blog=blog, user=current_user, reading_ids=reading_ids)
+    return render_template('post.html', blog=blog, current_user=current_user, reading_ids=reading_ids)
 
 @views.route('/like/<int:blog_id>', methods=['POST'])
 @login_required
@@ -301,4 +299,5 @@ def user_profile(username):
 
     blogs = Blog.query.filter_by(author_id=user.id).order_by(Blog.date_created.desc()).all()
 
-    return render_template("user-profile.html", user=user, blogs=blogs, current_user=current_user)
+    return render_template("user-profile.html", user=user, profile_user=user, blogs=blogs, current_user=current_user)
+
