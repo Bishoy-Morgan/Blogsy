@@ -24,7 +24,20 @@ def welcome():
 def home():
     blogs = Blog.query.order_by(Blog.date_created.desc()).all()
     tags = Tag.query.all()
-    return render_template('home.html', current_user=current_user, blogs=blogs, tags=tags)
+    # Add the suggested users query here:
+    suggested_users = (
+        User.query
+        .filter(User.id != current_user.id)
+        .filter(~User.followers.any(id=current_user.id))
+        .limit(3)
+        .all()
+    )
+    return render_template(
+        "home.html",
+        blogs=blogs,
+        tags=tags,
+        suggested_users=suggested_users
+    )
 
 @views.route('/about')
 def about():

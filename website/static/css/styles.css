@@ -498,8 +498,14 @@ aside {
     flex-flow: column nowrap;
     place-items: start space-around;
     gap: 2rem;
-    padding: 0 4rem 0 2rem ;
+    padding: 0 4rem 0 2rem;
     border-left: 1px solid rgba(107, 107, 107, 0.25);
+    max-height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+}
+aside::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .topic {
