@@ -3,44 +3,37 @@
 
 {% block content %}
 <div class="w-100 h-100 d-flex align-items-start justify-content-between">
-    <div class="blog-list ">
-        <h2 class="mb-5 mt-3 text-start fw-bold " style="width: 80%;">
+    <div class="blog-list">
+        <h2 class="mb-5 mt-3 text-start fw-bold" style="width: 80%;">
             {{ profile_user.first_name }}
         </h2>
 
-        <!-- Tabs nav -->
-        <ul class="user-profile-tabs" id="profileTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="blogs-tab" data-bs-toggle="tab" data-bs-target="#blogs" type="button" role="tab" aria-controls="blogs" aria-selected="true">
-                    Blogs
-                </button>
+        <!-- Custom Tabs -->
+        <ul class="user-profile-tabs d-flex gap-3 mb-4" id="profileTab">
+            <li class="nav-item">
+                <button class="nav-link active" data-tab="blogs-tab">Blogs</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="followers-tab" data-bs-toggle="tab" data-bs-target="#followers" type="button" role="tab" aria-controls="followers" aria-selected="false">
-                    Followers
-                </button>
+            <li class="nav-item">
+                <button class="nav-link" data-tab="followers-tab">Followers</button>
             </li>
         </ul>
-        <div class="tab-content " id="profileTabContent">
-            <div class="tab-pane fade show active" id="blogs" role="tabpanel" aria-labelledby="blogs-tab">
-                <div class="w-100 d-flex justify-content-end align-items-end flex-column" >
-                    {% if blogs %}
+
+        <!-- Tab Content -->
+        <div id="blogs-tab" class="tab-section mt-5 active">
+            <div class="w-100 d-flex justify-content-end align-items-end flex-column">
+                {% if blogs %}
                     {% for blog in blogs %}
-                        <div class="post mb-5 pb-5" id="blogs" role="tabpanel" aria-labelledby="blogs-tab">
-                            <div class="post-content ">
+                        <div class="post mb-5 pb-5">
+                            <div class="post-content">
                                 <div class="d-flex align-items-center mb-4">
                                     {% if blog.author.profile_image %}
-                                        <img 
-                                            src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
-                                            alt="{{ blog.author.first_name }}'s Profile Image" 
+                                        <img src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}" 
+                                            alt="{{ blog.author.first_name }}'s Profile Image"
                                             class="author-profile-img"
-                                            style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover; image-rendering: auto;"
-                                            loading="lazy"
-                                        />
+                                            style="width: 2rem; height: 2rem; border-radius: 8px; object-fit: cover;"
+                                            loading="lazy"/>
                                     {% else %}
-                                        <button class="blog-author">
-                                            {{ blog.author.first_name[0] if blog.author.first_name else '' }}
-                                        </button>
+                                        <button class="blog-author">{{ blog.author.first_name[0] if blog.author.first_name else '' }}</button>
                                     {% endif %}
                                     <small class="text-gray">In </small>
                                     <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
@@ -49,120 +42,100 @@
                                 </div>
                                 <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="text-decoration-none">
                                     <h3 class="mb-4 mt-1 fw-bold">{{ blog.title }}</h3>
-                                    <p class="text-gray">
-                                        {{ blog.content[:150].replace('\n', '<br>') | safe }}...
-                                    </p>
+                                    <p class="text-gray">{{ blog.content[:150].replace('\n', '<br>') | safe }}...</p>
                                     <div class="w-100 d-flex align-items-center justify-content-between mt-4 pe-4">
                                         <div class="d-flex align-items-center gap-4 font-11">
                                             <small class="text-gray">Posted on {{ blog.date_created.strftime('%b %d, %Y') }}</small>
                                             <div class="d-flex align-items-center gap-1">
-                                                <img
-                                                src="{{ url_for('static', filename='images/clap.svg')}}"
-                                                alt="Clap hands"
-                                                class="clap-svg"
-                                                style="width: 1.25rem; height: 1.25rem;"
-                                                loading="lazy"
-                                                />
-                                                <span class="text-black ">{{ blog.likes|length }}</span>
+                                                <img src="{{ url_for('static', filename='images/clap.svg')}}" class="clap-svg" style="width: 1.25rem;" loading="lazy"/>
+                                                <span class="text-black">{{ blog.likes|length }}</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-1">
-                                                <img
-                                                src="{{ url_for('static', filename='images/comments.svg')}}"
-                                                alt="Comments"
-                                                class="comments-svg"
-                                                style="width: 1.75rem; height: 1.75rem;"
-                                                loading="lazy"
-                                                />
-                                                <span class="text-black ">{{ blog.comments|length }}</span>
+                                                <img src="{{ url_for('static', filename='images/comments.svg')}}" class="comments-svg" style="width: 1.75rem;" loading="lazy"/>
+                                                <span class="text-black">{{ blog.comments|length }}</span>
                                             </div>
                                         </div>
                                         <form method="POST" action="{{ url_for('views.toggle_reading_list', blog_id=blog.id) }}" class="reading-list-form">
                                             <button type="submit" class="btn p-0 border-0 bg-transparent">
                                                 {% set is_saved = blog.id in (current_user.reading_list | map(attribute='id') | list) %}
-                                                    <img
-                                                    src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
-                                                    data-save="{{ url_for('static', filename='images/save.svg') }}"
-                                                    data-remove-save="{{ url_for('static', filename='images/save-remove.svg') }}"
-                                                    alt="Save"
-                                                    class="reading-list-icon"
-                                                    style="width: 1.5rem; height: 1.5rem;"
-                                                    loading="lazy"
-                                                    />
+                                                <img src="{{ url_for('static', filename='images/' ~ ('save-remove.svg' if is_saved else 'save.svg')) }}"
+                                                    class="reading-list-icon" style="width: 1.5rem;" loading="lazy"/>
                                             </button>
                                         </form>
                                     </div>
                                 </a>
                             </div>
-                            <div class="post-image">
-                                <img 
-                                    src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
-                                    alt="Image for {{ blog.title }}" 
-                                    style="width: 100%; min-width: 100%; height: auto; border-radius: 8px; max-height: 150px; object-fit: cover;"
-                                    loading="lazy"
-                                >
+                            <div class="post-image mt-3">
+                                <img src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
+                                    alt="Image for {{ blog.title }}"
+                                    style="width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover;" loading="lazy">
                             </div>
                         </div>
-                        {% else %}
-                            <p>No blogs yet.</p>
                     {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Followers Tab -->
-            <div class="tab-pane fade followers-container" id="followers" role="tabpanel" aria-labelledby="followers-tab">
-                {% if profile_user.followers.count() > 0 %}
-                    <ul class="list-group ">
-                        {% for follower in profile_user.followers %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a href="{{ url_for('views.user_profile', username=follower.username) }}">
-                                    {{ follower.first_name }} {{ follower.last_name or '' }}
-                                </a>
-
-                                {% if current_user.is_authenticated and current_user.id != follower.id %}
-                                    {% if current_user.is_following(follower) %}
-                                        <form method="POST" action="{{ url_for('views.unfollow', user_id=follower.id) }}" class="follow-form m-0" data-user-id="{{ follower.id }}">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Unfollow</button>
-                                        </form>
-                                    {% else %}
-                                        <form method="POST" action="{{ url_for('views.follow', user_id=follower.id) }}" class="follow-form m-0" data-user-id="{{ follower.id }}">
-                                            <button type="submit" class="btn btn-sm btn-outline-primary">Follow</button>
-                                        </form>
-                                    {% endif %}
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
                 {% else %}
-                    <p class="mt-3">No followers yet.</p>
+                    <p>No blogs yet.</p>
                 {% endif %}
             </div>
         </div>
+
+        <div id="followers-tab" class="tab-section mt-5 d-none d-flex justify-content-start align-items-start " style="width: 80%;">
+            {% if profile_user.followers.count() > 0 %}
+                <div class="w-100 d-flex gap-3">
+                    {% for follower in profile_user.followers %}
+                        <div class="d-flex align-items-center justify-content-between p-3">
+                            <div class="d-flex align-items-center ">
+                                {% if follower.profile_image %}
+                                    <img src="{{ url_for('static', filename='profile_images/' + follower.profile_image) }}"
+                                        class="author-profile-img rounded-circle" style="width: 3rem; height: 3rem;" loading="lazy">
+                                {% else %}
+                                    <button class="blog-author rounded-circle" style="width: 3rem; height: 3rem;">
+                                        {{ follower.first_name[0] if follower.first_name else '' }}
+                                    </button>
+                                {% endif %}
+                                <div class="d-flex flex-column align-items-start">
+                                    <a href="{{ url_for('views.user_profile', username=follower.username) }}" class="fw-bold poppins mb-1 text-decoration-none text-black">
+                                        {{ follower.first_name }} {{ follower.last_name or '' }}
+                                    </a>
+                                    <span class="font-10 text-muted">{{ follower.bio or follower.username }}</span>
+                                </div>
+                            </div>
+                            {% if current_user.is_authenticated and current_user.id != follower.id %}
+                                {% if current_user.is_following(follower) %}
+                                    <form method="POST" action="{{ url_for('views.unfollow', user_id=follower.id) }}" class="follow-form m-0" data-user-id="{{ follower.id }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Unfollow</button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('views.follow', user_id=follower.id) }}" class="follow-form m-0" data-user-id="{{ follower.id }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Follow</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="mt-3">No followers yet.</p>
+            {% endif %}
+        </div>
     </div>
 
+    <!-- Right Aside -->
     <aside>
         {% if profile_user.profile_image %}
             <img src="{{ url_for('static', filename='profile_images/' + profile_user.profile_image) }}"
                 alt="{{ profile_user.first_name }}'s Profile Image"
-                class="rounded-circle mt-5"
-                style="width: 120px; height: 120px; object-fit: cover; "
-                loading="lazy" />
+                class="rounded-circle mt-5" style="width: 120px; height: 120px; object-fit: cover;" loading="lazy"/>
         {% else %}
             <div class="letter-avatar mt-5 d-flex align-items-center justify-content-center rounded-circle">
                 {{ profile_user.first_name[0]|upper }}
             </div>
         {% endif %}
 
-        <!-- Followers and Following -->
-        <div class="mt-3 d-flex flex-column align-items-start ">
+        <div class="mt-3 d-flex flex-column align-items-start">
             <h5 class="poppins">{{ profile_user.first_name }}</h5>
-            <p class="mb-0 text-gray">
-                <strong id="followers-count">{{ profile_user.followers.count() }}</strong> 
-                Followers
-            </p>
+            <p class="mb-0 text-gray"><strong id="followers-count">{{ profile_user.followers.count() }}</strong> Followers</p>
         </div>
 
-        <!-- Follow / Unfollow -->
         {% if current_user.is_authenticated and current_user.id != user.id %}
             <div class="mt-3">
                 {% if current_user.is_following(profile_user) %}
@@ -170,8 +143,8 @@
                         <button type="submit" class="unfollow-btn">Unfollow</button>
                     </form>
                 {% else %}
-                    <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="unfollow-form"  data-user-id="{{ user.id }}">
-                        <button type="submit" class="follow-btn ms-0">Follow</button>
+                    <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="follow-form" data-user-id="{{ user.id }}">
+                        <button type="submit" class="follow-btn">Follow</button>
                     </form>
                 {% endif %}
             </div>
@@ -189,12 +162,12 @@
                         </h6>
                         <p class="text-muted">{{ followed_user.bio or 'No bio available' }}</p>
                     </div>
-                    {% if current_user.followed.filter_by(id=followed_user.id).first() %}
-                        <form method="POST" action="{{ url_for('views.unfollow', user_id=followed_user.id) }}" style="display:inline;">
+                    {% if current_user.is_following(followed_user) %}
+                        <form method="POST" action="{{ url_for('views.unfollow', user_id=followed_user.id) }}">
                             <button type="submit" class="btn btn-outline-danger btn-sm">Unfollow</button>
                         </form>
                     {% else %}
-                        <form method="POST" action="{{ url_for('views.follow', user_id=followed_user.id) }}" style="display:inline;">
+                        <form method="POST" action="{{ url_for('views.follow', user_id=followed_user.id) }}">
                             <button type="submit" class="btn btn-outline-primary btn-sm">Follow</button>
                         </form>
                     {% endif %}
@@ -204,32 +177,16 @@
             {% endfor %}
         </div>
 
-        <div class="aside-links">
-            <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap ">
-                <li>
-                    <a href="#">Help</a>
-                </li>
-                <li>
-                    <a href="#">Status</a>
-                </li>
-                <li>
-                    <a href="#">Career</a>
-                </li>
-                <li>
-                    <a href="#">Blog</a>
-                </li>
-                <li>
-                    <a href="privacy">Privacy</a>
-                </li>
-                <li>
-                    <a href="#">Rules</a>
-                </li>
-                <li>
-                    <a href="/terms">Terms</a>
-                </li>
-                <li>
-                    <a href="#">Text to speech</a>
-                </li>
+        <div class="aside-links mt-4">
+            <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap">
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Status</a></li>
+                <li><a href="#">Career</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="privacy">Privacy</a></li>
+                <li><a href="#">Rules</a></li>
+                <li><a href="/terms">Terms</a></li>
+                <li><a href="#">Text to speech</a></li>
             </ul>
         </div>
     </aside>

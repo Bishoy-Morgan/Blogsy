@@ -299,7 +299,25 @@ async function handleFollowSubmit(e) {
     }
 }
 
+// user-profile page tabs 
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('#profileTab .nav-link');
+    const tabSections = document.querySelectorAll('.tab-section');
 
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Deactivate all
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabSections.forEach(tab => tab.classList.add('d-none'));
+
+            // Activate current
+            button.classList.add('active');
+            const section = document.getElementById(button.dataset.tab);
+            section.classList.remove('d-none');
+            section.classList.add('active');
+        });
+    });
+});
 
 
 
