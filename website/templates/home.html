@@ -146,12 +146,12 @@
                                 loading="lazy"
                                 />
                             {% else %}
-                                <button class="blog-author">
+                                <button class="blog-author" style="width: 2.3rem; height: 2.3rem; border-radius: 50%;">
                                 {{ user.first_name[0] if user.first_name else '' }}
                                 </button>
                             {% endif %}
                             <div class="d-flex flex-column align-items-start">
-                                <h6 class="fw-bold poppins mb-1">{{ user.first_name }}</h6>
+                                <a href="{{ url_for('views.user_profile', username=user.username) }}" class="fw-bold poppins mb-1 text-decoration-none text-black">{{ user.first_name }}</a>
                                 <span class="font-10">{{ user.username }}</span>
                             </div>
                             </div>

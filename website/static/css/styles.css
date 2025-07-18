@@ -748,7 +748,43 @@ aside::-webkit-scrollbar {
     pointer-events: auto;
 }
 
+.user-profile-tabs {
+    width: 80%;
+    padding: 0;
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    border-bottom: 1px solid rgba(107, 107, 107, 0.25);
 
+}
+
+.user-profile-tabs li button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--gray-color);
+    font-size: 1rem;
+    border: 0;
+    background-color: transparent;
+    transition: color 0.3s ease;
+}
+
+.user-profile-tabs li button.active {
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    font-weight: 500;
+}
+
+.followers-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 2px solid black;
+}
 
 @media (max-width: 768px) {
     h1 {
