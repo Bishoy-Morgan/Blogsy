@@ -39,7 +39,7 @@
                                         alt="{{ blog.author.first_name }}'s profile"
                                     />
                                 {% else %}
-                                    <button class="blog-author mb-4 " style="width: 2rem; height: 2rem;">
+                                    <button class="blog-author mb-4  " style="width: 2.3rem; height: 2.3rem; border-radius: 100px;">
                                         {{ blog.author.first_name[0] if blog.author.first_name else '' }}
                                     </button>
                                 {% endif %}
@@ -47,15 +47,17 @@
                                 <p class="font-11 text-muted mb-3">{{ blog.author.followers.count() }} followers</p>
                                 
                                 {% if blog.author.id != current_user.id %}
-                                    {% if current_user.is_following(blog.author) %}
-                                        <form method="POST" action="{{ url_for('views.unfollow', user_id=blog.author.id) }}">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Unfollow</button>
-                                        </form>
-                                    {% else %}
-                                        <form method="POST" action="{{ url_for('views.follow', user_id=blog.author.id) }}">
-                                            <button type="submit" class="follow-btn ms-0">Follow</button>
-                                        </form>
-                                    {% endif %}
+                                    <div class="follow-button-container" data-user-id="{{ blog.author.id }}">
+                                        {% if current_user.is_following(blog.author) %}
+                                            <form method="POST" action="{{ url_for('views.unfollow', user_id=blog.author.id) }}" class="follow-form" >
+                                                <button type="submit" class="unfollow-btn py-1">Unfollow</button>
+                                            </form>
+                                        {% else %}
+                                            <form method="POST" action="{{ url_for('views.follow', user_id=blog.author.id) }}" class="follow-form">
+                                                <button type="submit" class="follow-btn py-1">Follow</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -132,32 +134,36 @@
             </div>
             <div class="follow-content">
                 <h6 class="mb-4 poppins">Who to follow</h6>
-                {% for user in suggested_users %}
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center gap-1">
+                    {% for user in suggested_users %}
+                        <div class="d-flex align-items-center justify-content-between mb-4" data-user-id="{{ user.id }}">
+                            <div class="d-flex align-items-center gap-1">
                             {% if user.profile_image %}
-                                <img 
-                                    src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
-                                    alt="{{ user.first_name }}'s Profile Image"
-                                    class="author-profile-img"
-                                    style="width: 2.3rem; height: 2.3rem; border-radius: 50%; object-fit: cover;"
-                                    loading="lazy"
+                                <img
+                                src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
+                                alt="{{ user.first_name }}'s Profile Image"
+                                class="author-profile-img"
+                                style="width: 2.3rem; height: 2.3rem; border-radius: 50%; object-fit: cover;"
+                                loading="lazy"
                                 />
                             {% else %}
                                 <button class="blog-author">
-                                    {{ user.first_name[0] if user.first_name else '' }}
+                                {{ user.first_name[0] if user.first_name else '' }}
                                 </button>
                             {% endif %}
                             <div class="d-flex flex-column align-items-start">
                                 <h6 class="fw-bold poppins mb-1">{{ user.first_name }}</h6>
                                 <span class="font-10">{{ user.username }}</span>
                             </div>
+                            </div>
+
+                            <!-- Only the button inside the form -->
+                            <div class="follow-button-container" data-user-id="{{ user.id }}">
+                                <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="follow-form" >
+                                    <button class="follow-btn py-1" type="submit">Follow</button>
+                                </form>
+                            </div>
                         </div>
-                        <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}">
-                            <button class="follow-btn" type="submit">Follow</button>
-                        </form>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
                 <span class="font-11 text-gray">See more suggestions</span>
             </div>
             <div>

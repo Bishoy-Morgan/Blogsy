@@ -97,7 +97,7 @@ document.querySelectorAll('.like-btn').forEach(button => {
     });
 });
 
-
+// Comment 
 document.querySelectorAll('.comment-form').forEach(form => {
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -235,6 +235,72 @@ document.addEventListener('DOMContentLoaded', () => {
         profileModal.style.display = 'none';
     });
 });
+
+// Follow system
+document.addEventListener('DOMContentLoaded', () => {
+    attachFollowListeners();
+});
+
+function attachFollowListeners() {
+    document.querySelectorAll('.follow-form, .unfollow-form').forEach(form => {
+        form.addEventListener('submit', handleFollowSubmit);
+    });
+}
+
+async function handleFollowSubmit(e) {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const url = form.action;
+    const method = form.method;
+    const userId = form.closest('[data-user-id]').dataset.userId;
+    const button = form.querySelector('button');
+    button.disabled = true;
+
+    try {
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const result = await response.json();
+
+        if (result.success) {
+            // New form HTML
+            const newFormHTML = result.following
+                ? `<form method="POST" action="/unfollow/${userId}" class="unfollow-form"><button type="submit" class="unfollow-btn py-1">Unfollow</button></form>`
+                : `<form method="POST" action="/follow/${userId}" class="follow-form"><button type="submit" class="follow-btn py-1">Follow</button></form>`;
+
+            // Update ALL follow/unfollow forms on page for this user
+            document.querySelectorAll(`[data-user-id="${userId}"]`).forEach(container => {
+                const form = container.querySelector('form');
+                if (form) form.outerHTML = newFormHTML;
+            });
+
+            // Remove user from suggestion sidebar if just followed
+            if (result.following) {
+                const suggestion = document.querySelector(`.follow-content [data-user-id="${userId}"]`);
+                if (suggestion) suggestion.remove();
+            }
+
+            attachFollowListeners(); // Rebind listeners
+        } else {
+            alert(result.message || 'Failed to update follow status.');
+        }
+
+    } catch (err) {
+        alert('Error: ' + err.message);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+
+
 
 
 

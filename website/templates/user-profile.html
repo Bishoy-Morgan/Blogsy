@@ -103,16 +103,23 @@
         <!-- Followers and Following -->
         <div class="mt-3 d-flex flex-column align-items-start ">
             <h5 class="poppins">{{ profile_user.first_name }}</h5>
-            <p class="mb-0 text-gray"><strong>{{ profile_user.followers.count() }}</strong> Followers</p>
+            <p class="mb-0 text-gray">
+                <strong id="followers-count">{{ profile_user.followers.count() }}</strong> 
+                Followers
+            </p>
         </div>
 
         <!-- Follow / Unfollow -->
         {% if current_user.is_authenticated and current_user.id != user.id %}
             <div class="mt-3">
                 {% if current_user.is_following(profile_user) %}
-                    <a href="{{ url_for('views.unfollow', user_id=user.id) }}" class="unfollow-btn">Unfollow</a>
+                    <form method="POST" action="{{ url_for('views.unfollow', user_id=user.id) }}" class="follow-form" data-user-id="{{ user.id }}">
+                        <button type="submit" class="unfollow-btn">Unfollow</button>
+                    </form>
                 {% else %}
-                    <a href="{{ url_for('views.follow', user_id=user.id) }}" class="follow-btn ms-0">Follow</a>
+                    <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="unfollow-form"  data-user-id="{{ user.id }}">
+                        <button type="submit" class="follow-btn ms-0">Follow</button>
+                    </form>
                 {% endif %}
             </div>
         {% endif %}
@@ -129,12 +136,14 @@
                         </h6>
                         <p class="text-muted">{{ followed_user.bio or 'No bio available' }}</p>
                     </div>
-                    {% if current_user.is_authenticated and current_user.id != followed_user.id %}
-                        {% if current_user.followed.filter_by(id=followed_user.id).first() %}
-                            <a href="{{ url_for('views.unfollow', user_id=followed_user.id) }}" class="btn btn-outline-danger btn-sm">Unfollow</a>
-                        {% else %}
-                            <a href="{{ url_for('views.follow', user_id=followed_user.id) }}" class="btn btn-outline-primary btn-sm">Follow</a>
-                        {% endif %}
+                    {% if current_user.followed.filter_by(id=followed_user.id).first() %}
+                        <form method="POST" action="{{ url_for('views.unfollow', user_id=followed_user.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Unfollow</button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('views.follow', user_id=followed_user.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Follow</button>
+                        </form>
                     {% endif %}
                 </div>
             {% else %}

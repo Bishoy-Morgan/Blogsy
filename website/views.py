@@ -281,26 +281,34 @@ def delete_post(blog_id):
 
 
 # Following system 
-@views.route('/follow/<int:user_id>')
+@views.route('/follow/<int:user_id>', methods=['POST'])
 @login_required
 def follow(user_id):
     user_to_follow = User.query.get_or_404(user_id)
     if user_to_follow == current_user:
-        flash("You can't follow yourself!", 'warning')
-    else:
-        current_user.follow(user_to_follow)
-        db.session.commit()
-        flash(f'You are now following {user_to_follow.first_name}!', 'success')
-    return redirect(url_for('views.profile', user_id=user_id))
+        return jsonify({'success': False, 'message': "You can't follow yourself!"}), 400
 
-@views.route('/unfollow/<int:user_id>')
+    current_user.follow(user_to_follow)
+    db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True, 'following': True})
+    else:
+        flash(f'You are now following {user_to_follow.first_name}!', 'success')
+        return redirect(url_for('views.profile', first_name=user_to_follow.first_name.replace(' ', '-')))
+
+@views.route('/unfollow/<int:user_id>', methods=['POST'])
 @login_required
 def unfollow(user_id):
     user_to_unfollow = User.query.get_or_404(user_id)
     current_user.unfollow(user_to_unfollow)
     db.session.commit()
-    flash(f'You have unfollowed {user_to_unfollow.first_name}.', 'info')
-    return redirect(url_for('views.profile', user_id=user_id))
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True, 'following': False})
+    else:
+        flash(f'You have unfollowed {user_to_unfollow.first_name}.', 'info')
+        return redirect(url_for('views.profile', first_name=user_to_unfollow.first_name.replace(' ', '-')))
 
 # User Profile 
 @views.route('/user/<username>')
