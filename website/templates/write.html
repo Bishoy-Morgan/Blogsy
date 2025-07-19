@@ -22,13 +22,10 @@
 
     <div class="mb-4">
       <label for="content" class="form-label">Content</label>
-      <textarea
-        id="content"
-        name="content"
-        rows="6"
-        required
-        placeholder="Share your thoughts, experiences, or insights"
-      ></textarea>
+      <!-- Hidden input to store the actual content -->
+      <input id="content" type="hidden" name="content">
+      <!-- Trix Editor will appear here -->
+      <trix-editor input="content" placeholder="Share your thoughts, experiences, or insights"></trix-editor>
     </div>
 
     <div class="mb-4">

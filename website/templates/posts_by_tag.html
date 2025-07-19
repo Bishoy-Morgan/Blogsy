@@ -10,7 +10,7 @@
             <div class="blog-list">
                 <div class="w-50 mb-5">
                     <h3 class="poppins fw-bold  text-capitalize text-left">
-                    {{ tag.name }} topic
+                    {{ tag.name }}
                 </h3>
                 </div>
                 {% for blog in blogs %}
@@ -98,52 +98,82 @@
                 <div class="mb-3">
                     <h6 class="mb-4 poppins ">Recommended topics</h6>
                     <div>
-                        {% for tag in tags %}
+                        {% for tag in tags[:8] %}
                             <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="topic text-decoration-none">
                                 {{ tag.name }}
                             </a>
                         {% endfor %}
+                        <div class="mt-3">
+                            <a href="{{ url_for('views.all_tags') }}" class="text-gray font-11 text-decoration-none">
+                                See all topics and tags
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="follow-content">
                     <h6 class="mb-4 poppins">Who to follow</h6>
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex flex-column">
-                            <h6 class="fw-bold poppins">Daniel Scott</h6>
-                            <p>Full stack developer with 8 years experience</p>
-                        </div>
-                        <button class="follow-btn">Follow</button>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex flex-column">
-                            <h6 class="fw-bold poppins">JavaScript in Plain English</h6>
-                            <p>New JavaScript and web development content</p>
-                        </div>
-                        <button class="follow-btn">Follow</button>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex flex-column">
-                            <h6 class="fw-bold poppins">Chris Dunlop</h6>
-                            <p>I'll help you code with AI, using Cursor and Claude</p>
-                        </div>
-                        <button class="follow-btn">Follow</button>
-                    </div>
-                    <span class="font-11">See more suggestions</span>
+                        {% for user in suggested_users %}
+                            <div class="d-flex align-items-center justify-content-between mb-4" data-user-id="{{ user.id }}">
+                                <div class="d-flex align-items-center gap-1">
+                                {% if user.profile_image %}
+                                    <img
+                                    src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
+                                    alt="{{ user.first_name }}'s Profile Image"
+                                    class="author-profile-img"
+                                    style="width: 2.3rem; height: 2.3rem; border-radius: 50%; object-fit: cover;"
+                                    loading="lazy"
+                                    />
+                                {% else %}
+                                    <button class="blog-author" style="width: 2.3rem; height: 2.3rem; border-radius: 50%;">
+                                    {{ user.first_name[0] if user.first_name else '' }}
+                                    </button>
+                                {% endif %}
+                                <div class="d-flex flex-column align-items-start">
+                                    <a href="{{ url_for('views.user_profile', username=user.username) }}" class="fw-bold poppins mb-1 text-decoration-none text-black">{{ user.first_name }}</a>
+                                    <span class="font-10">{{ user.username }}</span>
+                                </div>
+                                </div>
+
+                                <!-- Only the button inside the form -->
+                                <div class="follow-button-container" data-user-id="{{ user.id }}">
+                                    <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="follow-form" >
+                                        <button class="follow-btn py-1" type="submit">Follow</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    <span class="font-11 text-gray">See more suggestions</span>
                 </div>
                 <div>
                     <h6 class="mb-2 poppins">Reading list</h6>
                     <p class="font-11">Click the  on any story to easily add it to your reading list or a custom list that you can share.</p>
                 </div>
                 <div class="aside-links">
-                    <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap">
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Status</a></li>
-                        <li><a href="#">Career</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="privacy">Privacy</a></li>
-                        <li><a href="#">Rules</a></li>
-                        <li><a href="/terms">Terms</a></li>
-                        <li><a href="#">Text to speech</a></li>
+                    <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap ">
+                        <li>
+                            <a href="#">Help</a>
+                        </li>
+                        <li>
+                            <a href="#">Status</a>
+                        </li>
+                        <li>
+                            <a href="#">Career</a>
+                        </li>
+                        <li>
+                            <a href="#">Blog</a>
+                        </li>
+                        <li>
+                            <a href="privacy">Privacy</a>
+                        </li>
+                        <li>
+                            <a href="#">Rules</a>
+                        </li>
+                        <li>
+                            <a href="/terms">Terms</a>
+                        </li>
+                        <li>
+                            <a href="#">Text to speech</a>
+                        </li>
                     </ul>
                 </div>
             </aside>

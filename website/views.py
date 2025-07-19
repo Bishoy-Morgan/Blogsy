@@ -238,13 +238,37 @@ def posts_by_tag(tag_id):
         .all()
     tags = Tag.query.all()
 
+    suggested_users = (
+        User.query
+        .filter(User.id != current_user.id)
+        .filter(~User.followers.any(id=current_user.id))
+        .limit(3)
+        .all()
+    )
+
     return render_template(
         'posts_by_tag.html',
         blogs=blogs,
         tag=tag,
         tags=tags,
-        user=current_user
+        suggested_users=suggested_users
     )
+
+# all tags page 
+@views.route('/all-tags')
+def all_tags():
+    q = request.args.get('q', '').strip()
+    if q:
+        tags = Tag.query.filter(Tag.name.ilike(f'%{q}%')).all()
+    else:
+        tags = Tag.query.all()
+    # If AJAX, return JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify([
+            {'id': tag.id, 'name': tag.name}
+            for tag in tags
+        ])
+    return render_template('all_tags.html', tags=tags)
 
 # Edit Post 
 @views.route('/post/edit/<int:blog_id>', methods=['GET', 'POST'])

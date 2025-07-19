@@ -319,6 +319,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// search tags 
+document.getElementById('tag-search').addEventListener('input', function() {
+    const q = this.value;
+    fetch(`/all-tags?q=${encodeURIComponent(q)}`, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    })
+    .then(response => response.json())
+    .then(tags => {
+        const tagList = document.getElementById('tag-list');
+        tagList.innerHTML = '';
+        if (tags.length === 0) {
+            tagList.innerHTML = '<p>No topics found.</p>';
+        } else {
+            tags.forEach(tag => {
+                const a = document.createElement('a');
+                a.href = `/tag/${tag.id}`;
+                a.className = 'topic text-decoration-none';
+                a.textContent = tag.name;
+                tagList.appendChild(a);
+            });
+        }
+    });
+});
 
 
 

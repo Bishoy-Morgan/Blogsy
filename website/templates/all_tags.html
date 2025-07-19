@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}All Topics{% endblock %}
+{% block content %}
+<div class="custom-width py-4">
+    <h2 class="mb-5">All Topics & Tags</h2>
+    <form method="GET" class="mb-5" onsubmit="return false;">
+        <input type="text" name="q" id="tag-search" class="form-control" placeholder="Search topics..." autocomplete="off">
+    </form>
+    <div class="d-flex flex-wrap gap-2" id="tag-list">
+        {% for tag in tags %}
+            <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="topic text-decoration-none">
+                {{ tag.name }}
+            </a>
+        {% else %}
+            <p>No topics found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
