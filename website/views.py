@@ -14,7 +14,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
 @views.route('/')
 def welcome():
     return render_template('welcome.html', current_user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
@@ -22,9 +21,12 @@ def welcome():
 @views.route('/home')
 @login_required
 def home():
-    blogs = Blog.query.order_by(Blog.date_created.desc()).all()
+    offset = 0
+    limit = 10
+    
+    blogs = Blog.query.order_by(Blog.date_created.desc()).offset(offset).limit(limit).all()
     tags = Tag.query.all()
-    # Add the suggested users query here:
+    
     suggested_users = (
         User.query
         .filter(User.id != current_user.id)
@@ -32,12 +34,26 @@ def home():
         .limit(3)
         .all()
     )
+
     return render_template(
         "home.html",
         blogs=blogs,
         tags=tags,
         suggested_users=suggested_users
     )
+
+# load more blogs via AJAX
+@views.route('/load_blogs')
+@login_required
+def load_blogs():
+    offset = request.args.get('offset', 0, type=int)
+    limit = request.args.get('limit', 10, type=int)
+
+    blogs = Blog.query.order_by(Blog.date_created.desc()).offset(offset).limit(limit).all()
+    if not blogs:
+        return '', 204  # No more blogs
+
+    return render_template('partials/blogs.html', blogs=blogs)
 
 @views.route('/about')
 def about():

@@ -359,41 +359,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   const button = document.querySelector('#emoji-button');
-//   const textarea = document.querySelector('#commentInput');
+let offset = 10;
+const limit = 10;
+let loading = false;
+let finished = false;
 
-//   if (!button || !textarea) {
-//     console.log('Emoji button or textarea NOT found!');
-//     return;
-//   }
+const blogsContainer = document.getElementById('blogs-container');
+const loader = document.getElementById('loading');
 
-//   console.log('Emoji button found!');
+function loadMoreBlogs() {
+    if (loading || finished) return;
 
-//   // Create the EmojiButton picker instance
-//   const picker = new EmojiButton({
-//     position: 'bottom-start',  // position of the picker relative to button
-//     zIndex: 1000               // make sure picker appears above other elements
-//   });
+    loading = true;
+    loader.style.display = 'block';
 
-//   // When an emoji is selected, append it to the textarea
-//   picker.on('emoji', emoji => {
-//     textarea.value += emoji;
-//   });
+    fetch(`/load_blogs?offset=${offset}&limit=${limit}`)
+        .then(response => {
+        if (response.status === 204) {
+            finished = true;
+                loader.innerText = "No more blogs.";
+            return '';
+        }
+        return response.text();
+        })
+        .then(html => {
+        if (html) {
+            blogsContainer.insertAdjacentHTML('beforeend', html);
+            offset += limit;
+        }
+        })
+    .catch(err => console.error("Error loading blogs:", err))
+    .finally(() => {
+        loading = false;
+        loader.style.display = finished ? 'block' : 'none';
+    });
+}
 
-//   // Toggle picker when clicking the button
-//   button.addEventListener('click', () => {
-//     picker.togglePicker(button);
-//   });
-// });
+// Detect scroll near bottom
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const threshold = document.body.offsetHeight - 100;
 
-
-
-
-
-
-
-
-
-
-
+    if (scrollPosition > threshold) {
+        loadMoreBlogs();
+    }
+});
