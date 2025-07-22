@@ -24,7 +24,9 @@
                                     </button>
                                 {% endif %}
                                 <small class="text-gray">In </small>
-                                <small class="text-black mx-1 text-capitalize">{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
+                                <a href="{{ url_for('views.posts_by_tag', tag_id=blog.tags[0].id) }}" class="text-black mx-1 text-capitalize text-decoration-none">
+                                    <small>{{ blog.tags[0].name if blog.tags else 'Blogs' }}</small>
+                                </a>
                                 <small class="text-gray">by</small>
                                 <small class="text-black mx-1">{{ blog.author.first_name }}</small>
                             </div>
@@ -34,7 +36,7 @@
                                 {% if blog.author.profile_image %}
                                     <img 
                                         src="{{ url_for('static', filename='profile_images/' + blog.author.profile_image) }}"
-                                        class="hover-img mb-4"
+                                        class="hover-img mb-2"
                                         style="width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover;"
                                         alt="{{ blog.author.first_name }}'s profile"
                                     />
@@ -43,7 +45,7 @@
                                         {{ blog.author.first_name[0] if blog.author.first_name else '' }}
                                     </button>
                                 {% endif %}
-                                <a href="{{ url_for('views.user_profile', username=blog.author.username) }}" class="fw-bold my-2 text-black text-decoration-none d-block">{{ blog.author.first_name }}</a>
+                                <a href="{{ url_for('views.user_profile', username=blog.author.username) }}" class="fw-bold my-1 text-black text-decoration-none d-block">{{ blog.author.first_name }}</a>
                                 <p class="font-11 text-muted mb-3">{{ blog.author.followers.count() }} followers</p>
                                 
                                 {% if blog.author.id != current_user.id %}
@@ -62,7 +64,7 @@
                             </div>
                         </div>
                         <a href="{{ url_for('views.view_post', blog_id=blog.id) }}" class="text-decoration-none">
-                            <h3 class="mb-4 mt-1 fw-bold">{{ blog.title }}</h3>
+                            <h3 class="mb-4 mt-1 fw-bold normal">{{ blog.title | safe }}</h3>
                             <p class="text-gray">
                                 {{ blog.content | striptags | truncate(250, True, '...') }}
                             </p>
@@ -118,7 +120,7 @@
                 </div>
                 {% else %}
                     <p>No blogs yet.</p>
-                {% endfor %}
+            {% endfor %}
         </div>
         <aside>
             <div class="mb-3">

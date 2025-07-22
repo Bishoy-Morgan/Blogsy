@@ -3,14 +3,18 @@
 
 {% block content %}
 <div class="custom-width mx-auto my-5">
-    <h2>{{ blog.title }}</h2>
+    <h2>{{ blog.title | safe }}</h2>
     <p class="text-muted font-11 mt-3">
-        by {{ blog.author.first_name }} on {{ blog.date_created.strftime('%B %d, %Y') }}
+        by 
+        <a href="{{ url_for('views.user_profile', username=blog.author.username) }}" class="text-black text-decoration-none ">{{ blog.author.first_name }}</a> 
+        on {{ blog.date_created.strftime('%B %d, %Y') }}
     </p>
 
     <div class="mb-3">
         {% for tag in blog.tags %}
-            <span class="topic text-capitalize">{{ tag.name }}</span>
+            <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="text-decoration-none">
+                <span class="topic text-capitalize">{{ tag.name }}</span>
+            </a>
         {% endfor %}
     </div>
 

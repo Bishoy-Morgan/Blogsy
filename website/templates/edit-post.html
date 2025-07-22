@@ -3,31 +3,36 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Edit Your Post</h2>
+    <h2 class="mb-5">Edit Your Post</h2>
     <form action="{{ url_for('views.edit_post', blog_id=blog.id) }}" method="POST" enctype="multipart/form-data">
-        <div class="form-group mb-3">
+        <div class="mb-3">
             <label for="title">Title</label>
             <input type="text" name="title" class="form-control" value="{{ blog.title }}" required>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="content">Content</label>
-            <textarea name="content" rows="10" class="form-control" required>{{ blog.content }}</textarea>
+        <div class="mb-4">
+            <label for="content" class="form-label">Content</label>
+            <!-- Hidden input to store the actual content -->
+            <input id="content" type="hidden" name="content">
+            <!-- Trix Editor will appear here -->
+            <trix-editor input="content" placeholder="Share your thoughts, experiences, or insights">
+                {{ blog.content | safe }}
+            </trix-editor>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="tags">Tags (comma-separated)</label>
-            <input type="text" name="tags" class="form-control"
+        <div class="mb-3">
+            <label for="tags">Tags <small class="font-11 text-gray ms-2">(comma-separated)</small></label>
+            <input type="text " name="tags" class="form-control"
             value="{% for tag in blog.tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}">
         </div>
 
-        <div class="form-group mb-3">
+        <div class="mb-3">
             <label>Current Image:</label><br>
             <img src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}"
                 alt="Current Image" class="img-thumbnail mt-2" style="max-width: 200px;">
         </div>
 
-        <div class="form-group mb-4">
+        <div class="mb-4">
             <label for="image">Change Image (optional)</label>
             <input type="file" name="image" accept="image/*" class="form-control">
         </div>

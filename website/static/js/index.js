@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const alertBoxes = document.querySelectorAll(".alert-style");
 
     alertBoxes.forEach(function (alertBox) {
-        // setTimeout(() => {
-        //     alertBox.remove();
-        // }, 3000);
+        setTimeout(() => {
+            alertBox.remove();
+        }, 3000);
 
         alertBox.addEventListener("click", function () {
             alertBox.remove();
@@ -169,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 // Profile Image 
 document.addEventListener('DOMContentLoaded', () => {
     const editBtn = document.getElementById('edit-btn');
@@ -179,62 +178,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const chooseFileBtn = document.getElementById('choose-file-btn');
     const fileName = document.getElementById('file-name');
 
-    // Toggle upload form visibility
-    editBtn.addEventListener('click', () => {
-        if (uploadForm.style.display === 'none' || uploadForm.style.display === '') {
-            uploadForm.style.display = 'flex'; // since form uses flexbox
-        } else {
+    if (editBtn && uploadForm) {
+        editBtn.addEventListener('click', () => {
+            if (uploadForm.style.display === 'none' || uploadForm.style.display === '') {
+                uploadForm.style.display = 'flex'; // since form uses flexbox
+            } else {
+                uploadForm.style.display = 'none';
+            }
+        });
+    }
+
+    if (closeFormBtn && uploadForm) {
+        closeFormBtn.addEventListener('click', () => {
             uploadForm.style.display = 'none';
-        }
-    });
+        });
+    }
 
-    // Close button hides the form
-    closeFormBtn.addEventListener('click', () => {
-        uploadForm.style.display = 'none';
-    });
+    if (chooseFileBtn && realFileInput) {
+        chooseFileBtn.addEventListener('click', () => {
+            realFileInput.click();
+        });
+    }
 
-    // Trigger real file input when custom button clicked
-    chooseFileBtn.addEventListener('click', () => {
-        realFileInput.click();
-    });
-
-    // Update displayed filename when file chosen
-    realFileInput.addEventListener('change', () => {
-        if (realFileInput.files.length > 0) {
-            fileName.textContent = realFileInput.files[0].name;
-        } else {
-            fileName.textContent = 'No file chosen';
-        }
-    });
+    if (realFileInput && fileName) {
+        realFileInput.addEventListener('change', () => {
+            if (realFileInput.files.length > 0) {
+                fileName.textContent = realFileInput.files[0].name;
+            } else {
+                fileName.textContent = 'No file chosen';
+            }
+        });
+    }
 });
 
-// Update Profile 
 document.addEventListener('DOMContentLoaded', () => {
     const editBtn = document.getElementById('edit-btn');
     const uploadForm = document.getElementById('upload-form');
     const closeBtn = document.getElementById('close-form-btn');
 
-    editBtn.addEventListener('click', () => {
-        uploadForm.style.display = 'block';
-    });
+    if (editBtn && uploadForm) {
+        editBtn.addEventListener('click', () => {
+            uploadForm.style.display = 'block';
+        });
+    }
 
-    closeBtn.addEventListener('click', () => {
-        uploadForm.style.display = 'none';
-    });
+    if (closeBtn && uploadForm) {
+        closeBtn.addEventListener('click', () => {
+            uploadForm.style.display = 'none';
+        });
+    }
 
     // Handle profile modal
     const editProfileBtn = document.getElementById('edit-profile-btn');
     const profileModal = document.getElementById('edit-profile-modal');
     const closeProfileModal = document.getElementById('close-edit-modal');
 
-    editProfileBtn.addEventListener('click', () => {
-        profileModal.style.display = 'block';
-    });
+    if (editProfileBtn && profileModal) {
+        editProfileBtn.addEventListener('click', () => {
+            profileModal.style.display = 'block';
+        });
+    }
 
-    closeProfileModal.addEventListener('click', () => {
-        profileModal.style.display = 'none';
-    });
+    if (closeProfileModal && profileModal) {
+        closeProfileModal.addEventListener('click', () => {
+            profileModal.style.display = 'none';
+        });
+    }
 });
+
 
 // Follow system
 document.addEventListener('DOMContentLoaded', () => {
@@ -320,28 +331,69 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // search tags 
-document.getElementById('tag-search').addEventListener('input', function() {
-    const q = this.value;
-    fetch(`/all-tags?q=${encodeURIComponent(q)}`, {
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    })
-    .then(response => response.json())
-    .then(tags => {
-        const tagList = document.getElementById('tag-list');
-        tagList.innerHTML = '';
-        if (tags.length === 0) {
-            tagList.innerHTML = '<p>No topics found.</p>';
-        } else {
-            tags.forEach(tag => {
-                const a = document.createElement('a');
-                a.href = `/tag/${tag.id}`;
-                a.className = 'topic text-decoration-none';
-                a.textContent = tag.name;
-                tagList.appendChild(a);
+document.addEventListener('DOMContentLoaded', () => {
+    const tagSearchInput = document.getElementById('tag-search');
+    if (tagSearchInput) {
+        tagSearchInput.addEventListener('input', function() {
+            const q = this.value;
+                fetch(`/all-tags?q=${encodeURIComponent(q)}`, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+            .then(response => response.json())
+            .then(tags => {
+                const tagList = document.getElementById('tag-list');
+                tagList.innerHTML = '';
+                if (tags.length === 0) {
+                    tagList.innerHTML = '<p>No topics found.</p>';
+                } else {
+                    tags.forEach(tag => {
+                    const a = document.createElement('a');
+                    a.href = `/tag/${tag.id}`;
+                    a.className = 'topic text-decoration-none';
+                    a.textContent = tag.name;
+                    tagList.appendChild(a);
+                    });
+                }
             });
-        }
-    });
+        });
+    }
 });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const button = document.querySelector('#emoji-button');
+//   const textarea = document.querySelector('#commentInput');
+
+//   if (!button || !textarea) {
+//     console.log('Emoji button or textarea NOT found!');
+//     return;
+//   }
+
+//   console.log('Emoji button found!');
+
+//   // Create the EmojiButton picker instance
+//   const picker = new EmojiButton({
+//     position: 'bottom-start',  // position of the picker relative to button
+//     zIndex: 1000               // make sure picker appears above other elements
+//   });
+
+//   // When an emoji is selected, append it to the textarea
+//   picker.on('emoji', emoji => {
+//     textarea.value += emoji;
+//   });
+
+//   // Toggle picker when clicking the button
+//   button.addEventListener('click', () => {
+//     picker.togglePicker(button);
+//   });
+// });
+
+
+
+
+
+
+
+
 
 
 

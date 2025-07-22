@@ -236,12 +236,12 @@ input {
     margin-top: 0.3rem;
     outline-color: var(--primary-color);
     color: var(--primary-color);
-    &::placeholder {
-        color: var(--gray-color);
-        font-size: .9rem;
-    }
 }
 
+input::placeholder {
+    color: var(--gray-color);
+    font-size: 0.95rem;
+}
 
 .post-form div input {
     background-color: var(--paleWhite-color);
@@ -306,11 +306,12 @@ textarea {
 
 trix-editor {
     min-height: 200px !important;
+    max-height: 300px;
+    overflow-y: scroll;
     font-size: 1rem;
     background-color: var(--paleWhite-color);
     color: var(--primary-color);
     padding: 1rem;
-    /* border: 1px solid #ccc; */
     border-radius: 8px;
 }
 
@@ -746,10 +747,10 @@ aside::-webkit-scrollbar {
     transform: translateX(-50%);
     background-color: white;
     border: 1px solid #ddd;
-    padding: 1rem;
+    padding: 1rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 200px;
+    /* min-width: 220px; */
     text-decoration: none;
     opacity: 0;
     pointer-events: none;
@@ -791,6 +792,11 @@ aside::-webkit-scrollbar {
     color: var(--primary-color);
     border-bottom: 1px solid var(--primary-color);
     font-weight: 500;
+}
+
+img {
+    filter: none;
+    image-rendering: auto;
 }
 
 @media (max-width: 768px) {

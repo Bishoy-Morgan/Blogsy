@@ -95,7 +95,6 @@ def write():
 @views.route('/post/<int:blog_id>', methods=['GET', 'POST'])
 def view_post(blog_id):
     blog = Blog.query.get_or_404(blog_id)
-
     reading_ids = [b.id for b in current_user.reading_list]
 
     return render_template('post.html', blog=blog, current_user=current_user, reading_ids=reading_ids)
@@ -166,15 +165,9 @@ def profile(first_name):
         return render_template('not-found.html'), 404
     return render_template('profile.html', user=current_user, profile_user=user)
 
-@views.route('/terms')
-def terms():
-    return render_template('terms.html', user=current_user)
+from PIL import Image
 
-@views.route('/privacy-policy')
-def privacy_policy():
-    return render_template('privacy-policy.html', user=current_user)
-
-
+# Upload user profile image 
 @views.route('/upload_profile_image', methods=['POST'])
 @login_required
 def upload_profile_image():
@@ -189,7 +182,6 @@ def upload_profile_image():
     
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        # Rename to ensure uniqueness, e.g., userID + extension
         _, ext = os.path.splitext(filename)
         filename = f"user_{current_user.id}{ext}"
         
@@ -197,9 +189,17 @@ def upload_profile_image():
         os.makedirs(upload_folder, exist_ok=True)
         
         file_path = os.path.join(upload_folder, filename)
-        file.save(file_path)
-        
-        # Update user profile_image field
+
+        try:
+            image = Image.open(file)
+            image = image.convert("RGB")  # Ensure compatibility
+            image = image.resize((240, 240), Image.LANCZOS)  # High-quality resize
+            image.save(file_path, optimize=True, quality=90)
+        except Exception as e:
+            flash('Error processing image.', category='error')
+            print("Image processing error:", e)
+            return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+
         current_user.profile_image = filename
         db.session.commit()
         
@@ -225,8 +225,10 @@ def update_profile():
 
     db.session.commit()
     flash('Profile updated!', 'success')
-    return redirect(url_for('views.profile', first_name=new_name.replace(' ', '-')))
 
+    # Safely redirect using updated name or fallback to current
+    first_name = new_name if new_name else current_user.first_name
+    return redirect(url_for('views.profile', first_name=first_name.replace(' ', '-')))
 
 @views.route('/tag/<int:tag_id>')
 def posts_by_tag(tag_id):
@@ -282,6 +284,16 @@ def edit_post(blog_id):
     if request.method == 'POST':
         blog.title = request.form.get('title')
         blog.content = request.form.get('content')
+
+        # Handle image update
+        if 'image' in request.files:
+            image = request.files['image']
+            if image and image.filename != '':
+                filename = secure_filename(image.filename)
+                image_path = os.path.join('website/static/uploads', filename)
+                image.save(image_path)
+                blog.image_filename = filename 
+
         db.session.commit()
         flash('Post updated successfully!', 'success')
         return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
@@ -345,4 +357,14 @@ def user_profile(username):
     blogs = Blog.query.filter_by(author_id=user.id).order_by(Blog.date_created.desc()).all()
 
     return render_template("user-profile.html", user=user, profile_user=user, blogs=blogs, current_user=current_user)
+
+# Terms 
+@views.route('/terms')
+def terms():
+    return render_template('terms.html', user=current_user)
+
+# Privacy Policy
+@views.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy-policy.html', user=current_user)
 
