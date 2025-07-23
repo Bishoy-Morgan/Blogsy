@@ -692,7 +692,6 @@ aside::-webkit-scrollbar {
 
 .list-group-item .blog-title {
     max-width: 75%;
-    font-family: 'GT-Super', sans-serif;
     color: var(--primary-color);
     font-size: 1.2rem;
     text-decoration: none;

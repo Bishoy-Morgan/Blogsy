@@ -100,19 +100,21 @@
                     <li class="list-group-item d-flex flex-column p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <a class="blog-title" href="{{ url_for('views.view_post', blog_id=blog.id) }}">{{ blog.title }}</a>
-                            <small class="text-muted">{{ blog.date_created.strftime('%b %d, %Y') }}</small>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-4 mt-3">
-                            <a href="{{ url_for('views.edit_post', blog_id=blog.id) }}" class="edit-post-btn">Edit</a>
-                            <form action="{{ url_for('views.delete_post', blog_id=blog.id) }}" method="POST">
-                                <button type="submit" class="delete-post-btn">
-                                    <img src="{{ url_for('static', filename='images/delete.svg') }}"
-                                        alt="Delete"
-                                        style="width: 18px; height: 18px;" />
-                                    Delete
-                                </button>
-                            </form>
+                        <div class="d-flex justify-content-between gap-4 mt-3">
+                            <small class="text-muted">{{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                            <div class="d-flex justify-content-end gap-4">
+                                <a href="{{ url_for('views.edit_post', blog_id=blog.id) }}" class="edit-post-btn">Edit</a>
+                                <form action="{{ url_for('views.delete_post', blog_id=blog.id) }}" method="POST">
+                                    <button type="submit" class="delete-post-btn">
+                                        <img src="{{ url_for('static', filename='images/delete.svg') }}"
+                                            alt="Delete"
+                                            style="width: 18px; height: 18px;" />
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </li>
                 {% endfor %}

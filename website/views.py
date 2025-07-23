@@ -109,6 +109,7 @@ def write():
     return render_template('write.html')
 
 @views.route('/post/<int:blog_id>', methods=['GET', 'POST'])
+@login_required
 def view_post(blog_id):
     blog = Blog.query.get_or_404(blog_id)
     reading_ids = [b.id for b in current_user.reading_list]
@@ -247,6 +248,7 @@ def update_profile():
     return redirect(url_for('views.profile', first_name=first_name.replace(' ', '-')))
 
 @views.route('/tag/<int:tag_id>')
+@login_required
 def posts_by_tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     blogs = Blog.query\
@@ -274,6 +276,7 @@ def posts_by_tag(tag_id):
 
 # all tags page 
 @views.route('/all-tags')
+@login_required
 def all_tags():
     q = request.args.get('q', '').strip()
     if q:
@@ -364,6 +367,7 @@ def unfollow(user_id):
 
 # User Profile 
 @views.route('/user/<username>')
+@login_required
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
     if not user:
