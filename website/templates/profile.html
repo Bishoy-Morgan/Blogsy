@@ -8,10 +8,9 @@
 
 {% block content %}
 <section class="w-100 d-flex align-items-center justify-content-center">
-    <div class="custom-width text-left">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="w-50">{{ user.first_name }}</h2>
-            <button id="edit-profile-btn" class="edit-btn mt-2">Edit Profile</button>
+    <div class="custom-width text-start profile-info-container">
+        <div class="text-start mt-5">
+            <h2 class="w-100 fw-bold">{{ user.first_name }}</h2>
         </div>
 
         {% if user.profile_image %}
@@ -46,7 +45,8 @@
 
         <!-- Edit Profile Image Button -->
         <div class="mt-4">
-            <button id="edit-btn" class="edit-btn">Edit Profile Image</button>
+            <button id="edit-btn" class="edit-btn">Change Profile Image</button>
+            <button id="edit-profile-btn" class="edit-btn mt-2 ms-2">Edit Profile</button>
         </div>
 
         <!-- Upload Profile Image Modal -->
@@ -95,7 +95,7 @@
         <hr class="my-5">
         <h3>{{ user.first_name }}'s Posts</h3>
         {% if user.blogs %}
-            <ul class="list-group mt-5">
+            <ul class="list-group my-5">
                 {% for blog in user.blogs %}
                     <li class="list-group-item d-flex flex-column p-4">
                         <div class="d-flex justify-content-between align-items-center">

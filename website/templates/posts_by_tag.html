@@ -6,12 +6,11 @@
 {% block content %}
     <section class="w-100 h-100 d-flex flex-column">
         <div class="d-flex align-items-start justify-content-between">
-            <!-- Blog list (same as home.html) -->
             <div class="blog-list ">
-                <div class="w-50 mb-5">
-                    <h2 class="fw-bold text-capitalize text-left">
-                    {{ tag.name }}
-                </h2>
+                <div class="w-100 w-md-75 mb-5">
+                    <h2 class="fw-bold text-capitalize text-start text-md-center">
+                        {{ tag.name }}
+                    </h2>
                 </div>
                 {% for blog in blogs %}
                 <div class="post mb-5 pb-5">
@@ -121,6 +120,7 @@
                         <img 
                             src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
                             alt="Image for {{ blog.title }}" 
+                            class="blog-img"
                             style="width: 100%; min-width: 100%; height: auto; border-radius: 8px; max-height: 150px; object-fit: cover;"
                             loading="lazy"
                         >

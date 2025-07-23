@@ -451,7 +451,8 @@ footer .nav-link {
     width: 65%;
     display: flex;
     flex-flow: column nowrap;
-    place-items: end start;
+    justify-content: start;
+    align-items: end;
 }
 
 .post {
@@ -750,7 +751,6 @@ aside::-webkit-scrollbar {
     padding: 1rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    /* min-width: 220px; */
     text-decoration: none;
     opacity: 0;
     pointer-events: none;
@@ -763,6 +763,22 @@ aside::-webkit-scrollbar {
 .author-preview-card:hover {
     opacity: 1;
     pointer-events: auto;
+}
+
+.followers-container {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: none;
+}
+
+.user-profile-name, .followers-tab {
+    width: 80%;
 }
 
 .user-profile-tabs {
@@ -848,6 +864,12 @@ img {
     .post-image {
         width: 100%;
     }
+    .blog-img {
+        width: 100%;
+        height: auto;
+        min-height: 300px;
+        object-fit: cover;
+    }
     aside {
         display: none;
     }
@@ -857,6 +879,40 @@ img {
     }
     .edit-modal-content {
         width: 90%;
+    }
+    .author-preview-card {
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 14rem;
+    }
+    .user-profile-tabs, .user-profile-name, .followers-tab {
+        width: 100%;
+        justify-content: start;
+    }
+    .user-profile-name {
+        text-align: center;
+    }
+    .followers-container {
+        width: 100%;
+    }
+    .user-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+        margin-top: 0;
+    }
+    .user-info img {
+        box-shadow: 0 8px 32px rgba(36,36,36,0.35);
+    }
+    .edit-btn-display {
+        display: none;
+    }
+    footer {
+        height: 12vh;
     }
 }
 

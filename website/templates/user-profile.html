@@ -4,9 +4,28 @@
 {% block content %}
 <div class="w-100 h-100 d-flex align-items-start justify-content-between">
     <div class="blog-list">
-        <h2 class="mb-5 mt-3 text-start fw-bold" style="width: 80%;">
+        <h2 class="user-profile-name mb-5 mt-3 fw-bold">
             {{ profile_user.first_name }}
         </h2>
+        <div class="user-info">
+            {% if profile_user.profile_image %}
+                <img 
+                src="{{ url_for('static', filename='profile_images/' + profile_user.profile_image) }}"
+                alt="{{ profile_user.first_name }}'s Profile Image"
+                style="width: 150px; height: 150px; object-fit: cover;"
+                class="rounded-circle "
+                loading="lazy"
+                />
+            {% else %}
+                <div class="letter-avatar mt-5 d-flex align-items-center justify-content-center rounded-circle">
+                    {{ profile_user.first_name[0]|upper }}
+                </div>
+            {% endif %}
+
+            <div class="d-flex flex-column align-items-start">
+                <p class="mb-0 text-gray"><strong id="followers-count">{{ profile_user.followers.count() }}</strong> Followers</p>
+            </div>
+        </div>
 
         <!-- Custom Tabs -->
         <ul class="user-profile-tabs d-flex gap-3 mb-4" id="profileTab">
@@ -76,6 +95,7 @@
                             <div class="post-image mt-3">
                                 <img src="{{ url_for('static', filename='uploads/' + blog.image_filename) }}" 
                                     alt="Image for {{ blog.title }}"
+                                    class="blog-img"
                                     style="width: 100%; border-radius: 8px; max-height: 150px; object-fit: cover;" loading="lazy">
                             </div>
                         </div>
@@ -86,11 +106,11 @@
             </div>
         </div>
 
-        <div id="followers-tab" class="tab-section mt-5 d-none d-flex justify-content-start align-items-start " style="width: 80%;">
+        <div id="followers-tab" class="tab-section followers-tab my-5 d-none d-flex justify-content-start align-items-start " >
             {% if profile_user.followers.count() > 0 %}
-                <div class="w-100 d-flex flex-column gap-3">
+                <div class="w-100 d-flex flex-column gap-3 ">
                     {% for follower in profile_user.followers %}
-                        <div class="w-50 d-flex align-items-center justify-content-between ">
+                        <div class="followers-container ">
                             <div class="d-flex align-items-center ">
                                 {% if follower.profile_image %}
                                     <img src="{{ url_for('static', filename='profile_images/' + follower.profile_image) }}"
