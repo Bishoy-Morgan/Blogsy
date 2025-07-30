@@ -266,11 +266,11 @@ input[type="file"] {
 }
 
 input[type="file"]::file-selector-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
+    background-color: var(--floral-color) !important;
+    color: var(--primary-color);
     padding: 0.5rem 1rem;
-    border-radius: 8px;
+    border: 1px solid rgba(107, 107, 107, 0.25);
+    border-radius: .25rem;
     margin-right: 1rem;
     cursor: pointer;
     transition: 0.3s ease;
@@ -812,6 +812,33 @@ aside::-webkit-scrollbar {
 img {
     filter: none;
     image-rendering: auto;
+}
+
+.icon-with-tooltip {
+    position: relative;
+}
+
+.icon-with-tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 11px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 10;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.icon-with-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 @media (max-width: 768px) {
