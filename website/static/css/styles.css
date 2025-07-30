@@ -52,9 +52,10 @@
 
 body {
     position: relative;
-    /* color: #ffa500; */
+    max-width: 1920px;
     height: 100%;
     min-height: 100svh;
+    margin: 0 auto;
     font-family: 'Poppins', sans-serif;
     background-color: var(--floral-color);
     color: var(--primary-color);
@@ -391,7 +392,6 @@ footer .nav-link {
     background-color: var(--primary-color);
     color: var(--floral-color);
     font-size: 1rem;
-    border: 2px solid transparent;
     border-radius: 100%;
     transition: all 0.3s ease;
 }
@@ -408,13 +408,12 @@ footer .nav-link {
     box-shadow: 0 8px 32px rgba(36, 36, 36, 0.20);
 }
 
-
 .profile-container {
     position: absolute;
     top: 170%;
     right: 2%;
     width: 12rem;
-    z-index: 100;
+    z-index: 1000;
     border-radius: 8px;
     padding: 2rem 1rem 1rem 1rem;
     background-color: var(--white-color);

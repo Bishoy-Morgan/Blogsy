@@ -131,7 +131,7 @@
                         <small class="text-muted font-10">{{ comment.timestamp.strftime('%B %d, %Y %H:%M') }}</small>
                     </div>
                 </div>
-                <p class="text-black ms-4">{{ comment.content }}</p>
+                <p class="text-black ms-4">{{ comment.content | replace('\n', '<br>') | safe }}</p>
             </div>
         {% else %}
             <p>No comments yet.</p>

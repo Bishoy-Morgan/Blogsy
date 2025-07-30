@@ -1,106 +1,186 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const profileBtn = document.getElementById('profileBtn');
-    const profileContainer = document.getElementById('profileContainer');
+// UTILITY FUNCTIONS
 
-    if (profileBtn && profileContainer) {
-        profileBtn.addEventListener('click', function(e) {
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+/**
+ * Make API request with error handling
+ */
+async function makeRequest(url, options = {}) {
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                ...options.headers
+            },
+            ...options
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        return response;
+    } catch (error) {
+        console.error('API request failed:', error);
+        throw error;
+    }
+}
+
+// UI COMPONENTS
+
+/**
+ * Profile Dropdown Handler
+ */
+const ProfileDropdown = {
+    init() {
+        const profileBtn = getElement('profileBtn');
+        const profileContainer = getElement('profileContainer');
+
+        if (!profileBtn || !profileContainer) return;
+
+        profileBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileContainer.classList.toggle('d-none');
         });
 
-        document.addEventListener('click', function() {
+        document.addEventListener('click', () => {
             if (!profileContainer.classList.contains('d-none')) {
                 profileContainer.classList.add('d-none');
             }
         });
 
-        profileContainer.addEventListener('click', function(e) {
+        profileContainer.addEventListener('click', (e) => {
             e.stopPropagation();
         });
     }
-});
+};
 
-// Password visibility
-document.addEventListener("DOMContentLoaded", function () {
-    const eye = "/static/images/eye.svg";
-    const eyeSlash = "/static/images/eye-slash.svg";
+/**
+ * Password Visibility Toggle
+ */
+const PasswordToggle = {
+    init() {
+        const eyeIcon = "/static/images/eye.svg";
+        const eyeSlashIcon = "/static/images/eye-slash.svg";
 
-    const toggleConfigs = [
-        {
-            inputId: "password",
-            buttonId: "toggle-password",
-            iconId: "toggle-icon"
-        },
-        {
-            inputId: "password1",
-            buttonId: "toggle-password1",
-            iconId: "toggle-icon1"
-        }
-    ];
+        const toggleConfigs = [
+            { inputId: "password", buttonId: "toggle-password", iconId: "toggle-icon" },
+            { inputId: "password1", buttonId: "toggle-password1", iconId: "toggle-icon1" }
+        ];
 
-    toggleConfigs.forEach(config => {
-        const passwordInput = document.getElementById(config.inputId);
-        const toggleBtn = document.getElementById(config.buttonId);
-        const toggleIcon = document.getElementById(config.iconId);
+        toggleConfigs.forEach(config => {
+            const passwordInput = getElement(config.inputId);
+            const toggleBtn = getElement(config.buttonId);
+            const toggleIcon = getElement(config.iconId);
 
-        if (passwordInput && toggleBtn && toggleIcon) {
-            toggleBtn.addEventListener("click", function () {
+            if (!passwordInput || !toggleBtn || !toggleIcon) return;
+
+            toggleBtn.addEventListener("click", () => {
                 const isHidden = passwordInput.type === "password";
                 passwordInput.type = isHidden ? "text" : "password";
-                toggleIcon.src = isHidden ? eyeSlash : eye;
+                toggleIcon.src = isHidden ? eyeSlashIcon : eyeIcon;
                 toggleIcon.alt = isHidden ? "Hide Password" : "Show Password";
             });
-        }
-    });
-});
-
-
-// Alert Button function
-document.addEventListener("DOMContentLoaded", function () {
-    const alertBoxes = document.querySelectorAll(".alert-style");
-
-    alertBoxes.forEach(function (alertBox) {
-        setTimeout(() => {
-            alertBox.remove();
-        }, 3000);
-
-        alertBox.addEventListener("click", function () {
-            alertBox.remove();
         });
-    });
-});
+    }
+};
 
-// Clap button 
-document.querySelectorAll('.like-btn').forEach(button => {
-    button.addEventListener('click', function (e) {
+/**
+ * Alert Messages Handler
+ */
+const AlertHandler = {
+    init() {
+        const alertBoxes = document.querySelectorAll(".alert-style");
+
+        alertBoxes.forEach(alertBox => {
+            // Auto-remove after 3 seconds
+            setTimeout(() => alertBox.remove(), 3000);
+
+            // Remove on click
+            alertBox.addEventListener("click", () => alertBox.remove());
+        });
+    }
+};
+
+/**
+ * Profile Tabs Handler
+ */
+const ProfileTabs = {
+    init() {
+        const tabButtons = document.querySelectorAll('#profileTab .nav-link');
+        const tabSections = document.querySelectorAll('.tab-section');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Deactivate all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabSections.forEach(tab => tab.classList.add('d-none'));
+
+                // Activate current tab
+                button.classList.add('active');
+                const section = getElement(button.dataset.tab);
+                if (section) {
+                    section.classList.remove('d-none');
+                    section.classList.add('active');
+                }
+            });
+        });
+    }
+};
+
+
+// BLOG INTERACTIONS
+
+/**
+ * Like/Clap Button Handler
+ */
+const LikeSystem = {
+    init() {
+        document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', this.handleLike.bind(this));
+        });
+    },
+
+    async handleLike(e) {
         e.preventDefault();
 
-        const blogId = this.dataset.blogId;
-        const countSpan = this.querySelector('.like-count');
-        const clapIcon = this.querySelector('img');
+        const button = e.currentTarget;
+        const blogId = button.dataset.blogId;
+        const countSpan = button.querySelector('.like-count');
+        const clapIcon = button.querySelector('img');
 
-        fetch(`/like/${blogId}`, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            credentials: 'include'
-        }).then(res => {
-            if (res.ok) {
-                // Increase count visually
+        try {
+            const response = await makeRequest(`/like/${blogId}`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            if (response.ok) {
                 countSpan.textContent = parseInt(countSpan.textContent) + 1;
-
-                // Toggle orange effect
-                clapIcon.classList.add('clapped');  // Add orange color
+                clapIcon.classList.add('clapped');
             }
-        });
-    });
-});
+        } catch (error) {
+            console.error('Failed to like post:', error);
+        }
+    }
+};
 
-// Comment 
-document.querySelectorAll('.comment-form').forEach(form => {
-    form.addEventListener('submit', async e => {
+/**
+ * Comment System Handler
+ */
+const CommentSystem = {
+    init() {
+        document.querySelectorAll('.comment-form').forEach(form => {
+            form.addEventListener('submit', this.handleSubmit.bind(this));
+        });
+    },
+
+    async handleSubmit(e) {
         e.preventDefault();
+
+        const form = e.currentTarget;
         const blogId = form.dataset.blogId;
         const input = form.querySelector('input[name="content"]');
         const content = input.value.trim();
@@ -108,321 +188,372 @@ document.querySelectorAll('.comment-form').forEach(form => {
         if (!content) return;
 
         try {
-        const response = await fetch(`/comment/add/${blogId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            // Include CSRF token header here if applicable
-            },
-            body: new URLSearchParams({ content })
-        });
+            const response = await makeRequest(`/comment/add/${blogId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ content })
+            });
 
-        if (!response.ok) {
-            const error = await response.json();
-                alert(error.error || 'Failed to add comment.');
-            return;
+            const data = await response.json();
+            this.updateCommentsList(form, blogId, data);
+            input.value = '';
+
+        } catch (error) {
+            alert('Error submitting comment.');
+            console.error('Comment submission failed:', error);
         }
+    },
 
-        const data = await response.json();
-
-        // Update the comments list
-        const commentsList = form.nextElementSibling; // The div.comments-list
+    updateCommentsList(form, blogId, data) {
+        const commentsList = form.nextElementSibling;
         const commentCountSpan = document.querySelector(`button.comment-btn[data-blog-id="${blogId}"] .comment-count`);
 
         const newComment = document.createElement('p');
         newComment.innerHTML = `<strong>${data.user}:</strong> ${data.content}`;
         commentsList.appendChild(newComment);
 
-        commentCountSpan.textContent = data.comment_count;
-
-        input.value = '';
-        } catch (err) {
-            alert('Error submitting comment.');
-            console.error(err);
+        if (commentCountSpan) {
+            commentCountSpan.textContent = data.comment_count;
         }
-    });
-});
+    }
+};
 
-// Reading List 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.reading-list-form').forEach(form => {
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
+/**
+ * Reading List Handler
+ */
+const ReadingList = {
+    init() {
+        document.querySelectorAll('.reading-list-form').forEach(form => {
+            form.addEventListener('submit', this.handleToggle.bind(this));
+        });
+    },
 
-            const blogId = this.action.split('/').pop();
-            const img = this.querySelector('.reading-list-icon');
+    async handleToggle(e) {
+        e.preventDefault();
 
-            const response = await fetch(`/reading-list/toggle/${blogId}`, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+        const form = e.currentTarget;
+        const blogId = form.action.split('/').pop();
+        const img = form.querySelector('.reading-list-icon');
+
+        try {
+            const response = await makeRequest(`/reading-list/toggle/${blogId}`, {
+                method: 'POST'
             });
 
             const data = await response.json();
+            
             if (data.saved !== undefined) {
                 const saveIcon = img.dataset.save;
                 const removeSaveIcon = img.dataset.removeSave;
                 img.src = data.saved ? removeSaveIcon : saveIcon;
             }
+        } catch (error) {
+            console.error('Failed to toggle reading list:', error);
+        }
+    }
+};
+
+
+// USER INTERACTIONS
+
+/**
+ * Follow System Handler
+ */
+const FollowSystem = {
+    init() {
+        this.attachListeners();
+    },
+
+    attachListeners() {
+        document.querySelectorAll('.follow-form, .unfollow-form').forEach(form => {
+            form.addEventListener('submit', this.handleSubmit.bind(this));
         });
-    });
-});
+    },
 
-// Profile Image 
-document.addEventListener('DOMContentLoaded', () => {
-    const editBtn = document.getElementById('edit-btn');
-    const uploadForm = document.getElementById('upload-form');
-    const closeFormBtn = document.getElementById('close-form-btn');
-    const realFileInput = document.getElementById('real-file');
-    const chooseFileBtn = document.getElementById('choose-file-btn');
-    const fileName = document.getElementById('file-name');
+    async handleSubmit(e) {
+        e.preventDefault();
 
-    if (editBtn && uploadForm) {
-        editBtn.addEventListener('click', () => {
-            if (uploadForm.style.display === 'none' || uploadForm.style.display === '') {
-                uploadForm.style.display = 'flex'; // since form uses flexbox
+        const form = e.currentTarget;
+        const button = form.querySelector('button');
+        const userId = form.closest('[data-user-id]').dataset.userId;
+
+        button.disabled = true;
+
+        try {
+            const response = await makeRequest(form.action, {
+                method: form.method
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                this.updateFollowButtons(userId, result.following);
+                this.removeSuggestionIfFollowed(userId, result.following);
+                this.attachListeners(); // Rebind listeners
             } else {
+                alert(result.message || 'Failed to update follow status.');
+            }
+
+        } catch (error) {
+            alert('Error: ' + error.message);
+        } finally {
+            button.disabled = false;
+        }
+    },
+
+    updateFollowButtons(userId, isFollowing) {
+        const newFormHTML = isFollowing
+            ? `<form method="POST" action="/unfollow/${userId}" class="unfollow-form"><button type="submit" class="unfollow-btn py-1">Unfollow</button></form>`
+            : `<form method="POST" action="/follow/${userId}" class="follow-form"><button type="submit" class="follow-btn py-1">Follow</button></form>`;
+
+        document.querySelectorAll(`[data-user-id="${userId}"]`).forEach(container => {
+            const form = container.querySelector('form');
+            if (form) form.outerHTML = newFormHTML;
+        });
+    },
+
+    removeSuggestionIfFollowed(userId, isFollowing) {
+        if (isFollowing) {
+            const suggestion = document.querySelector(`.follow-content [data-user-id="${userId}"]`);
+            if (suggestion) suggestion.remove();
+        }
+    }
+};
+
+/**
+ * Profile Image Upload Handler
+ */
+const ProfileImageUpload = {
+    init() {
+        this.initEditButton();
+        this.initFileUpload();
+        this.initProfileModal();
+    },
+
+    initEditButton() {
+        const editBtn = getElement('edit-btn');
+        const uploadForm = getElement('upload-form');
+        const closeFormBtn = getElement('close-form-btn');
+
+        if (editBtn && uploadForm) {
+            editBtn.addEventListener('click', () => {
+                uploadForm.style.display = uploadForm.style.display === 'none' ? 'flex' : 'none';
+            });
+        }
+
+        if (closeFormBtn && uploadForm) {
+            closeFormBtn.addEventListener('click', () => {
                 uploadForm.style.display = 'none';
-            }
-        });
-    }
-
-    if (closeFormBtn && uploadForm) {
-        closeFormBtn.addEventListener('click', () => {
-            uploadForm.style.display = 'none';
-        });
-    }
-
-    if (chooseFileBtn && realFileInput) {
-        chooseFileBtn.addEventListener('click', () => {
-            realFileInput.click();
-        });
-    }
-
-    if (realFileInput && fileName) {
-        realFileInput.addEventListener('change', () => {
-            if (realFileInput.files.length > 0) {
-                fileName.textContent = realFileInput.files[0].name;
-            } else {
-                fileName.textContent = 'No file chosen';
-            }
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const editBtn = document.getElementById('edit-btn');
-    const uploadForm = document.getElementById('upload-form');
-    const closeBtn = document.getElementById('close-form-btn');
-
-    if (editBtn && uploadForm) {
-        editBtn.addEventListener('click', () => {
-            uploadForm.style.display = 'block';
-        });
-    }
-
-    if (closeBtn && uploadForm) {
-        closeBtn.addEventListener('click', () => {
-            uploadForm.style.display = 'none';
-        });
-    }
-
-    // Handle profile modal
-    const editProfileBtn = document.getElementById('edit-profile-btn');
-    const profileModal = document.getElementById('edit-profile-modal');
-    const closeProfileModal = document.getElementById('close-edit-modal');
-
-    if (editProfileBtn && profileModal) {
-        editProfileBtn.addEventListener('click', () => {
-            profileModal.style.display = 'block';
-        });
-    }
-
-    if (closeProfileModal && profileModal) {
-        closeProfileModal.addEventListener('click', () => {
-            profileModal.style.display = 'none';
-        });
-    }
-});
-
-
-// Follow system
-document.addEventListener('DOMContentLoaded', () => {
-    attachFollowListeners();
-});
-
-function attachFollowListeners() {
-    document.querySelectorAll('.follow-form, .unfollow-form').forEach(form => {
-        form.addEventListener('submit', handleFollowSubmit);
-    });
-}
-
-async function handleFollowSubmit(e) {
-    e.preventDefault();
-
-    const form = e.currentTarget;
-    const url = form.action;
-    const method = form.method;
-    const userId = form.closest('[data-user-id]').dataset.userId;
-    const button = form.querySelector('button');
-    button.disabled = true;
-
-    try {
-        const response = await fetch(url, {
-            method,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-        const result = await response.json();
-
-        if (result.success) {
-            // New form HTML
-            const newFormHTML = result.following
-                ? `<form method="POST" action="/unfollow/${userId}" class="unfollow-form"><button type="submit" class="unfollow-btn py-1">Unfollow</button></form>`
-                : `<form method="POST" action="/follow/${userId}" class="follow-form"><button type="submit" class="follow-btn py-1">Follow</button></form>`;
-
-            // Update ALL follow/unfollow forms on page for this user
-            document.querySelectorAll(`[data-user-id="${userId}"]`).forEach(container => {
-                const form = container.querySelector('form');
-                if (form) form.outerHTML = newFormHTML;
             });
+        }
+    },
 
-            // Remove user from suggestion sidebar if just followed
-            if (result.following) {
-                const suggestion = document.querySelector(`.follow-content [data-user-id="${userId}"]`);
-                if (suggestion) suggestion.remove();
+    initFileUpload() {
+        const realFileInput = getElement('real-file');
+        const chooseFileBtn = getElement('choose-file-btn');
+        const fileName = getElement('file-name');
+
+        if (chooseFileBtn && realFileInput) {
+            chooseFileBtn.addEventListener('click', () => {
+                realFileInput.click();
+            });
+        }
+
+        if (realFileInput && fileName) {
+            realFileInput.addEventListener('change', () => {
+                fileName.textContent = realFileInput.files.length > 0 
+                    ? realFileInput.files[0].name 
+                    : 'No file chosen';
+            });
+        }
+    },
+
+    initProfileModal() {
+        const editProfileBtn = getElement('edit-profile-btn');
+        const profileModal = getElement('edit-profile-modal');
+        const closeProfileModal = getElement('close-edit-modal');
+
+        if (editProfileBtn && profileModal) {
+            editProfileBtn.addEventListener('click', () => {
+                profileModal.style.display = 'block';
+            });
+        }
+
+        if (closeProfileModal && profileModal) {
+            closeProfileModal.addEventListener('click', () => {
+                profileModal.style.display = 'none';
+            });
+        }
+    }
+};
+
+/**
+ * Profile Followers/Following Sidebar
+ */
+const ProfileSidebar = {
+    init() {
+        const followersBtn = document.querySelector('.followers-btn');
+        const followingBtn = document.querySelector('.following-btn');
+        const closeBtn = document.querySelector('.close-profile-container');
+        const sideContainer = getElement('profile-side-container');
+        const followersList = getElement('followers-list');
+        const followingList = getElement('following-list');
+
+        if (followersBtn && sideContainer && followersList && followingList) {
+            followersBtn.addEventListener('click', () => {
+                sideContainer.style.display = 'block';
+                followersList.style.display = 'block';
+                followingList.style.display = 'none';
+            });
+        }
+
+        if (followingBtn && sideContainer && followingList && followersList) {
+            followingBtn.addEventListener('click', () => {
+                sideContainer.style.display = 'block';
+                followingList.style.display = 'block';
+                followersList.style.display = 'none';
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const container = document.querySelector('.profile-side-container');
+                if (container) container.style.display = 'none';
+            });
+        }
+    }
+};
+
+
+// SEARCH AND PAGINATION
+
+/**
+ * Tag Search Handler
+ */
+const TagSearch = {
+    init() {
+        const tagSearchInput = getElement('tag-search');
+        if (!tagSearchInput) return;
+
+        tagSearchInput.addEventListener('input', this.handleSearch.bind(this));
+    },
+
+    async handleSearch(e) {
+        const query = e.target.value;
+        
+        try {
+            const response = await makeRequest(`/all-tags?q=${encodeURIComponent(query)}`);
+            const tags = await response.json();
+            this.renderTags(tags);
+        } catch (error) {
+            console.error('Tag search failed:', error);
+        }
+    },
+
+    renderTags(tags) {
+        const tagList = getElement('tag-list');
+        if (!tagList) return;
+
+        tagList.innerHTML = '';
+
+        if (tags.length === 0) {
+            tagList.innerHTML = '<p>No topics found.</p>';
+            return;
+        }
+
+        tags.forEach(tag => {
+            const link = document.createElement('a');
+            link.href = `/tag/${tag.id}`;
+            link.className = 'topic text-decoration-none';
+            link.textContent = tag.name;
+            tagList.appendChild(link);
+        });
+    }
+};
+
+/**
+ * Infinite Scroll Blog Loader
+ */
+const BlogLoader = {
+    offset: 10,
+    limit: 10,
+    loading: false,
+    finished: false,
+
+    init() {
+        this.blogsContainer = getElement('blogs-container');
+        this.loader = getElement('loading');
+        
+        if (!this.blogsContainer || !this.loader) return;
+
+        window.addEventListener('scroll', this.handleScroll.bind(this));
+    },
+
+    handleScroll() {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const threshold = document.body.offsetHeight - 100;
+
+        if (scrollPosition > threshold) {
+            this.loadMoreBlogs();
+        }
+    },
+
+    async loadMoreBlogs() {
+        if (this.loading || this.finished) return;
+
+        this.loading = true;
+        this.loader.style.display = 'block';
+
+        try {
+            const response = await fetch(`/load_blogs?offset=${this.offset}&limit=${this.limit}`);
+            
+            if (response.status === 204) {
+                this.finished = true;
+                this.loader.innerHTML = "<p class='text-muted'>No more blogs.</p>";
+                return;
             }
 
-            attachFollowListeners(); // Rebind listeners
-        } else {
-            alert(result.message || 'Failed to update follow status.');
+            const html = await response.text();
+            if (html) {
+                this.blogsContainer.insertAdjacentHTML('beforeend', html);
+                this.offset += this.limit;
+            }
+
+        } catch (error) {
+            console.error("Error loading blogs:", error);
+        } finally {
+            this.loading = false;
+            this.loader.style.display = this.finished ? 'block' : 'none';
         }
-
-    } catch (err) {
-        alert('Error: ' + err.message);
-    } finally {
-        button.disabled = false;
     }
-}
+};
 
-// user-profile page tabs 
+
+// APPLICATION INITIALIZATION
+
+/**
+ * Initialize all components when DOM is ready
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    const tabButtons = document.querySelectorAll('#profileTab .nav-link');
-    const tabSections = document.querySelectorAll('.tab-section');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Deactivate all
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabSections.forEach(tab => tab.classList.add('d-none'));
-
-            // Activate current
-            button.classList.add('active');
-            const section = document.getElementById(button.dataset.tab);
-            section.classList.remove('d-none');
-            section.classList.add('active');
-        });
-    });
+    // UI Components
+    ProfileDropdown.init();
+    PasswordToggle.init();
+    AlertHandler.init();
+    ProfileTabs.init();
+    
+    // Blog Interactions
+    LikeSystem.init();
+    CommentSystem.init();
+    ReadingList.init();
+    
+    // User Interactions
+    FollowSystem.init();
+    ProfileImageUpload.init();
+    ProfileSidebar.init();
+    
+    // Search and Pagination
+    TagSearch.init();
+    BlogLoader.init();
 });
-
-// search tags 
-document.addEventListener('DOMContentLoaded', () => {
-    const tagSearchInput = document.getElementById('tag-search');
-    if (tagSearchInput) {
-        tagSearchInput.addEventListener('input', function() {
-            const q = this.value;
-                fetch(`/all-tags?q=${encodeURIComponent(q)}`, {
-                headers: {'X-Requested-With': 'XMLHttpRequest'}
-            })
-            .then(response => response.json())
-            .then(tags => {
-                const tagList = document.getElementById('tag-list');
-                tagList.innerHTML = '';
-                if (tags.length === 0) {
-                    tagList.innerHTML = '<p>No topics found.</p>';
-                } else {
-                    tags.forEach(tag => {
-                    const a = document.createElement('a');
-                    a.href = `/tag/${tag.id}`;
-                    a.className = 'topic text-decoration-none';
-                    a.textContent = tag.name;
-                    tagList.appendChild(a);
-                    });
-                }
-            });
-        });
-    }
-});
-
-let offset = 10;
-const limit = 10;
-let loading = false;
-let finished = false;
-
-const blogsContainer = document.getElementById('blogs-container');
-const loader = document.getElementById('loading');
-
-function loadMoreBlogs() {
-    if (loading || finished) return;
-
-    loading = true;
-    loader.style.display = 'block';
-
-    fetch(`/load_blogs?offset=${offset}&limit=${limit}`)
-        .then(response => {
-        if (response.status === 204) {
-            finished = true;
-                loader.innerText = "No more blogs.";
-            return '';
-        }
-        return response.text();
-        })
-        .then(html => {
-        if (html) {
-            blogsContainer.insertAdjacentHTML('beforeend', html);
-            offset += limit;
-        }
-        })
-    .catch(err => console.error("Error loading blogs:", err))
-    .finally(() => {
-        loading = false;
-        loader.style.display = finished ? 'block' : 'none';
-    });
-}
-
-// Detect scroll near bottom
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const threshold = document.body.offsetHeight - 100;
-
-    if (scrollPosition > threshold) {
-        loadMoreBlogs();
-    }
-});
-
-// side follower and following container (Profile page) 
-const followersBtn = document.querySelector('.followers-btn');
-    const followingBtn = document.querySelector('.following-btn');
-    const sideContainer = document.getElementById('profile-side-container');
-    const followersList = document.getElementById('followers-list');
-    const followingList = document.getElementById('following-list');
-
-    followersBtn?.addEventListener('click', () => {
-        sideContainer.style.display = 'block';
-        followersList.style.display = 'block';
-        followingList.style.display = 'none';
-    });
-
-    followingBtn?.addEventListener('click', () => {
-        sideContainer.style.display = 'block';
-        followingList.style.display = 'block';
-        followersList.style.display = 'none';
-    });
-    document.querySelector('.close-profile-container').addEventListener('click', function () {
-        document.querySelector('.profile-side-container').style.display = 'none';
-    });
