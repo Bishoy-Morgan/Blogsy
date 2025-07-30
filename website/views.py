@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, jsonify
 from flask_login import login_required, current_user
 from . import db
 from .models import Blog, Like, Comment, Tag, User
 import os
 from werkzeug.utils import secure_filename
 from .utils import save_compressed_image
-from flask import jsonify, request
-
+from PIL import Image
 
 views = Blueprint('views', __name__)
 
@@ -182,48 +181,59 @@ def profile(first_name):
         return render_template('not-found.html'), 404
     return render_template('profile.html', user=current_user, profile_user=user)
 
-from PIL import Image
 
-# Upload user profile image 
+# Upload user profile image
 @views.route('/upload_profile_image', methods=['POST'])
 @login_required
 def upload_profile_image():
-    if 'profile_image' not in request.files:
-        flash('No file part', category='error')
+    file = request.files.get('profile_image')
+
+    if not file or file.filename == '':
+        flash('No image selected.', category='error')
         return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
-    
-    file = request.files['profile_image']
-    if file.filename == '':
-        flash('No selected file', category='error')
+
+    if not allowed_file(file.filename):
+        flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
         return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
-    
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        _, ext = os.path.splitext(filename)
-        filename = f"user_{current_user.id}{ext}"
-        
+
+    try:
+        # Prepare the secure filename and path
+        _, ext = os.path.splitext(secure_filename(file.filename))
+        filename = f"user_{current_user.id}{ext.lower()}"
         upload_folder = os.path.join('website', 'static', 'profile_images')
         os.makedirs(upload_folder, exist_ok=True)
-        
         file_path = os.path.join(upload_folder, filename)
 
-        try:
-            image = Image.open(file)
-            image = image.convert("RGB")  # Ensure compatibility
-            image = image.resize((240, 240), Image.LANCZOS)  # High-quality resize
-            image.save(file_path, optimize=True, quality=90)
-        except Exception as e:
-            flash('Error processing image.', category='error')
-            print("Image processing error:", e)
-            return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+        # Open and convert the image
+        image = Image.open(file)
+        image = image.convert("RGB")  # Ensure consistent format
+        
+        # Crop to square (center crop)
+        width, height = image.size
+        size = min(width, height)
+        
+        # Calculate crop box for center crop
+        left = (width - size) // 2
+        top = (height - size) // 2
+        right = left + size
+        bottom = top + size
+        
+        # Crop to square
+        image = image.crop((left, top, right, bottom))
+        
+        # Now resize the square image
+        image = image.resize((240, 240), Image.LANCZOS)  # High-quality resize
+        image.save(file_path, optimize=True, quality=90)
 
+        # Save to database
         current_user.profile_image = filename
         db.session.commit()
-        
+
         flash('Profile image updated successfully!', category='success')
-    else:
-        flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
-    
+    except Exception as e:
+        print("Image processing error:", e)
+        flash('There was an error processing the image.', category='error')
+
     return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
 
 

@@ -183,8 +183,8 @@
         {% endif %}
 
         <div class="follow-content mt-5">
-            <h5 class="mb-4 poppins">{{  profile_user.first_name.split(' ')[0] }} follows</h5>
-            {% for followed_user in profile_user.followed %}
+            <h5 class="mb-4 poppins">{{  profile_user.first_name.split(' ')[0] }} follow</h5>
+            {% for followed_user in profile_user.followed if followed_user.id != current_user.id %}
                 <div class="w-100 d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
                         {% if followed_user.profile_image %}

@@ -665,7 +665,7 @@ aside::-webkit-scrollbar {
     background: white;
     padding: 2rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -809,10 +809,10 @@ aside::-webkit-scrollbar {
     font-weight: 500;
 }
 
-img {
+/* img {
     filter: none;
     image-rendering: auto;
-}
+} */
 
 .icon-with-tooltip {
     position: relative;
@@ -839,6 +839,63 @@ img {
 .icon-with-tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+.profile-side-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 25%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--floral-color);
+    box-shadow: 0 8px 32px rgba(36,36,36,0.12);
+    border-left: 1px solid rgba(107, 107, 107, 0.25);
+    overflow-y: scroll;
+
+    /* Hide scrollbar */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+.profile-side-container::-webkit-scrollbar {
+    display: none;
+}
+
+.close-profile-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--gray-color) !important; 
+    z-index: 1001;
+}
+
+.followers-btn, .following-btn {
+    padding: 0.25rem 0.5rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--gray-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.followers-btn:hover, .following-btn:hover {
+    color: var(--primary-color);
+}
+
+.followers-btn:focus, .following-btn:focus {
+    color: var(--primary-color);
+    /* border: 0.5px solid var(--primary-color); */
+    box-shadow: 0 8px 32px rgba(36,36,36,0.15);
 }
 
 @media (max-width: 768px) {
@@ -936,6 +993,14 @@ img {
     }
     .edit-btn-display {
         display: none;
+    }
+    .profile-side-container {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1000;
     }
     footer {
         height: 12vh;

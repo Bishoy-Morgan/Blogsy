@@ -404,3 +404,25 @@ window.addEventListener('scroll', () => {
         loadMoreBlogs();
     }
 });
+
+// side follower and following container (Profile page) 
+const followersBtn = document.querySelector('.followers-btn');
+    const followingBtn = document.querySelector('.following-btn');
+    const sideContainer = document.getElementById('profile-side-container');
+    const followersList = document.getElementById('followers-list');
+    const followingList = document.getElementById('following-list');
+
+    followersBtn?.addEventListener('click', () => {
+        sideContainer.style.display = 'block';
+        followersList.style.display = 'block';
+        followingList.style.display = 'none';
+    });
+
+    followingBtn?.addEventListener('click', () => {
+        sideContainer.style.display = 'block';
+        followingList.style.display = 'block';
+        followersList.style.display = 'none';
+    });
+    document.querySelector('.close-profile-container').addEventListener('click', function () {
+        document.querySelector('.profile-side-container').style.display = 'none';
+    });
