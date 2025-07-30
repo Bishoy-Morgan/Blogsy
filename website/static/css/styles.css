@@ -894,8 +894,13 @@ aside::-webkit-scrollbar {
 
 .followers-btn:focus, .following-btn:focus {
     color: var(--primary-color);
-    /* border: 0.5px solid var(--primary-color); */
     box-shadow: 0 8px 32px rgba(36,36,36,0.15);
+}
+
+.active-home, .active-write {
+    font-weight: 500;
+    pointer-events: none; 
+    color: var(--primary-color) !important;
 }
 
 @media (max-width: 768px) {

@@ -30,6 +30,8 @@
                 gtag('config', '{{ GA_MEASUREMENT_ID }}');
             </script>
         {% endif %}
+        <!-- AOS Library -->
+        <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
         <!-- Trix Editor CSS and JS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
@@ -49,9 +51,11 @@
                                     class="write-img"
                                     loading="lazy"
                                     />
-                                    <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 0.5rem" id="home" href="/write">Write</a>
+                                    <a class="nav-item nav-link {% if request.path == '/write' %}active-write{% endif %}" 
+                                    style="margin-left: .5rem; margin-right: 0.5rem" 
+                                    id="write" href="/write">Write</a>
                                 </div>
-                                <a class="nav-item nav-link pe-md-3 pe-2" id="home" href="/home">Home</a>
+                                <a class="nav-item nav-link pe-md-3 pe-2 {% if request.path == '/home' %}active-home{% endif %}" id="home" href="/home">Home</a>
                                 {% if current_user.profile_image %}
                                     <img 
                                     id="profileBtn" 
@@ -147,5 +151,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <!-- index.js  -->
         <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+        <script>
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        </script>
     </body>
 </html>

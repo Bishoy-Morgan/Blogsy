@@ -8,9 +8,9 @@
     <!-- Hero Section -->
     <section class="hero-section text-start d-flex align-items-center">
         <div class="container">
-            <div class="col-lg-7">
+            <div class="col-lg-7" data-aos="fade-up">
                 <h1 class="display-2 fw-bold">Blogsy is where ideas take shape, come to life, and spread.</h1>
-                <p class="lead mt-4">Where the world’s deepest thinkers and storytellers publish their ideas. We're building Blogsy to be the best place for writing and reading on the internet — without distractions.</p>
+                <p class="lead mt-4">Where the world’s deepest thinkers and storytellers...</p>
             </div>
         </div>
     </section>
@@ -19,32 +19,34 @@
     <section class="light-section py-5">
         <div class="container">
             <div class="row justify-content-center text-start">
-                <div class="col-lg-8">
-                <h2 class="fw-bold mb-4">A place to belong</h2>
-                <p>We believe that writing is powerful. That people from all walks of life have something to share. Blogsy is an open platform that allows anyone — from amateur bloggers to professional journalists — to write and publish freely.</p>
+                <div class="col-lg-8" data-aos="fade-right">
+                    <h2 class="fw-bold mb-4">A place to belong</h2>
+                    <p>We believe that writing is powerful...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Clean Interface Section -->
+    <!-- Dark Section -->
     <section class="dark-section text-white py-5">
         <div class="container">
             <div class="row justify-content-center text-start">
-                <div class="col-lg-8">
-                <h2 class="fw-bold mb-4">A beautiful, focused space for writing</h2>
-                <p>We’ve designed Blogsy with simplicity in mind — free from distractions, popups, and noise — so your ideas shine and your voice is heard.</p>
+                <div class="col-lg-8" data-aos="fade-left">
+                    <h2 class="fw-bold mb-4">A beautiful, focused space for writing</h2>
+                    <p>We’ve designed Blogsy with simplicity in mind...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- CTA -->
     <section class="cta-section py-5 text-center">
-        <div class="container">
+        <div class="container" data-aos="zoom-in">
             <h2 class="fw-bold mb-5">Join us on the journey</h2>
-            <a href="{{ url_for('views.home') }}" class="button-style ">Start Reading</a>
+            <a href="{{ url_for('views.home') }}" class="button-style">Start Reading</a>
         </div>
     </section>
+
+
 </div>
 {% endblock %}
