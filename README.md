@@ -1,10 +1,64 @@
-# 📝 Blogsy
+# Blogsy
 
-**Blogsy** is a full-featured blog platform built with Flask. It allows users to write blog posts with images and tags, like and comment on others’ posts, upload profile pictures, and build a personal reading list — all with a clean, modern interface.
+**Blogsy** is a backend-focused blogging platform built to demonstrate how a real-world content application is designed, structured, and evolved — beyond basic CRUD functionality.
+
+The goal of this project is to showcase **backend engineering fundamentals**: authentication, relational data modeling, user interactions, media handling, and maintainable application structure.
 
 ---
 
-## 🖼️ Screenshot
+## 🎯 What This Project Is For
+
+This project was built to demonstrate:
+
+- How to design a multi-user content platform
+- How social features (likes, comments, saves) affect data modeling
+- How to structure a Flask application for long-term maintainability
+- How to safely handle user-generated content and file uploads
+- How to think about scalability and production concerns early
+
+Blogsy is intentionally **feature-complete**, not experimental, and focuses on *real product behavior* rather than isolated examples.
+
+---
+
+## 🧠 Why Blogsy Exists
+
+Many demo projects stop at “users can create posts.”
+
+Blogsy goes further by addressing:
+- **User interaction** (likes, comments, reading lists)
+- **Content discovery** (tags)
+- **Media handling** (image uploads and optimization)
+- **Account ownership** (profiles, saved content)
+
+The goal was to build something that behaves like a real blogging product, even at a small scale.
+
+---
+
+## 🏗 Engineering Focus
+
+Key engineering areas this project emphasizes:
+
+- Authentication and session management
+- Relational database modeling with SQLAlchemy
+- Many-to-many relationships (posts ↔ tags, users ↔ saved posts)
+- Server-side image processing and validation
+- Modular Flask architecture with clear separation of concerns
+
+---
+
+## 🚀 Core Capabilities
+
+- User authentication and profiles
+- Blog post creation with tags and images
+- Likes, comments, and reading lists
+- Tag-based post discovery
+- Responsive UI using server-side rendering
+
+(Features are implemented to support the engineering goals above.)
+
+---
+
+## 🖼️ Screenshots
 
 <p align="center">
   <img src="website/static/images/Screenshot1.png" alt="Blogsy Screenshot" width="800">
@@ -16,81 +70,50 @@
 
 ---
 
-## 🚀 Features
+## 🧱 Application Structure
 
-- 🔐 **Authentication & Users**
-  - Register, login, logout
-  - Update profile information (name, password)
-  - Upload profile image (validated and renamed per user)
-  - Profile page via `/your-name`
+The application follows a modular Flask structure:
 
-- ✍️ **Post Creation**
-  - Create a blog post with:
-    - Title, content, tags (comma-separated), and image
-    - Uploaded image is auto-converted and saved as `.webp`
-    - Validates minimum content and title length
-  - Drop-cap styling on the first letter of blog content
+- `views.py` — request handling and routing
+- `models.py` — database schema and relationships
+- `utils.py` — shared utilities and helpers
+- `templates/` — server-rendered UI with reusable components
+- `static/` — styles, scripts, and uploaded media
 
-- 🏷️ **Tags & Topics**
-  - Automatically link or create tags during post creation
-  - View all posts by tag using `/tag/<id>`
-
-- 💬 **Interaction**
-  - Add comments to posts (with empty check)
-  - Like posts (AJAX-friendly)
-  - Save/remove posts to/from reading list (AJAX-friendly)
-
-- 📚 **Reading List**
-  - Logged-in users can save any post to a personal reading list
-  - Accessible at `/reading-list`
-
-- 📃 **Static Pages**
-  - Terms of use (`/terms`)
-  - Privacy policy (`/privacy-policy`)
-  - About page (`/about`)
-  - Welcome page (`/`)
-
-- ⚙️ **Image Upload & Processing**
-  - All blog images are converted to `.webp` with compression
-  - Profile images are renamed uniquely per user
-
-- 🧠 **Responsive and Accessible**
-  - tyled for readability, performance, and clarity
-  - Styled with Jinja2 templates + Bootstrap 5 components
-
-- 🧰 **Tech Stack**
-  - Flask + Flask-Login + SQLAlchemy
-  - Pillow (image processing)
-  - HTML/CSS (Bootstrap)
-
+This structure was chosen to keep the codebase readable and scalable as features grow.
 
 ---
 
-## 📂 Project Structure
+## 🔐 Security & Data Handling
 
-```bash
-blogsy/
-├── website/
-│   ├── static/
-│   │   ├── uploads/
-│   │   ├── profile_images/
-│   │   ├── js/
-│   │   ├── css/
-│   │   ├── fonts/
-│   │   └── images/
-│   ├── templates/
-│   ├── __init__.py
-│   ├── views.py
-│   ├── models.py
-│   └── utils.py
-├── run.py
-├── requirements.txt
-└── README.md
-```
+- Passwords are hashed using Werkzeug
+- Authentication handled via Flask-Login
+- Uploaded images are validated and processed server-side
+- Media is optimized by converting images to WebP format
+- Sensitive configuration is intended to be managed via environment variables
 
-## 🧰 Tech Stack
+---
 
-- **Backend:** Python, Flask, Flask-Login, SQLAlchemy
-- **Frontend:** HTML, Jinja2, Bootstrap 5
-- **Image Processing:** Pillow (for WebP compression)
-- **Database:** SQLite (for development and simplicity)
+## 📈 Future Direction
+
+If extended further, the project could include:
+- Pagination and performance optimizations
+- Automated tests for core flows
+- REST API layer for frontend separation
+- Production database (PostgreSQL)
+- Advanced authorization rules
+
+---
+
+## 👤 Author
+
+**Bishoy Morgan**  
+Full-Stack Developer
+
+GitHub: https://github.com/Bishoy-Morgan
+
+---
+
+## 📄 License
+
+MIT License
