@@ -17,6 +17,20 @@ def allowed_file(filename):
 def welcome():
     return render_template('welcome.html', current_user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
 
+#Explore Page
+@views.route('/explore')
+def explore():
+    blogs = Blog.query.order_by(Blog.date_created.desc()).limit(10).all()
+    tags = Tag.query.all()
+    suggested_users = User.query.limit(3).all()
+
+    return render_template(
+        "explore.html",
+        blogs=blogs,
+        tags=tags,
+        suggested_users=suggested_users
+    )
+
 @views.route('/home')
 @login_required
 def home():
@@ -40,6 +54,12 @@ def home():
         tags=tags,
         suggested_users=suggested_users
     )
+
+#Pricing Page
+@views.route('/pricing')
+def pricing():
+    # You can later pass plan data or user status here
+    return render_template('pricing.html', current_user=current_user)
 
 # load more blogs via AJAX
 @views.route('/load_blogs')

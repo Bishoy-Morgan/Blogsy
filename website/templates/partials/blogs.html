@@ -41,14 +41,18 @@
                     <a href="{{ url_for('views.user_profile', username=blog.author.username) }}" class="fw-bold my-1 text-black text-decoration-none d-block">{{ blog.author.first_name }}</a>
                     <p class="font-11 text-muted mb-3">{{ blog.author.followers.count() }} followers</p>
                     
-                    {% if blog.author.id != current_user.id %}
+                    {% if current_user.is_authenticated and blog.author.id != current_user.id %}
                         <div class="follow-button-container" data-user-id="{{ blog.author.id }}">
                             {% if current_user.is_following(blog.author) %}
-                                <form method="POST" action="{{ url_for('views.unfollow', user_id=blog.author.id) }}" class="follow-form" >
+                                <form method="POST"
+                                    action="{{ url_for('views.unfollow', user_id=blog.author.id) }}"
+                                    class="follow-form">
                                     <button type="submit" class="unfollow-btn py-1">Unfollow</button>
                                 </form>
                             {% else %}
-                                <form method="POST" action="{{ url_for('views.follow', user_id=blog.author.id) }}" class="follow-form">
+                                <form method="POST"
+                                    action="{{ url_for('views.follow', user_id=blog.author.id) }}"
+                                    class="follow-form">
                                     <button type="submit" class="follow-btn py-1">Follow</button>
                                 </form>
                             {% endif %}

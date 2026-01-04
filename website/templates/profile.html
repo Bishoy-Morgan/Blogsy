@@ -84,14 +84,22 @@
         </div>
 
         <!-- Follow / Unfollow -->
-        {% if current_user.is_authenticated and current_user.id != user.id %}
-            <div class="mt-3">
-                {% if current_user.is_following(user) %}
-                    <a href="{{ url_for('views.unfollow', user_id=user.id) }}" class="btn btn-outline-danger">Unfollow</a>
-                {% else %}
-                    <a href="{{ url_for('views.follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
-                {% endif %}
-            </div>
+        {% if current_user.is_authenticated %}
+            {% if current_user.id != user.id %}
+                <div class="mt-3">
+                    {% if current_user.is_following(user) %}
+                        <a href="{{ url_for('views.unfollow', user_id=user.id) }}"
+                        class="btn btn-outline-danger">
+                            Unfollow
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('views.follow', user_id=user.id) }}"
+                        class="btn btn-primary">
+                            Follow
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endif %}
 
         <!-- Edit Profile Image Button -->
