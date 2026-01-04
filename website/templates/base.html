@@ -44,7 +44,14 @@
             <!-- Navbar -->
             <nav>
                 <div class="d-flex align-items-center justify-content-between {% if current_user.is_authenticated %}w-95{% else %}container{% endif %}">
-                    <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}" class="blogsy-font text-left">Blogsy</a>
+                    <div class="d-flex align-items-center gap-1">
+                        <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}">
+                            <img 
+                                id="logo" src="{{ url_for('static', filename='images/logo-blogsy.png') }}"
+                                alt="Blogsy image" style="width: 130px; height: 50px;" loading="lazy" 
+                            />
+                        </a>
+                    </div>
 
                     <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1">
                     {% if current_user.is_authenticated %}
@@ -83,6 +90,7 @@
                         </div>
                     {% else %}
                         <!-- Pricing -->
+                        <a class="nav-item nav-link " href="/features">Features</a>
                         <a class="nav-item nav-link " href="/pricing">Pricing</a>
 
                         <a class="nav-item nav-link " href="/login">Login</a>

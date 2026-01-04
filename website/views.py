@@ -31,6 +31,11 @@ def explore():
         suggested_users=suggested_users
     )
 
+# views.py
+@views.route("/features")
+def features():
+    return render_template("features.html")
+
 @views.route('/home')
 @login_required
 def home():

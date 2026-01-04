@@ -3,50 +3,80 @@
 {% block title %}About – Blogsy{% endblock %}
 
 {% block content %}
-<div class="about-medium-style">
+<section class="container py-5 custom-width">
 
-    <!-- Hero Section -->
-    <section class="hero-section text-start d-flex align-items-center">
-        <div class="container">
-            <div class="col-lg-7" data-aos="fade-up">
-                <h1 class="display-2 fw-bold">Blogsy is where ideas take shape, come to life, and spread.</h1>
-                <p class="lead mt-4">Where the world’s deepest thinkers and storytellers...</p>
-            </div>
-        </div>
-    </section>
+    <!-- HERO -->
+    <div class="mb-5">
+        <h1>Blogsy is a calm place for writing and reading</h1>
+        <p class="subtitle mt-3 text-gray">
+            Built for people who care about ideas, clarity,
+            and thoughtful conversations — not engagement tricks.
+        </p>
+    </div>
 
-    <!-- Community Section -->
-    <section class="light-section py-5">
-        <div class="container">
-            <div class="row justify-content-center text-start">
-                <div class="col-lg-8" data-aos="fade-right">
-                    <h2 class="fw-bold mb-4">A place to belong</h2>
-                    <p>We believe that writing is powerful...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- WHY -->
+    <div class="mb-5">
+        <h3 class="fw-bold mb-3">Why Blogsy exists</h3>
+        <p class="text-gray">
+            Most writing platforms today optimize for speed, metrics,
+            and constant scrolling. Blogsy takes a different approach.
+        </p>
+        <p class="text-gray">
+            The goal is simple: give writers a focused space to publish,
+            and readers a clean way to discover ideas worth spending time on.
+        </p>
+    </div>
 
-    <!-- Dark Section -->
-    <section class="dark-section text-white py-5">
-        <div class="container">
-            <div class="row justify-content-center text-start">
-                <div class="col-lg-8" data-aos="fade-left">
-                    <h2 class="fw-bold mb-4">A beautiful, focused space for writing</h2>
-                    <p>We’ve designed Blogsy with simplicity in mind...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- PRINCIPLES -->
+    <div class="mb-5">
+        <h3 class="fw-bold mb-3">Product principles</h3>
+
+        <ul class="list-unstyled">
+            <li class="mb-3">
+                <strong>Clarity over complexity</strong>
+                <p class="font-11 text-gray mt-1">
+                    Features exist only if they improve the writing or reading experience.
+                </p>
+            </li>
+
+            <li class="mb-3">
+                <strong>Human-scale social features</strong>
+                <p class="font-11 text-gray mt-1">
+                    Following, claps, and comments are designed to support creators —
+                    not turn writing into a competition.
+                </p>
+            </li>
+
+            <li class="mb-3">
+                <strong>Built as a real product</strong>
+                <p class="font-11 text-gray mt-1">
+                    Blogsy is developed with production-ready architecture,
+                    modular code, and long-term maintainability in mind.
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- BUILDER -->
+    <div class="mb-5">
+        <h3 class="fw-bold mb-3">Built as a hands-on product</h3>
+        <p class="text-gray">
+            Blogsy is an independent project built to demonstrate real-world
+            product thinking — from UX decisions to backend structure,
+            performance considerations, and scalability.
+        </p>
+        <p class="text-gray">
+            Every feature is intentionally scoped, implemented,
+            and refined with real usage in mind.
+        </p>
+    </div>
 
     <!-- CTA -->
-    <section class="cta-section py-5 text-center">
-        <div class="container" data-aos="zoom-in">
-            <h2 class="fw-bold mb-5">Join us on the journey</h2>
-            <a href="{{ url_for('views.explore') }}" class="button-style">Start Reading</a>
-        </div>
-    </section>
+    <div class="pt-4">
+        <a href="/explore" class="button-style">
+            Explore Blogsy
+        </a>
+    </div>
 
-
-</div>
+</section>
 {% endblock %}

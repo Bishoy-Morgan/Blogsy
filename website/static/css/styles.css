@@ -1,6 +1,6 @@
-/* ============================================
+/* --------------------------------------------
    FONT FACES
-   ============================================ */
+   -------------------------------------------- */
 @font-face {
     font-family: 'GT-Super';
     src: url("../fonts/GT-Regular.otf") format("truetype");
@@ -43,15 +43,14 @@
     font-style: normal;
 }
 
-/* ============================================
+/* --------------------------------------------
     CSS VARIABLES
-   ============================================ */
+   -------------------------------------------- */
 :root {
-    /* 2025 Viral Color Trends - Custom Palette */
-    --white-color: #FFFFFF;          /* Pure White for maximum contrast */
-    --black-color: #1A1A1A;          /* True Black */
-    --primary-color: #2C2A28;        /* Deep Charcoal - Headers/Text */
-    --bg-color: #FDF8F5;             /* Soft Blush White - Background */
+    --white-color: #FFFFFF;
+    --black-color: #1A1A1A;
+    --primary-color: #2C2A28;
+    --bg-color: #FDF8F5;
     --btn-color: #f43a09;
     --gray-color: #585450;
     --paleWhite-color: #FDF8F5E6;
@@ -64,17 +63,18 @@
     --card-bg: #FFFFFF;              
 }
 
-/* ============================================
-    BASE STYLES
-   ============================================ */
+
+/* BASE STYLES */
+
 body {
     position: relative;
-    max-width: 1920px;
+    max-width: 2560px;
     min-height: 100svh;
     margin: 0 auto;
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--primary-color);
+    overflow-x: hidden;
 }
 
 .layout {
@@ -84,27 +84,64 @@ body {
     min-height: 100vh;
 }
 
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
+/* CONTAINER OVERRIDE */
+
+.container {
+    max-width: 80% !important;
+    width: 80%;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 80% !important;
+    }
+}
+
+
+/* TYPOGRAPHY */
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'GT-Super', sans-serif;
     color: var(--primary-color);
 }
 
 h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 6vw, 5rem);
     line-height: 1.1;
 }
 
 h2 {
-    font-size: clamp(2.5rem, 6vw, 3rem);
-    line-height: 0.95;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
 }
 
 .subtitle {
-    font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.2;
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.4;
     color: var(--gray-color);
 }
 
@@ -121,53 +158,62 @@ h2 {
 }
 
 .font-10 {
-    font-size: 0.7rem;
+    font-size: clamp(0.65rem, 1vw, 0.75rem);
 }
 
 .font-11 {
-    font-size: 0.8rem;
+    font-size: clamp(0.75rem, 1vw, 0.85rem);
 }
 
 .blogsy-font {
     text-decoration: none;
     font-family: 'GT-Super';
     color: var(--primary-color);
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
     font-weight: 700;
+    font-style: italic;
 }
 
 .blogsy-font:hover {
-    color: var(--primary-color);
     cursor: pointer;
 }
 
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
+/* UTILITY CLASSES */
+
 .w-95 {
     width: 95%;
     margin: auto;
 }
 
-.custom-width {
+.custom-w-50 {
     width: 50%;
     margin: 0 auto;
 }
 
-/* ============================================
-   NAVIGATION
-   ============================================ */
+.custom-w-33 {
+    width: 33.33%;
+    margin: 0 auto;
+}
+
+.custom-shadow {
+    box-shadow: 0 2px 20px rgba(244, 60, 9, 0.1);
+}
+
+/* NAVIGATION */
+
 nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 12vh;
-    border-bottom: 1px solid rgba(107, 107, 107, 0.25);
+    min-height: 10vh;
+    padding: 1rem 0;
+    box-shadow: 0 2px 20px rgba(244, 60, 9, 0.1);
+    background-color: transparent;
 }
 
 .navbar-nav .nav-link {
     margin: 0 0.6rem;
-    font-size: clamp(14px, 1.2vw, 16px);
+    font-size: clamp(14px, 1vw, 18px);
     font-weight: 500;
     color: var(--gray-color);
 }
@@ -183,24 +229,24 @@ nav {
     color: var(--btn-color) !important;
 }
 
-/* ============================================
-    BUTTONS
-   ============================================ */
+
+/* BUTTONS */
+
 .sign-up-link,
 .button-style {
-    padding: .85rem 2rem;
+    padding: clamp(0.7rem, 1vw, 0.85rem) clamp(1.5rem, 2vw, 2rem);
     background-color: var(--btn-color);
     color: var(--white-color);
     border: 1px solid transparent;
     border-radius: 100px;
     text-decoration: none;
-    margin-left: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: clamp(14px, 1.2vw, 16px);
 }
 
 .sign-up-link {
-    padding: 0.5rem 1rem;
+    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(0.8rem, 1.2vw, 1rem);
 }
 
 .sign-up-link:hover,
@@ -212,7 +258,7 @@ nav {
 
 .follow-btn,
 .unfollow-btn {
-    padding: 0.5rem 1.5rem;
+    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(1.2rem, 1.5vw, 1.5rem);
     background-color: transparent;
     border-radius: 100px;
     text-decoration: none;
@@ -221,6 +267,7 @@ nav {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--btn-color);
     color: var(--btn-color);
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .unfollow-btn {
@@ -244,7 +291,7 @@ nav {
 
 .edit-btn,
 .choose-btn {
-    padding: 0.5rem 1.5rem;
+    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(1.2rem, 1.5vw, 1.5rem);
     background-color: var(--bg-color);
     color: var(--btn-color);
     border: 1px solid var(--btn-color);
@@ -252,6 +299,7 @@ nav {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .edit-btn:hover,
@@ -273,7 +321,7 @@ nav {
     position: absolute;
     top: 1.2rem;
     right: 1.5rem;
-    font-size: 1.8rem;
+    font-size: clamp(1.5rem, 2vw, 1.8rem);
     background: none;
     border: none;
     color: #333;
@@ -293,6 +341,7 @@ nav {
     text-decoration: none;
     color: var(--gray-color);
     border: none;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .edit-post-btn:hover {
@@ -304,6 +353,7 @@ nav {
     background-color: transparent;
     border: 0;
     color: var(--gray-color);
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .delete-post-btn:hover {
@@ -317,7 +367,7 @@ nav {
     background-color: transparent;
     border: none;
     border-radius: 0.5rem;
-    font-size: 0.9rem;
+    font-size: clamp(0.85rem, 1vw, 0.95rem);
     color: var(--gray-color);
     cursor: pointer;
     text-decoration: none;
@@ -341,14 +391,199 @@ nav {
     cursor: pointer;
 }
 
-/* ============================================
-   FORMS
-   ============================================ */
-.login-form,
+
+/* WELCOME PAGE */
+
+.welcome-full-width {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.welcome-section {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+    width: 100%;
+}
+
+.welcome-content {
+    width: 95%;
+    max-width: 600px;
+    padding-left: 2rem;
+    z-index: 2;
+}
+
+.welcome-content h1 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 1.1;
+}
+
+.welcome-content .subtitle {
+    margin-bottom: 2.5rem;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.4;
+}
+
+.welcome-image-wrapper {
+    position: relative;
+    width: 100%;
+    transform: translateX(38%);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 0;
+}
+
+.welcome-hero-img {
+    position: relative;
+    width: 160%;
+    max-width: 900px;
+    height: auto;
+    max-height: 750px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 
+        0 20px 60px rgba(244, 60, 9, 0.25),
+        0 10px 30px rgba(244, 60, 9, 0.15);
+    transform: translateX(22%);
+}
+
+
+/* LOGIN PAGE STYLES */
+
+.login-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.login-form {
+    background-color: var(--white-color);
+    padding: clamp(2rem, 4vw, 3rem);
+    width: 100%;
+    max-width: clamp(350px, 90%, 500px);
+    display: flex;
+    gap: clamp(1.2rem, 2vw, 1.5rem) 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(36, 36, 36, 0.12);
+    border-radius: 12px;
+}
+
+.login-form h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.login-form .form-group {
+    width: 100%;
+}
+
+.login-form label {
+    font-size: clamp(13px, 1.2vw, 15px);
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.login-form input {
+    width: 100%;
+    min-width: unset;
+}
+
+/* Password input wrapper */
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    padding-right: clamp(40px, 8vw, 50px) !important;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-icon {
+    width: clamp(18px, 3vw, 22px);
+    height: clamp(18px, 3vw, 22px);
+}
+
+.login-footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.login-form .button-style {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    padding: clamp(0.7rem, 1.5vw, 0.85rem) clamp(1.5rem, 3vw, 2rem);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .login-form {
+        max-width: 450px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .login-form {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .login-form {
+        padding: 3.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-wrapper {
+        padding: 1rem 0.5rem;
+    }
+    
+    .login-form {
+        padding: 1.5rem;
+        gap: 1rem 0;
+    }
+    
+    .login-form h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* FORMS */
+
+/* .login-form, */
 .signUp-form {
     background-color: var(--white-color);
-    padding: 3rem;
-    width: 30%;
+    padding: clamp(2rem, 3vw, 3rem);
+    width: clamp(300px, 35%, 500px);
     display: flex;
     gap: 1.5rem 0;
     flex-direction: column;
@@ -358,8 +593,8 @@ nav {
 }
 
 .signUp-form {
-    padding: 2rem;
-    width: 40%;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    width: clamp(350px, 40%, 600px);
 }
 
 .signUp-form .form-group {
@@ -378,16 +613,17 @@ input {
     padding: 0 0.8rem;
     border: 0px solid transparent;
     border-radius: 0.25rem;
-    height: 3rem;
-    min-width: 20rem;
+    height: clamp(2.5rem, 4vw, 3rem);
+    min-width: clamp(18rem, 25vw, 20rem);
     margin-top: 0.3rem;
     outline-color: var(--primary-color);
     color: var(--primary-color);
+    font-size: clamp(14px, 1.2vw, 16px);
 }
 
 input::placeholder {
     color: var(--gray-color);
-    font-size: 0.95rem;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 input:focus {
@@ -408,7 +644,7 @@ input[type="file"] {
     border: 1px solid rgba(107, 107, 107, 0.25);
     background-color: var(--paleWhite-color);
     color: var(--primary-color);
-    font-size: 0.95rem;
+    font-size: clamp(13px, 1.1vw, 15px);
     border-radius: 6px;
     height: auto;
     min-width: unset;
@@ -425,6 +661,7 @@ input[type="file"]::file-selector-button {
     margin-right: 1rem;
     cursor: pointer;
     transition: 0.3s ease;
+    font-size: clamp(12px, 1vw, 14px);
 }
 
 textarea {
@@ -435,7 +672,7 @@ textarea {
     min-height: 120px;
     min-width: 100%;
     max-width: 100%;
-    font-size: 1rem;
+    font-size: clamp(14px, 1.2vw, 16px);
     color: var(--primary-color);
     resize: vertical;
     outline: none;
@@ -443,7 +680,7 @@ textarea {
 
 textarea::placeholder {
     color: var(--gray-color);
-    font-size: 0.95rem;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 textarea:focus {
@@ -455,7 +692,7 @@ trix-editor {
     min-height: 200px !important;
     max-height: 300px;
     overflow-y: scroll;
-    font-size: 1rem;
+    font-size: clamp(14px, 1.2vw, 16px);
     background-color: var(--paleWhite-color);
     color: var(--primary-color);
     padding: 1rem;
@@ -467,19 +704,12 @@ trix-editor {
     border-color: var(--paleWhite-color);
 }
 
-/* ============================================
-   IMAGES
-   ============================================ */
-.hero-img {
-    width: 100%;
-    height: 100%;
-    max-height: 500px;
-    object-fit: cover;
-}
+
+/* IMAGES */
 
 .write-img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: clamp(1.3rem, 2vw, 1.5rem);
+    height: clamp(1.3rem, 2vw, 1.5rem);
     object-fit: contain;
 }
 
@@ -490,18 +720,18 @@ trix-editor {
 }
 
 .letter-avatar {
-    width: 8rem;
-    height: 8rem;
+    width: clamp(6rem, 10vw, 8rem);
+    height: clamp(6rem, 10vw, 8rem);
     background-color: black;
     color: white;
-    font-size: 4.5rem;
+    font-size: clamp(3.5rem, 6vw, 4.5rem);
     font-weight: bold;
     user-select: none;
 }
 
 .blog-author {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: clamp(1.3rem, 2vw, 1.5rem);
+    height: clamp(1.3rem, 2vw, 1.5rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -510,11 +740,12 @@ trix-editor {
     background-color: var(--btn-color);
     color: var(--bg-color);
     margin-right: 1rem;
+    font-size: clamp(11px, 1vw, 13px);
 }
 
 .author-profile-img {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: clamp(2rem, 3vw, 2.5rem);
+    height: clamp(2rem, 3vw, 2.5rem);
     object-fit: cover;
     background-color: transparent;
     margin-right: 1rem;
@@ -524,16 +755,16 @@ trix-editor {
     filter: brightness(0) saturate(100%) invert(60%) sepia(90%) saturate(700%) hue-rotate(-10deg) brightness(100%) contrast(95%);
 }
 
-/* ============================================
-   MAIN CONTENT & LAYOUT
-   ============================================ */
+
+/* MAIN CONTENT & LAYOUT */
+
 .main-content {
     width: 100%;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
 }
 
 .blog-list {
@@ -567,9 +798,9 @@ trix-editor {
     width: 30%;
 }
 
-/* ============================================
-   ASIDE & TOPICS
-   ============================================ */
+
+/* ASIDE & TOPICS */
+
 aside {
     position: sticky;
     top: 0;
@@ -595,11 +826,11 @@ aside::-webkit-scrollbar {
     border: 0;
     text-transform: capitalize;
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(0.8rem, 1.2vw, 1rem);
     margin: 0.3rem 0.3rem 0.3rem 0;
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 100px;
-    font-size: 14px;
+    font-size: clamp(12px, 1.1vw, 14px);
 }
 
 .topic:hover {
@@ -609,12 +840,12 @@ aside::-webkit-scrollbar {
 
 .follow-content p {
     color: var(--gray-color);
-    font-size: 12px;
+    font-size: clamp(11px, 1vw, 12px);
     max-width: 14rem;
 }
 
 .aside-links ul li a {
-    font-size: 10px;
+    font-size: clamp(9px, 1vw, 10px);
     color: var(--gray-color);
     text-decoration: none;
 }
@@ -623,9 +854,9 @@ aside::-webkit-scrollbar {
     color: var(--primary-color);
 }
 
-/* ============================================
-   COMMENTS & INTERACTIONS
-   ============================================ */
+
+/* COMMENTS & INTERACTIONS */
+
 .comment {
     padding: 1rem 0;
     border-block: 1px solid rgba(107, 107, 107, 0.10);
@@ -638,16 +869,16 @@ aside::-webkit-scrollbar {
     border-block: 1px solid rgba(107, 107, 107, 0.25);
 }
 
-/* ============================================
-   PROFILE
-   ============================================ */
+
+/* PROFILE */
+
 #profileBtn {
     position: relative;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: clamp(2rem, 3vw, 2.5rem);
+    height: clamp(2rem, 3vw, 2.5rem);
     background-color: var(--btn-color);
     color: var(--bg-color);
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     border-radius: 100%;
     transition: all 0.3s ease;
     border: none;
@@ -669,7 +900,7 @@ aside::-webkit-scrollbar {
     position: absolute;
     top: 170%;
     right: 2%;
-    width: 12rem;
+    width: clamp(10rem, 15vw, 12rem);
     z-index: 1000;
     border-radius: 8px;
     padding: 2rem 1rem 1rem 1rem;
@@ -678,7 +909,7 @@ aside::-webkit-scrollbar {
     flex-direction: column;
     gap: 0.8rem 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    font-size: clamp(14px, 1.2vw, 16px);
+    font-size: clamp(13px, 1.2vw, 16px);
 }
 
 .profile-side-container {
@@ -710,7 +941,7 @@ aside::-webkit-scrollbar {
     right: 1rem;
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
     cursor: pointer;
     color: var(--gray-color) !important;
     z-index: 1001;
@@ -743,6 +974,7 @@ aside::-webkit-scrollbar {
     pointer-events: none;
     transition: opacity 0.2s ease-in-out;
     z-index: 1;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .author-hover-zone:hover .author-preview-card,
@@ -784,7 +1016,7 @@ aside::-webkit-scrollbar {
     padding: 0.5rem 1rem;
     cursor: pointer;
     color: var(--gray-color);
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     border: 0;
     background-color: transparent;
     transition: color 0.3s ease;
@@ -796,12 +1028,13 @@ aside::-webkit-scrollbar {
     font-weight: 500;
 }
 
-/* ============================================
-   LINKS
-   ============================================ */
+
+/* LINKS */
+
 .links {
     color: var(--gray-color);
     text-decoration: none;
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .links:hover {
@@ -809,7 +1042,7 @@ aside::-webkit-scrollbar {
 }
 
 .create-one {
-    font-size: 0.8rem;
+    font-size: clamp(12px, 1vw, 14px);
     color: var(--primary-color);
 }
 
@@ -819,11 +1052,12 @@ aside::-webkit-scrollbar {
 }
 
 .logout-link {
-    padding: 0.5rem 2rem;
+    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(1.5rem, 2vw, 2rem);
     border-radius: 50px;
     background-color: rgba(38, 97, 80, 0.15);
     text-decoration: none;
     color: var(--btn-color);
+    font-size: clamp(13px, 1.1vw, 15px);
 }
 
 .logout-link:hover {
@@ -831,9 +1065,9 @@ aside::-webkit-scrollbar {
     color: white;
 }
 
-/* ============================================
-   ALERTS
-   ============================================ */
+
+/* ALERTS */
+
 .alert-style {
     position: absolute;
     top: 2rem;
@@ -843,8 +1077,8 @@ aside::-webkit-scrollbar {
     white-space: nowrap;
     transform: translateX(-50%);
     border-radius: 100px;
-    padding: 0.75rem 1rem;
-    font-size: 0.75rem;
+    padding: clamp(0.6rem, 1vw, 0.75rem) clamp(0.8rem, 1.2vw, 1rem);
+    font-size: clamp(11px, 1vw, 13px);
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -864,9 +1098,9 @@ aside::-webkit-scrollbar {
     border-color: #badbcc;
 }
 
-/* ============================================
-   MODALS
-   ============================================ */
+
+/* MODALS */
+
 .edit-modal {
     position: fixed;
     top: 0;
@@ -882,9 +1116,9 @@ aside::-webkit-scrollbar {
 
 .edit-modal-content {
     background: white;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     width: 100%;
-    max-width: 700px;
+    max-width: clamp(600px, 70%, 700px);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -898,12 +1132,12 @@ aside::-webkit-scrollbar {
     top: 1rem;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: clamp(1.3rem, 2vw, 1.5rem);
 }
 
-/* ============================================
-   LIST GROUPS
-   ============================================ */
+
+/* LIST GROUPS */
+
 .list-group-item {
     background-color: var(--paleWhite-color);
 }
@@ -915,13 +1149,13 @@ aside::-webkit-scrollbar {
 .list-group-item .blog-title {
     max-width: 75%;
     color: var(--primary-color);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
     text-decoration: none;
 }
 
-/* ============================================
-   TOOLTIPS
-   ============================================ */
+
+/* TOOLTIPS */
+
 .icon-with-tooltip {
     position: relative;
 }
@@ -931,7 +1165,7 @@ aside::-webkit-scrollbar {
     opacity: 0;
     background-color: var(--primary-color);
     color: white;
-    font-size: 11px;
+    font-size: clamp(10px, 1vw, 11px);
     padding: 4px 6px;
     border-radius: 4px;
     position: absolute;
@@ -949,54 +1183,113 @@ aside::-webkit-scrollbar {
     opacity: 1;
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
+
+/* FOOTER */
+
 footer {
     width: 100%;
-    height: 10vh;
+    min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
     border-top: 1px solid rgba(107, 107, 107, 0.25);
+    padding: 1rem 0;
 }
 
 footer .nav-link {
     color: var(--gray-color);
+    font-size: clamp(11px, 1vw, 13px);
 }
 
 footer .nav-link:hover {
     color: var(--primary-color);
 }
 
-/* ============================================
-   ABOUT PAGE
-   ============================================ */
+
+/* ABOUT PAGE */
+
 .about-medium-style .hero-section {
-    padding: 6rem 0;
+    padding: clamp(4rem, 8vw, 6rem) 0;
 }
 
 .about-medium-style p {
-    font-size: 1.15rem;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
     line-height: 1.8;
     color: #444;
 }
 
-/* ============================================
-   MEDIA QUERIES
-   ============================================ */
+
+/* RESPONSIVE BREAKPOINTS */
+
+/* Tablet and Desktop */
+@media (min-width: 768px) {
+    .welcome-content {
+        width: 50%;
+        padding-left: 0;
+    }
+
+    .welcome-image-wrapper {
+        width: 50%;
+    }
+}
+
+/* Large Desktop - Better scaling */
+@media (min-width: 1024px) {
+    .welcome-section {
+        padding: 4rem 0;
+    }
+}
+
+/* Extra Large Screens */
+@media (min-width: 1440px) {
+    .welcome-content h1 {
+        font-size: clamp(4rem, 4.5vw, 5.5rem);
+    }
+
+    .welcome-content .subtitle {
+        font-size: clamp(20px, 1.6vw, 26px);
+    }
+
+    .welcome-hero-img {
+        max-width: 1000px;
+        max-height: 850px;
+    }
+}
+
+/* Ultra Wide Screens */
+@media (min-width: 1920px) {
+    .welcome-section {
+        padding: 6rem 0;
+    }
+
+    .welcome-content {
+        max-width: 700px;
+    }
+
+    .welcome-content h1 {
+        font-size: 5.5rem;
+    }
+
+    .welcome-content .subtitle {
+        font-size: 28px;
+        line-height: 1.5;
+    }
+
+    .welcome-hero-img {
+        max-width: 1100px;
+        max-height: 900px;
+    }
+}
+
+/* Mobile specific adjustments */
 @media (max-width: 768px) {
     h1 {
         font-size: 80px;
         line-height: 72px;
     }
 
-    .hero-img {
-        display: none;
-    }
-
     nav {
-        height: 10vh;
+        min-height: 10vh;
     }
 
     nav .navbar-nav {
@@ -1055,7 +1348,7 @@ footer .nav-link:hover {
         display: none;
     }
 
-    .custom-width {
+    .custom-w-50 {
         width: 95%;
         margin: 0 auto;
     }
@@ -1114,7 +1407,22 @@ footer .nav-link:hover {
     }
 
     footer {
-        height: 12vh;
+        min-height: 12vh;
+    }
+
+    .welcome-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .welcome-hero-img {
+        width: 140%;
+        max-height: 450px;
+        transform: translateX(18%);
+        box-shadow: 
+            0 15px 40px rgba(244, 60, 9, 0.2),
+            0 8px 20px rgba(244, 60, 9, 0.12);
     }
 }
 
