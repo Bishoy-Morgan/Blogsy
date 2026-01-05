@@ -4,9 +4,9 @@ function getElement(id) {
     return document.getElementById(id);
 }
 
-/**
- * Make API request with error handling
- */
+
+// Make API request with error handling
+
 async function makeRequest(url, options = {}) {
     try {
         const response = await fetch(url, {
@@ -30,9 +30,8 @@ async function makeRequest(url, options = {}) {
 
 // UI COMPONENTS
 
-/**
- * Profile Dropdown Handler
- */
+// Profile Dropdown Handler
+
 const ProfileDropdown = {
     init() {
         const profileBtn = getElement('profileBtn');
@@ -57,9 +56,8 @@ const ProfileDropdown = {
     }
 };
 
-/**
- * Password Visibility Toggle
- */
+// Password Visibility Toggle
+
 const PasswordToggle = {
     init() {
         const eyeIcon = "/static/images/eye.svg";
@@ -87,26 +85,24 @@ const PasswordToggle = {
     }
 };
 
-/**
- * Alert Messages Handler
- */
+
+// Alert Messages Handler
+
 const AlertHandler = {
     init() {
         const alertBoxes = document.querySelectorAll(".alert-style");
 
         alertBoxes.forEach(alertBox => {
-            // Auto-remove after 3 seconds
             setTimeout(() => alertBox.remove(), 3000);
 
-            // Remove on click
             alertBox.addEventListener("click", () => alertBox.remove());
         });
     }
 };
 
-/**
- * Profile Tabs Handler
- */
+
+// Profile Tabs Handler
+
 const ProfileTabs = {
     init() {
         const tabButtons = document.querySelectorAll('#profileTab .nav-link');
@@ -133,9 +129,6 @@ const ProfileTabs = {
 
 // BLOG INTERACTIONS
 
-/**
- * Like/Clap Button Handler
- */
 const LikeSystem = {
     init() {
         document.querySelectorAll('.like-btn').forEach(button => {
@@ -167,9 +160,9 @@ const LikeSystem = {
     }
 };
 
-/**
- * Comment System Handler
- */
+
+// Comment System Handler
+
 const CommentSystem = {
     init() {
         document.querySelectorAll('.comment-form').forEach(form => {
@@ -220,9 +213,9 @@ const CommentSystem = {
     }
 };
 
-/**
- * Reading List Handler
- */
+
+// Reading List Handler
+
 const ReadingList = {
     init() {
         document.querySelectorAll('.reading-list-form').forEach(form => {
@@ -258,9 +251,6 @@ const ReadingList = {
 
 // USER INTERACTIONS
 
-/**
- * Follow System Handler
- */
 const FollowSystem = {
     init() {
         this.attachListeners();
@@ -322,9 +312,9 @@ const FollowSystem = {
     }
 };
 
-/**
- * Profile Image Upload Handler
- */
+
+// Profile Image Upload Handler
+
 const ProfileImageUpload = {
     init() {
         this.initEditButton();
@@ -389,9 +379,9 @@ const ProfileImageUpload = {
     }
 };
 
-/**
- * Profile Followers/Following Sidebar
- */
+
+// Profile Followers/Following Sidebar
+
 const ProfileSidebar = {
     init() {
         const followersBtn = document.querySelector('.followers-btn');
@@ -429,9 +419,8 @@ const ProfileSidebar = {
 
 // SEARCH AND PAGINATION
 
-/**
- * Tag Search Handler
- */
+// Tag Search Handler
+
 const TagSearch = {
     init() {
         const tagSearchInput = getElement('tag-search');
@@ -473,9 +462,9 @@ const TagSearch = {
     }
 };
 
-/**
- * Infinite Scroll Blog Loader
- */
+
+// Infinite Scroll Blog Loader
+
 const BlogLoader = {
     offset: 10,
     limit: 10,
@@ -533,9 +522,8 @@ const BlogLoader = {
 
 // APPLICATION INITIALIZATION
 
-/**
- * Initialize all components when DOM is ready
- */
+// Initialize all components when DOM is ready
+
 document.addEventListener('DOMContentLoaded', () => {
     // UI Components
     ProfileDropdown.init();

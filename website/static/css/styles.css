@@ -1,6 +1,3 @@
-/* --------------------------------------------
-   FONT FACES
-   -------------------------------------------- */
 @font-face {
     font-family: 'GT-Super';
     src: url("../fonts/GT-Regular.otf") format("truetype");
@@ -43,9 +40,9 @@
     font-style: normal;
 }
 
-/* --------------------------------------------
-    CSS VARIABLES
-   -------------------------------------------- */
+
+/* CSS VARIABLES */
+
 :root {
     --white-color: #FFFFFF;
     --black-color: #1A1A1A;
@@ -163,19 +160,6 @@ h2 {
 
 .font-11 {
     font-size: clamp(0.75rem, 1vw, 0.85rem);
-}
-
-.blogsy-font {
-    text-decoration: none;
-    font-family: 'GT-Super';
-    color: var(--primary-color);
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    font-weight: 700;
-    font-style: italic;
-}
-
-.blogsy-font:hover {
-    cursor: pointer;
 }
 
 /* UTILITY CLASSES */
@@ -1070,21 +1054,27 @@ aside::-webkit-scrollbar {
 
 .alert-style {
     position: absolute;
-    top: 2rem;
+    top: 1.75rem;
     left: 50%;
-    width: auto;
+    transform: translateX(-50%) !important;
+
     max-width: 90vw;
-    white-space: nowrap;
-    transform: translateX(-50%);
-    border-radius: 100px;
-    padding: clamp(0.6rem, 1vw, 0.75rem) clamp(0.8rem, 1.2vw, 1rem);
+    width: fit-content;
+
+    padding: clamp(0.6rem, 1vw, 0.75rem)
+             clamp(0.8rem, 1.2vw, 1rem);
+
     font-size: clamp(11px, 1vw, 13px);
+
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    justify-content: center;
+    gap: 1rem;
+
+    white-space: normal;
+    border-radius: 999px;
 }
+
 
 .alert-danger {
     background-color: var(--danger-background);

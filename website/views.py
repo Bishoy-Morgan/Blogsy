@@ -13,9 +13,31 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Pricing Page
+@views.route('/pricing')
+def pricing():
+    # You can later pass plan data or user status here
+    return render_template('marketing/pricing.html', current_user=current_user)
+
+# Our Story Page
+@views.route('/our-story')
+def ourStory():
+    return render_template('marketing/our-story.html')
+
+# Features Page
+@views.route("/features")
+def features():
+    return render_template("marketing/features.html")
+
+
 @views.route('/')
 def welcome():
-    return render_template('welcome.html', current_user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
+    return render_template(
+        'marketing/welcome.html',
+        current_user=current_user,
+        GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID']
+    )
+
 
 #Explore Page
 @views.route('/explore')
@@ -30,11 +52,6 @@ def explore():
         tags=tags,
         suggested_users=suggested_users
     )
-
-# views.py
-@views.route("/features")
-def features():
-    return render_template("features.html")
 
 @views.route('/home')
 @login_required
@@ -60,12 +77,6 @@ def home():
         suggested_users=suggested_users
     )
 
-#Pricing Page
-@views.route('/pricing')
-def pricing():
-    # You can later pass plan data or user status here
-    return render_template('pricing.html', current_user=current_user)
-
 # load more blogs via AJAX
 @views.route('/load_blogs')
 @login_required
@@ -79,9 +90,7 @@ def load_blogs():
 
     return render_template('partials/blogs.html', blogs=blogs)
 
-@views.route('/about')
-def about():
-    return render_template('about.html')
+# 
 
 @views.route('/write', methods=['GET', 'POST'])
 @login_required
