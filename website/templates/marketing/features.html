@@ -5,106 +5,130 @@
 {% endblock %}
 
 {% block content %}
-<section class="container py-5 ">
+<section class="features-section">
+    <div class="features-container">
 
-    <!-- HERO -->
-    <div class="mb-5">
-        <h1>Everything you need to write, read, and connect</h1>
-        <p class="subtitle mt-3 text-gray">
-            Blogsy focuses on thoughtful writing, clean reading,
-            and simple social interactions — without noise or distractions.
-        </p>
+        <!-- HERO -->
+        <div class="features-hero">
+            <h1>Everything you need to write, read, and connect</h1>
+            <p class="subtitle">
+                Blogsy focuses on thoughtful writing, clean reading,
+                and simple social interactions — without noise or distractions.
+            </p>
+        </div>
+
+        <!-- FEATURE 1 -->
+        <div class="feature-block" data-animate>
+            <div class="feature-content">
+                <div class="feature-text">
+                    <div class="feature-icon">✍️</div>
+                    <h3>Distraction-free writing</h3>
+                    <p>
+                        A clean editor designed for focus.
+                        Write long-form content without UI clutter,
+                        autosave your drafts, and publish when ready.
+                    </p>
+                </div>
+                <div class="feature-specs">
+                    <span class="spec-badge">Rich text editor</span>
+                    <span class="spec-badge">Drafts</span>
+                    <span class="spec-badge">Image uploads</span>
+                    <span class="spec-badge">Markdown-friendly</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE 2 -->
+        <div class="feature-block" data-animate>
+            <div class="feature-content">
+                <div class="feature-text">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Explore ideas, not noise</h3>
+                    <p>
+                        Browse posts by topic, discover new writers,
+                        and read content without algorithmic manipulation.
+                    </p>
+                </div>
+                <div class="feature-specs">
+                    <span class="spec-badge">Tags</span>
+                    <span class="spec-badge">Explore feed</span>
+                    <span class="spec-badge">Author previews</span>
+                    <span class="spec-badge">Clean reading view</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE 3 -->
+        <div class="feature-block" data-animate>
+            <div class="feature-content">
+                <div class="feature-text">
+                    <div class="feature-icon">💬</div>
+                    <h3>Meaningful social interactions</h3>
+                    <p>
+                        Follow writers, clap for posts, comment thoughtfully,
+                        and build a reading list — without vanity metrics.
+                    </p>
+                </div>
+                <div class="feature-specs">
+                    <span class="spec-badge">Follow system</span>
+                    <span class="spec-badge">Likes (claps)</span>
+                    <span class="spec-badge">Comments</span>
+                    <span class="spec-badge">Reading list</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE 4 -->
+        <div class="feature-block" data-animate>
+            <div class="feature-content">
+                <div class="feature-text">
+                    <div class="feature-icon">👤</div>
+                    <h3>Personal writer profile</h3>
+                    <p>
+                        Every user has a profile showing their posts,
+                        followers, and saved content — designed to feel personal,
+                        not performative.
+                    </p>
+                </div>
+                <div class="feature-specs">
+                    <span class="spec-badge">Profile pages</span>
+                    <span class="spec-badge">Followers / following</span>
+                    <span class="spec-badge">Post management</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE 5 -->
+        <div class="feature-block" data-animate>
+            <div class="feature-content">
+                <div class="feature-text">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Built like a real product</h3>
+                    <p>
+                        Blogsy is designed and built as a production-ready SaaS:
+                        scalable architecture, clean backend logic,
+                        and thoughtful frontend decisions.
+                    </p>
+                </div>
+                <div class="feature-specs">
+                    <span class="spec-badge">Flask</span>
+                    <span class="spec-badge">SQLAlchemy</span>
+                    <span class="spec-badge">Auth system</span>
+                    <span class="spec-badge">Modular views</span>
+                    <span class="spec-badge">Bootstrap UI</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="features-cta">
+            <h2>Ready to start writing?</h2>
+            <a href="/explore" class="third-btn">
+                Explore the platform
+            </a>
+        </div>
+
     </div>
-
-    <!-- FEATURE 1 -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-6">
-            <h3 class="fw-bold">Distraction-free writing</h3>
-            <p class="text-gray mt-2">
-                A clean editor designed for focus.
-                Write long-form content without UI clutter,
-                autosave your drafts, and publish when ready.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="font-11 text-gray">
-                Rich text editor • Drafts • Image uploads • Markdown-friendly
-            </p>
-        </div>
-    </div>
-
-    <!-- FEATURE 2 -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-6">
-            <h3 class="fw-bold">Explore ideas, not noise</h3>
-            <p class="text-gray mt-2">
-                Browse posts by topic, discover new writers,
-                and read content without algorithmic manipulation.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="font-11 text-gray">
-                Tags • Explore feed • Author previews • Clean reading view
-            </p>
-        </div>
-    </div>
-
-    <!-- FEATURE 3 -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-6">
-            <h3 class="fw-bold">Meaningful social interactions</h3>
-            <p class="text-gray mt-2">
-                Follow writers, clap for posts, comment thoughtfully,
-                and build a reading list — without vanity metrics.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="font-11 text-gray">
-                Follow system • Likes (claps) • Comments • Reading list
-            </p>
-        </div>
-    </div>
-
-    <!-- FEATURE 4 -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-6">
-            <h3 class="fw-bold">Personal writer profile</h3>
-            <p class="text-gray mt-2">
-                Every user has a profile showing their posts,
-                followers, and saved content — designed to feel personal,
-                not performative.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="font-11 text-gray">
-                Profile pages • Followers / following • Post management
-            </p>
-        </div>
-    </div>
-
-    <!-- FEATURE 5 -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-6">
-            <h3 class="fw-bold">Built like a real product</h3>
-            <p class="text-gray mt-2">
-                Blogsy is designed and built as a production-ready SaaS:
-                scalable architecture, clean backend logic,
-                and thoughtful frontend decisions.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="font-11 text-gray">
-                Flask • SQLAlchemy • Auth system • Modular views • Bootstrap UI
-            </p>
-        </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="mt-5 pt-4 ">
-        <a href="/explore" class="button-style m-0">
-            Explore the platform
-        </a>
-    </div>
-
 </section>
+
 {% endblock %}

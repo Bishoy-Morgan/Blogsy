@@ -206,6 +206,11 @@ nav {
     color: var(--btn-color);
 }
 
+.navbar-nav .nav-link.active {
+    color: var(--btn-color);
+    font-weight: 600;
+}
+
 .active-home,
 .active-write {
     font-weight: 500;

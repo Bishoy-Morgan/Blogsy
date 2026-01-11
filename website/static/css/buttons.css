@@ -1,0 +1,185 @@
+/* Global Button Styles */
+
+/* Main Button - Orange Gradient (Primary CTA) */
+.main-btn {
+    display: inline-block;
+    padding: 18px 45px;
+    background: linear-gradient(135deg, var(--btn-color), #ff6b35);
+    color: var(--white-color) !important;
+    text-decoration: none !important;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 8px 25px rgba(244, 58, 9, 0.3);
+    will-change: transform;
+    font-family: inherit;
+    text-align: center;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(244, 58, 9, 0.4);
+    color: var(--white-color) !important;
+    text-decoration: none !important;
+}
+
+.main-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(244, 58, 9, 0.35);
+}
+
+/* Secondary Button - White with Orange Border */
+.secondary-btn {
+    display: inline-block;
+    padding: 16px 43px;
+    background: var(--white-color);
+    color: var(--btn-color) !important;
+    text-decoration: none !important;
+    border: 2px solid var(--btn-color);
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    will-change: transform;
+    font-family: inherit;
+    text-align: center;
+}
+
+.secondary-btn:hover {
+    background: var(--btn-color);
+    color: var(--white-color) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(244, 58, 9, 0.3);
+    text-decoration: none !important;
+}
+
+.secondary-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(244, 58, 9, 0.25);
+}
+
+/* Third Button - Dark/Black */
+.third-btn {
+    display: inline-block;
+    padding: 18px 45px;
+    background: var(--primary-color);
+    color: var(--white-color) !important;
+    text-decoration: none !important;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(44, 42, 40, 0.2);
+    will-change: transform;
+    font-family: inherit;
+    text-align: center;
+}
+
+.third-btn:hover {
+    background: var(--black-color);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(44, 42, 40, 0.3);
+    color: var(--white-color) !important;
+    text-decoration: none !important;
+}
+
+.third-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(44, 42, 40, 0.25);
+}
+
+/* Button Sizes */
+.btn-small {
+    padding: 12px 30px;
+    font-size: 0.95rem;
+}
+
+.btn-large {
+    padding: 20px 50px;
+    font-size: 1.2rem;
+}
+
+.btn-full-width {
+    width: 100%;
+    display: block;
+}
+
+/* Button States */
+.main-btn:disabled,
+.secondary-btn:disabled,
+.third-btn:disabled,
+.main-btn.disabled,
+.secondary-btn.disabled,
+.third-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Fix for links */
+a.main-btn,
+a.secondary-btn,
+a.third-btn {
+    text-decoration: none;
+}
+
+a.main-btn:focus,
+a.secondary-btn:focus,
+a.third-btn:focus {
+    outline: 2px solid var(--btn-color);
+    outline-offset: 2px;
+}
+
+/* Responsive Button Styles */
+@media (max-width: 768px) {
+    .main-btn,
+    .third-btn {
+        padding: 16px 40px;
+        font-size: 1rem;
+    }
+
+    .secondary-btn {
+        padding: 14px 38px;
+        font-size: 1rem;
+    }
+
+    .btn-small {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+
+    .btn-large {
+        padding: 18px 45px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-btn,
+    .third-btn {
+        padding: 14px 35px;
+        font-size: 0.95rem;
+    }
+
+    .secondary-btn {
+        padding: 12px 33px;
+        font-size: 0.95rem;
+    }
+
+    .btn-small {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .btn-large {
+        padding: 16px 40px;
+        font-size: 1rem;
+    }
+}

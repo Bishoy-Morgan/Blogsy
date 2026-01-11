@@ -205,6 +205,11 @@ nav {
     color: var(--btn-color);
 }
 
+.navbar-nav .nav-link.active {
+    color: var(--btn-color);
+    font-weight: 600;
+}
+
 .active-home,
 .active-write {
     font-weight: 500;
@@ -212,7 +217,7 @@ nav {
     color: var(--btn-color) !important;
 }
 
-.sign-up-button-style {
+/* .sign-up-button-style {
     display: inline-block;
     padding: .5rem 1rem;
     background: var(--btn-color);
@@ -231,7 +236,7 @@ nav {
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     color: var(--white-color);
 }
-
+ */
 
 /* WELCOME PAGE */
 
@@ -552,7 +557,7 @@ footer .nav-link:hover {
 
 .story-section {
     min-height: 100vh;
-    padding: 10rem 0px 80px 0px;
+    padding: 120px 20px;
     background: linear-gradient(135deg, var(--bg-color) 0%, #f5f0eb 100%);
 }
 
@@ -695,47 +700,6 @@ footer .nav-link:hover {
     font-weight: 700;
 }
 
-/* Buttons */
-.button-style {
-    display: inline-block;
-    padding: 18px 45px;
-    background: var(--white-color);
-    color: var(--btn-color);
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    will-change: transform;
-}
-
-.button-style:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    color: var(--btn-color);
-}
-
-.orange-button-style {
-    display: inline-block;
-    padding: 18px 45px;
-    color: var(--white-color);
-    background: var(--btn-color);
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    will-change: transform;
-}
-
-.orange-button-style:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    color: var(--white-color);
-}
-
 /* Performance Optimization */
 .story-section * {
     -webkit-font-smoothing: antialiased;
@@ -788,9 +752,415 @@ footer .nav-link:hover {
     .content-block {
         margin-bottom: 60px;
     }
+}
 
-    .button-style {
-        padding: 15px 35px;
+/* Features Page Styles - Optimized for GSAP */
+
+.features-section {
+    min-height: 100vh;
+    padding: 120px 20px;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #f5f0eb 100%);
+}
+
+.features-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.features-hero {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.features-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--black-color);
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.features-hero .subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: var(--gray-color);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Feature Blocks */
+.feature-block {
+    margin-bottom: 80px;
+}
+
+.feature-content {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.feature-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Feature Text */
+.feature-text {
+    margin-bottom: 30px;
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--btn-color), #ff6b35);
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--white-color);
+    margin-bottom: 20px;
+    will-change: transform;
+}
+
+.feature-text h3 {
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--black-color);
+    margin-bottom: 15px;
+}
+
+.feature-text p {
+    font-size: 1.1rem;
+    color: var(--gray-color);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Feature Specs */
+.feature-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.spec-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(244, 58, 9, 0.08);
+    color: var(--btn-color);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.spec-badge:hover {
+    background: rgba(244, 58, 9, 0.15);
+    transform: translateY(-2px);
+}
+
+/* CTA Section */
+.features-cta {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, var(--btn-color) 0%, #ff6b35 100%);
+    border-radius: 30px;
+    margin-top: 60px;
+}
+
+.features-cta h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white-color);
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Performance Optimization */
+.features-section * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .features-section {
+        padding: 60px 20px;
+    }
+
+    .features-hero {
+        margin-bottom: 60px;
+    }
+
+    .feature-block {
+        margin-bottom: 50px;
+    }
+
+    .feature-content {
+        padding: 35px 25px;
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+        border-radius: 15px;
+    }
+
+    .feature-specs {
+        gap: 8px;
+    }
+
+    .spec-badge {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .features-cta {
+        padding: 60px 20px;
+        margin-top: 40px;
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-content {
+        padding: 30px 20px;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .feature-text h3 {
+        margin-bottom: 12px;
+    }
+
+    .feature-text p {
         font-size: 1rem;
+    }
+}
+
+/* Pricing Page Styles - Optimized for GSAP */
+
+.pricing-section {
+    min-height: 100vh;
+    padding: 120px 20px;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #f5f0eb 100%);
+}
+
+.pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.pricing-hero {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.pricing-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--black-color);
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.pricing-hero .subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: var(--gray-color);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Pricing Cards Container */
+.pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto 60px;
+}
+
+/* Individual Pricing Card */
+.pricing-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Popular Card - Highlighted */
+.pricing-card.popular {
+    background: linear-gradient(135deg, var(--card-bg) 0%, #fffbf8 100%);
+    border: 2px solid var(--btn-color);
+    box-shadow: 0 20px 60px rgba(244, 58, 9, 0.15);
+}
+
+.pricing-card.popular:hover {
+    box-shadow: 0 25px 70px rgba(244, 58, 9, 0.2);
+}
+
+/* Popular Badge */
+.popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--btn-color), #ff6b35);
+    color: var(--white-color);
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(244, 58, 9, 0.3);
+}
+
+/* Card Content */
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.plan-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--black-color);
+    margin-bottom: 20px;
+}
+
+/* Price Display */
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 30px;
+}
+
+.plan-price .price {
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: var(--black-color);
+    line-height: 1;
+}
+
+.plan-price .period {
+    font-size: 1rem;
+    color: var(--gray-color);
+    margin-left: 8px;
+}
+
+/* Features List */
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+    flex-grow: 1;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.feature-item .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.feature-item.active {
+    color: var(--black-color);
+}
+
+.feature-item.active .icon {
+    background: rgba(244, 58, 9, 0.1);
+    color: var(--btn-color);
+}
+
+.feature-item.inactive {
+    color: var(--gray-color);
+    opacity: 0.6;
+}
+
+.feature-item.inactive .icon {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--gray-color);
+}
+
+/* Performance Optimization */
+.pricing-section * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .pricing-cards {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-section {
+        padding: 60px 20px;
+    }
+
+    .pricing-hero {
+        margin-bottom: 60px;
+    }
+
+    .pricing-cards {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        max-width: 400px;
+    }
+
+    .plan-price .price {
+        font-size: 3rem;
+    }
+
+    .pricing-card {
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-card {
+        padding: 30px 20px;
+    }
+
+    .plan-name {
+        font-size: 1.5rem;
+    }
+
+    .plan-price .price {
+        font-size: 2.5rem;
     }
 }

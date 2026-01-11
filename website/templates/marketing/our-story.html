@@ -5,123 +5,136 @@ Our Story
 {% endblock %}
 
 {% block content %}
-    <section class="story-section">
-        <div class="container">
-            
-            <!-- HERO -->
-            <div class="story-hero">
-                <h1>Blogsy is a calm place for writing and reading</h1>
-                <p class="subtitle">
-                    Built for people who care about ideas, clarity,
-                    and thoughtful conversations — not engagement tricks.
+<section class="story-section">
+    <div class="container">
+
+        <!-- HERO -->
+        <div class="story-hero" data-animate>
+            <h1>Blogsy is a calm place for writing and reading</h1>
+            <p class="subtitle">
+                Built for people who care about ideas, clarity,
+                and thoughtful conversations — not engagement tricks.
+            </p>
+        </div>
+
+        <!-- WHY SECTION -->
+        <div class="content-block" data-animate>
+            <div class="content-text">
+                <h3>Why Blogsy exists</h3>
+                <p>
+                    Most writing platforms today optimize for speed, metrics,
+                    and constant scrolling. Blogsy takes a different approach.
+                </p>
+                <p>
+                    The goal is simple: give writers a focused space to publish,
+                    and readers a clean way to discover ideas worth spending time on.
                 </p>
             </div>
-
-            <!-- WHY SECTION -->
-            <div class="content-block" data-animate>
-                <div class="content-text">
-                    <h3>Why Blogsy exists</h3>
-                    <p>
-                        Most writing platforms today optimize for speed, metrics,
-                        and constant scrolling. Blogsy takes a different approach.
-                    </p>
-                    <p>
-                        The goal is simple: give writers a focused space to publish,
-                        and readers a clean way to discover ideas worth spending time on.
-                    </p>
-                </div>
-                <div class="content-visual">
-                    <div class="visual-card">
-                        <div class="floating-icon">
-                            <img
-                                src="{{ url_for('static', filename='images/focues.png')}}"
-                                alt="Focues"
-                                class="focues"
-                                style="width: 3rem; height: 3rem;"
-                                loading="lazy"
-                            />
-                        </div>
-                        <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">Focus on what matters</h4>
-                        <p style="color: #666; margin: 0;">No distractions, no algorithms pushing viral content. Just thoughtful writing.</p>
+            <div class="content-visual">
+                <div class="visual-card">
+                    <div class="floating-icon">
+                        <img
+                            src="{{ url_for('static', filename='images/focues.png') }}"
+                            alt="Focus"
+                            class="focues"
+                            style="width: 3rem; height: 3rem;"
+                            loading="lazy"
+                        />
                     </div>
-                </div>
-            </div>
-
-            <!-- PRINCIPLES SECTION -->
-            <div class="content-block" data-animate>
-                <div class="content-text">
-                    <h3>Product principles</h3>
-                    <div class="principle-item">
-                        <strong>Clarity over complexity</strong>
-                        <p>
-                            Features exist only if they improve the writing or reading experience.
-                        </p>
-                    </div>
-
-                    <div class="principle-item">
-                        <strong>Human-scale social features</strong>
-                        <p>
-                            Following, claps, and comments are designed to support creators —
-                            not turn writing into a competition.
-                        </p>
-                    </div>
-
-                    <div class="principle-item">
-                        <strong>Built as a real product</strong>
-                        <p>
-                            Blogsy is developed with production-ready architecture,
-                            modular code, and long-term maintainability in mind.
-                        </p>
-                    </div>
-                </div>
-                <div class="content-visual">
-                    <div class="visual-card">
-                        <div class="floating-icon">
-                            <img
-                                src="{{ url_for('static', filename='images/features.png')}}"
-                                alt="Features"
-                                class="features"
-                                style="width: 3rem; height: 3rem;"
-                                loading="lazy"
-                            />
-                        </div>
-                        <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">Intentionally designed</h4>
-                        <p style="color: #666; margin: 0;">Every feature serves a purpose. Every decision is deliberate.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BUILDER SECTION -->
-            <div class="content-block" data-animate>
-                <div class="content-text">
-                    <h3>Built as a hands-on product</h3>
-                    <p>
-                        Blogsy is an independent project built to demonstrate real-world
-                        product thinking — from UX decisions to backend structure,
-                        performance considerations, and scalability.
-                    </p>
-                    <p>
-                        Every feature is intentionally scoped, implemented,
-                        and refined with real usage in mind.
+                    <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">
+                        Focus on what matters
+                    </h4>
+                    <p style="color: #666; margin: 0;">
+                        No distractions, no algorithms pushing viral content. Just thoughtful writing.
                     </p>
                 </div>
-                <div class="content-visual">
-                    <div class="visual-card">
-                        <div class="floating-icon">🚀</div>
-                        <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">Production-ready</h4>
-                        <p style="color: #666; margin: 0;">Not just a demo. A fully functional platform built with care.</p>
-                    </div>
-                </div>
             </div>
-
-            <!-- CTA -->
-            <div class="cta-section">
-                <h2>Ready to explore?</h2>
-                <a href="/explore" class="button-style">
-                    Start exploring Blogsy
-                </a>
-            </div>
-
         </div>
-    </section>
+
+        <!-- PRINCIPLES SECTION -->
+        <div class="content-block" data-animate>
+            <div class="content-text">
+                <h3>Product principles</h3>
+
+                <div class="principle-item">
+                    <strong>Clarity over complexity</strong>
+                    <p>
+                        Features exist only if they improve the writing or reading experience.
+                    </p>
+                </div>
+
+                <div class="principle-item">
+                    <strong>Human-scale social features</strong>
+                    <p>
+                        Following, claps, and comments are designed to support creators —
+                        not turn writing into a competition.
+                    </p>
+                </div>
+
+                <div class="principle-item">
+                    <strong>Built as a real product</strong>
+                    <p>
+                        Blogsy is developed with production-ready architecture,
+                        modular code, and long-term maintainability in mind.
+                    </p>
+                </div>
+            </div>
+            <div class="content-visual">
+                <div class="visual-card">
+                    <div class="floating-icon">
+                        <img
+                            src="{{ url_for('static', filename='images/features.png') }}"
+                            alt="Features"
+                            class="features"
+                            style="width: 3rem; height: 3rem;"
+                            loading="lazy"
+                        />
+                    </div>
+                    <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">
+                        Intentionally designed
+                    </h4>
+                    <p style="color: #666; margin: 0;">
+                        Every feature serves a purpose. Every decision is deliberate.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUILDER SECTION -->
+        <div class="content-block" data-animate>
+            <div class="content-text">
+                <h3>Built as a hands-on product</h3>
+                <p>
+                    Blogsy is an independent project built to demonstrate real-world
+                    product thinking — from UX decisions to backend structure,
+                    performance considerations, and scalability.
+                </p>
+                <p>
+                    Every feature is intentionally scoped, implemented,
+                    and refined with real usage in mind.
+                </p>
+            </div>
+            <div class="content-visual">
+                <div class="visual-card">
+                    <div class="floating-icon">🚀</div>
+                    <h4 style="font-size: 1.5rem; margin-bottom: 15px; color: #1a1a1a;">
+                        Production-ready
+                    </h4>
+                    <p style="color: #666; margin: 0;">
+                        Not just a demo. A fully functional platform built with care.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>Ready to explore?</h2>
+            <a href="/explore" class="button-style third-btn">
+                Start exploring Blogsy
+            </a>
+        </div>
+
+    </div>
+</section>
 {% endblock %}
