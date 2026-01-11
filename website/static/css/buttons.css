@@ -1,4 +1,4 @@
-/* Global Button Styles */
+/* Global Button Styles with Smooth Animations */
 
 /* Main Button - Orange Gradient (Primary CTA) */
 .main-btn {
@@ -10,25 +10,48 @@
     border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease;
     cursor: pointer;
     border: none;
     box-shadow: 0 8px 25px rgba(244, 58, 9, 0.3);
-    will-change: transform;
+    position: relative;
+    overflow: hidden;
     font-family: inherit;
     text-align: center;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff6b35, var(--btn-color));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
 }
 
 .main-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(244, 58, 9, 0.4);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(244, 58, 9, 0.45);
     color: var(--white-color) !important;
     text-decoration: none !important;
 }
 
+.main-btn:hover::before {
+    opacity: 1;
+}
+
 .main-btn:active {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(244, 58, 9, 0.35);
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 8px 25px rgba(244, 58, 9, 0.35);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 /* Secondary Button - White with Orange Border */
@@ -42,25 +65,50 @@
     border-radius: 50px;
     font-size: 1.05rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease,
+                color 0.3s ease;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    will-change: transform;
+    position: relative;
+    overflow: hidden;
     font-family: inherit;
     text-align: center;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.secondary-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--btn-color);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+    z-index: -1;
 }
 
 .secondary-btn:hover {
-    background: var(--btn-color);
     color: var(--white-color) !important;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(244, 58, 9, 0.3);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(244, 58, 9, 0.35);
     text-decoration: none !important;
 }
 
+.secondary-btn:hover::before {
+    width: 300%;
+    height: 300%;
+}
+
 .secondary-btn:active {
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(0.98);
     box-shadow: 0 6px 20px rgba(244, 58, 9, 0.25);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 /* Third Button - Dark/Black */
@@ -74,25 +122,46 @@
     border-radius: 50px;
     font-size: 1.05rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease;
     cursor: pointer;
     box-shadow: 0 8px 25px rgba(44, 42, 40, 0.2);
-    will-change: transform;
+    position: relative;
+    overflow: hidden;
     font-family: inherit;
     text-align: center;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.third-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
 }
 
 .third-btn:hover {
     background: var(--black-color);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(44, 42, 40, 0.3);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(44, 42, 40, 0.35);
     color: var(--white-color) !important;
     text-decoration: none !important;
 }
 
+.third-btn:hover::before {
+    left: 100%;
+}
+
 .third-btn:active {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(44, 42, 40, 0.25);
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 8px 25px rgba(44, 42, 40, 0.25);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 /* Button Sizes */
@@ -121,6 +190,7 @@
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
+    transform: none !important;
 }
 
 /* Fix for links */
@@ -133,8 +203,44 @@ a.third-btn {
 a.main-btn:focus,
 a.secondary-btn:focus,
 a.third-btn:focus {
-    outline: 2px solid var(--btn-color);
-    outline-offset: 2px;
+    outline: 3px solid var(--btn-color);
+    outline-offset: 3px;
+    transition: outline-offset 0.2s ease;
+}
+
+/* Loading State (Optional) */
+.main-btn.loading,
+.secondary-btn.loading,
+.third-btn.loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.main-btn.loading::after,
+.secondary-btn.loading::after,
+.third-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 3px solid var(--white-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: button-loading-spinner 0.8s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Responsive Button Styles */
@@ -181,5 +287,33 @@ a.third-btn:focus {
     .btn-large {
         padding: 16px 40px;
         font-size: 1rem;
+    }
+    
+    /* Reduce animation intensity on mobile */
+    .main-btn:hover,
+    .secondary-btn:hover,
+    .third-btn:hover {
+        transform: translateY(-2px) scale(1.01);
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .main-btn,
+    .secondary-btn,
+    .third-btn {
+        transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .main-btn:hover,
+    .secondary-btn:hover,
+    .third-btn:hover {
+        transform: none;
+    }
+    
+    .main-btn::before,
+    .secondary-btn::before,
+    .third-btn::before {
+        transition: none;
     }
 }

@@ -1,15 +1,12 @@
 {% extends "base.html" %}
-{% block title %}
-    Login
-{% endblock %}
+{% block title %}Login{% endblock %}
 {% block content %}
-    <div class="login-wrapper">
-        <form 
-            method="POST"
-            class="login-form"
-        >
-            <h2>Login</h2>
-            <div class="form-group d-flex flex-column mt-3">
+    <div class="auth-wrapper">
+        <form method="POST" class="auth-form">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Login to continue your journey</p>
+            
+            <div class="form-group">
                 <label for="email">Email</label>
                 <input 
                     type="email" 
@@ -19,9 +16,10 @@
                     required
                 >
             </div>
-            <div class="form-group d-flex flex-column mb-2">
+            
+            <div class="form-group">
                 <label for="password">Password</label>
-                <div class="password-input-wrapper">
+                <div class="password-wrapper">
                     <input 
                         type="password" 
                         id="password"
@@ -33,25 +31,26 @@
                     <button 
                         type="button" 
                         id="toggle-password" 
-                        class="password-toggle-btn"
+                        class="password-toggle"
                         tabindex="-1"
                         aria-label="Toggle password visibility"
                     >
                         <img 
                             id="toggle-icon" 
-                            src="{{ url_for('static', filename='images/eye.svg') }}" 
+                            src="{{ url_for('static', filename='icons/eye.svg') }}" 
                             alt="Show Password" 
-                            class="toggle-icon"
+                            class="toggle-icon mt-2"
                         />
                     </button>
                 </div>
             </div>
 
-            <div class="login-footer">
-                <span class="font-11">No account?</span>
-                <a href="{{ url_for('auth.sign_up') }}" class="create-one">Create one</a>
+            <button type="submit" class="main-btn">Login</button>
+            
+            <div class="auth-footer">
+                <span>Don't have an account?</span>
+                <a href="{{ url_for('auth.sign_up') }}" class="auth-link">Sign up</a>
             </div>
-            <button type="submit" class="button-style main-btn">Login</button>
         </form>
     </div>
 {% endblock %}

@@ -111,7 +111,7 @@
                             Pricing
                         </a>
 
-                        <a class="nav-item nav-link ms-3 me-4" href="/login">Login</a>
+                        <a class="nav-item nav-link ms-3 me-4 {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
                         <a class="secondary-btn py-1 px-3" href="/sign-up">Sign Up</a>
                     {% endif %}
                     </div>

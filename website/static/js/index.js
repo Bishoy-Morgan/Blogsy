@@ -60,8 +60,8 @@ const ProfileDropdown = {
 
 const PasswordToggle = {
     init() {
-        const eyeIcon = "/static/images/eye.svg";
-        const eyeSlashIcon = "/static/images/eye-slash.svg";
+        const eyeIcon = "/static/icons/eye.svg";
+        const eyeSlashIcon = "/static/icons/eye-slash.svg";
 
         const toggleConfigs = [
             { inputId: "password", buttonId: "toggle-password", iconId: "toggle-icon" },
