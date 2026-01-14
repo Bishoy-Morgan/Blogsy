@@ -30,6 +30,42 @@ async function makeRequest(url, options = {}) {
 
 // UI COMPONENTS
 
+// Mobile Menu Toggle
+const MobileMenu = {
+    init() {
+        const hamburger = getElement('hamburger');
+        const mobileMenu = getElement('mobileMenu');
+        const menuOverlay = getElement('menuOverlay');
+
+        if (!hamburger || !mobileMenu || !menuOverlay) {
+            console.warn('Mobile menu elements not found:', {
+                hamburger: !!hamburger,
+                mobileMenu: !!mobileMenu,
+                menuOverlay: !!menuOverlay
+            });
+            return;
+        }
+
+        const toggleMenu = () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        };
+
+        hamburger.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('.nav-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        console.log('Mobile menu initialized successfully');
+    }
+};
+
 // Profile Dropdown Handler
 
 const ProfileDropdown = {
@@ -525,7 +561,10 @@ const BlogLoader = {
 // Initialize all components when DOM is ready
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded - Initializing components...');
+    
     // UI Components
+    MobileMenu.init();
     ProfileDropdown.init();
     PasswordToggle.init();
     AlertHandler.init();
@@ -544,4 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search and Pagination
     TagSearch.init();
     BlogLoader.init();
+    
+    console.log('All components initialized successfully');
 });

@@ -42,9 +42,8 @@
 
     <body>
         <div class="layout">
-            <!-- Navbar -->
             <nav>
-                <div class="d-flex align-items-center justify-content-between {% if current_user.is_authenticated %}w-95{% else %}container{% endif %}">
+                <div class="w-100 d-flex align-items-center justify-content-between {% if current_user.is_authenticated %}w-95{% else %}{% endif %}">
                     <div class="d-flex align-items-center gap-1">
                         <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}">
                             <img 
@@ -54,7 +53,8 @@
                         </a>
                     </div>
 
-                    <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1">
+                    <!-- Desktop Navigation -->
+                    <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1 desktop-nav">
                     {% if current_user.is_authenticated %}
                         <!-- Write -->
                         <div class="d-flex align-items-center justify-content-center">
@@ -69,7 +69,7 @@
                         {% if current_user.profile_image %}
                             <img id="profileBtn" src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}"
                                 alt="{{ current_user.first_name }}'s profile" style="width: 35px; height: 35px; object-fit: cover; cursor: pointer;" loading="lazy" />
-                            {% else %}
+                        {% else %}
                             <button id="profileBtn" aria-label="Profile menu">
                                 {{ current_user.first_name[0] }}
                             </button>
@@ -90,33 +90,65 @@
                             </div>
                         </div>
                     {% else %}
-                        <a
-                            class="nav-item nav-link {% if request.path == '/our-story' %}active{% endif %}"
-                            href="/our-story"
-                        >
-                            Our Story
-                        </a>
-
-                        <a
-                            class="nav-item nav-link {% if request.path == '/features' %}active{% endif %}"
-                            href="/features"
-                        >
-                            Features
-                        </a>
-
-                        <a
-                            class="nav-item nav-link {% if request.path == '/pricing' %}active{% endif %}"
-                            href="/pricing"
-                        >
-                            Pricing
-                        </a>
-
+                        <a class="nav-item nav-link {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                        <a class="nav-item nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                        <a class="nav-item nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
                         <a class="nav-item nav-link ms-3 me-4 {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
                         <a class="secondary-btn py-2 px-3" href="/sign-up">Sign Up</a>
                     {% endif %}
                     </div>
+
+                    <!-- Hamburger Menu Button -->
+                    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </nav>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="menu-overlay" id="menuOverlay"></div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                {% if current_user.is_authenticated %}
+                    <div class="nav-item">
+                        <a class="nav-link" href="/write">
+                            <img src="{{ url_for('static', filename='images/write.svg') }}" alt="Write Icon" style="width: 20px; margin-right: 10px;" loading="lazy" />
+                            Write
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/{{ current_user.first_name.replace(' ', '-') }}">Profile</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/reading-list">Reading List</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
+                    </div>
+                    
+                    <a class="secondary-btn py-2 px-3 mt-3 mx-auto" href="/sign-up">Sign Up</a>
+                    
+                {% endif %}
+            </div>
 
             <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -163,9 +195,9 @@
             once: true
             });
         </script>
-        <!-- GSAP -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
         <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
     </body>
 </html>

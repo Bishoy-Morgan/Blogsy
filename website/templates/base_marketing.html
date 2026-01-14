@@ -33,46 +33,110 @@
         <!-- Header / Nav -->
         <header>
             <nav>
-                <div class="d-flex align-items-center justify-content-between container">
+                <div class="w-100 d-flex align-items-center justify-content-between {% if current_user.is_authenticated %}w-95{% else %}{% endif %}">
                     <div class="d-flex align-items-center gap-1">
-                        <a href="/">
-                            <img
-                                id="logo"
-                                src="{{ url_for('static', filename='images/logo-blogsy.png') }}"
-                                alt="Blogsy image"
-                                style="width: 130px; height: 50px;"
-                                loading="lazy"
+                        <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}">
+                            <img 
+                                id="logo" src="{{ url_for('static', filename='images/logo-blogsy.png') }}"
+                                alt="Blogsy image" style="width: 130px; height: 50px;" loading="lazy" 
                             />
                         </a>
                     </div>
 
-                    <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1">
-                        <a
-                            class="nav-item nav-link {% if request.path == '/our-story' %}active{% endif %}"
-                            href="/our-story"
-                        >
-                            Our Story
-                        </a>
+                    <!-- Desktop Navigation -->
+                    <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1 desktop-nav">
+                    {% if current_user.is_authenticated %}
+                        <!-- Write -->
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img src="{{ url_for('static', filename='images/write.svg') }}" alt="Write Icon" class="write-img" loading="lazy" />
+                            <a class="nav-item nav-link {% if request.path == '/write' %}active-write{% endif %}" style="margin-left: .5rem; margin-right: 0.5rem" href="/write">Write</a>
+                        </div>
 
-                        <a
-                            class="nav-item nav-link {% if request.path == '/features' %}active{% endif %}"
-                            href="/features"
-                        >
-                            Features
-                        </a>
+                        <!-- Home -->
+                        <a class="nav-item nav-link pe-md-3 pe-2 {% if request.path == '/home' %}active-home{% endif %}" href="/home">Home</a>
 
-                        <a
-                            class="nav-item nav-link {% if request.path == '/pricing' %}active{% endif %}"
-                            href="/pricing"
-                        >
-                            Pricing
-                        </a>
+                        <!-- Profile Button -->
+                        {% if current_user.profile_image %}
+                            <img id="profileBtn" src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}"
+                                alt="{{ current_user.first_name }}'s profile" style="width: 35px; height: 35px; object-fit: cover; cursor: pointer;" loading="lazy" />
+                        {% else %}
+                            <button id="profileBtn" aria-label="Profile menu">
+                                {{ current_user.first_name[0] }}
+                            </button>
+                        {% endif %}
 
+                        <!-- Profile Dropdown -->
+                        <div id="profileContainer" class="profile-container d-none">
+                            <div class="w-100 d-flex gap-3">
+                                <img src="{{ url_for('static', filename='images/profile.svg') }}" alt="Profile Icon" class="write-img" loading="lazy" />
+                                <a href="/{{ current_user.first_name.replace(' ', '-') }}" class="links">Profile</a>
+                            </div>
+                            <div class="w-100 d-flex gap-3">
+                                <img src="{{ url_for('static', filename='images/blog.svg') }}" alt="Reading List Icon" class="write-img" loading="lazy" />
+                                <a href="/reading-list" class="links">Reading List</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mt-3">
+                                <a class="logout-link" href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="nav-item nav-link {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                        <a class="nav-item nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                        <a class="nav-item nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
                         <a class="nav-item nav-link ms-3 me-4 {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
                         <a class="secondary-btn py-2 px-3" href="/sign-up">Sign Up</a>
+                    {% endif %}
                     </div>
+
+                    <!-- Hamburger Menu Button -->
+                    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </nav>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="menu-overlay" id="menuOverlay"></div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                {% if current_user.is_authenticated %}
+                    <div class="nav-item">
+                        <a class="nav-link" href="/write">
+                            <img src="{{ url_for('static', filename='images/write.svg') }}" alt="Write Icon" style="width: 20px; margin-right: 10px;" loading="lazy" />
+                            Write
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/{{ current_user.first_name.replace(' ', '-') }}">Profile</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/reading-list">Reading List</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="nav-item">
+                        <a class="nav-link  {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
+                    </div>
+                    <a class="secondary-btn py-2 px-3 mt-3 mx-auto" href="/sign-up">Sign Up</a>
+                {% endif %}
+            </div>
         </header>
 
         <!-- Main Content -->
@@ -104,7 +168,7 @@
         <!-- GSAP -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-        <!-- <script src="{{ url_for('static', filename='js/our-story.js') }}"></script> -->
+        <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
         <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 
         {% block scripts %}{% endblock %}

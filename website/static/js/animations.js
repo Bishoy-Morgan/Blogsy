@@ -13,9 +13,7 @@
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // ============================================
         // HERO SECTIONS
-        // ============================================
         
         // Animate any hero section (welcome-hero, story-hero, pricing-hero, features-hero)
         const heroSelectors = ['.welcome-hero', '.story-hero', '.pricing-hero', '.features-hero'];
@@ -57,9 +55,7 @@
             }
         });
 
-        // ============================================
         // CONTENT BLOCKS (Our Story, Features)
-        // ============================================
         
         gsap.utils.toArray('[data-animate]').forEach((block) => {
             gsap.from(block, {
@@ -75,9 +71,7 @@
             });
         });
 
-        // ============================================
         // FEATURE BLOCKS
-        // ============================================
         
         gsap.utils.toArray('.feature-block').forEach((block) => {
             const content = block.querySelector('.feature-content');
@@ -163,9 +157,7 @@
             }
         });
 
-        // ============================================
         // PRICING CARDS
-        // ============================================
         
         const pricingCards = document.querySelectorAll('.pricing-card');
         if (pricingCards.length > 0) {
@@ -221,9 +213,7 @@
             });
         }
 
-        // ============================================
         // VISUAL CARDS
-        // ============================================
         
         gsap.utils.toArray('.visual-card').forEach((card) => {
             gsap.from(card, {
@@ -239,9 +229,7 @@
             });
         });
 
-        // ============================================
         // PRINCIPLE ITEMS
-        // ============================================
         
         gsap.utils.toArray('.content-block').forEach((block) => {
             const principles = block.querySelectorAll('.principle-item');
@@ -262,9 +250,7 @@
             }
         });
 
-        // ============================================
         // FLOATING ICONS
-        // ============================================
         
         gsap.utils.toArray('.floating-icon, .feature-icon').forEach((icon) => {
             gsap.to(icon, {
@@ -277,9 +263,7 @@
             });
         });
 
-        // ============================================
         // CTA SECTIONS
-        // ============================================
         
         const ctaSections = ['.cta-section', '.features-cta', '.pricing-footer'];
         ctaSections.forEach(selector => {
@@ -332,9 +316,7 @@
             }
         });
 
-        // ============================================
         // WELCOME PAGE SPECIFIC
-        // ============================================
         
         const welcomeImg = document.querySelector('.welcome-hero-img');
         if (welcomeImg) {
@@ -386,9 +368,7 @@
             }
         }
 
-        // ============================================
         // BUTTON HOVER ENHANCEMENTS
-        // ============================================
         
         const buttons = document.querySelectorAll('.main-btn, .secondary-btn, .third-btn, .plan-button');
         buttons.forEach(button => {
@@ -409,9 +389,7 @@
             });
         });
 
-        // ============================================
         // CARD HOVER EFFECTS (3D Tilt)
-        // ============================================
         
         gsap.utils.toArray('.pricing-card, .feature-content').forEach((card) => {
             card.addEventListener('mouseenter', () => {
@@ -431,9 +409,7 @@
             });
         });
 
-        // ============================================
         // PARALLAX EFFECTS
-        // ============================================
         
         gsap.utils.toArray('.feature-content, .visual-card').forEach((card) => {
             gsap.to(card, {

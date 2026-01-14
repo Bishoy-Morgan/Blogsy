@@ -2,25 +2,23 @@
 
 {% block content %}
     <section class="welcome-section">
-        <div class="container d-flex flex-column flex-md-row justify-content-center align-items-center">
-            <div class="welcome-content">
-                <h1>Where thoughtful writing actually lives</h1>
-                <p class="subtitle">
-                    Write without distractions, follow writers you care about,
-                    and explore ideas worth reading not just scrolling.
-                </p>
-                <a href="/explore" class="main-btn w-50">
-                    Start exploring
-                </a>
-            </div>
-            <div class="welcome-image-wrapper">
-                <img 
-                    src="{{ url_for('static', filename='images/hero-image1.png') }}"
-                    alt="Old Printer"
-                    class="welcome-hero-img"
-                    loading="lazy"
-                >
-            </div>
+        <div class="welcome-content">
+            <h1>Where thoughtful writing actually lives</h1>
+            <p class="subtitle">
+                Write without distractions, follow writers you care about,
+                and explore ideas worth reading not just scrolling.
+            </p>
+            <a href="/explore" class="main-btn">
+                Start exploring
+            </a>
+        </div>
+        <div class="welcome-image-wrapper">
+            <img 
+                src="{{ url_for('static', filename='images/hero-image1.png') }}"
+                alt="Blogsy platform"
+                class="welcome-hero-img"
+                loading="lazy"
+            >
         </div>
     </section>
 {% endblock %}
