@@ -47,13 +47,13 @@
                                 <form method="POST"
                                     action="{{ url_for('views.unfollow', user_id=blog.author.id) }}"
                                     class="follow-form">
-                                    <button type="submit" class="unfollow-btn py-1">Unfollow</button>
+                                    <button type="submit" class="third-btn py-1 px-3 fw-light">Unfollow</button>
                                 </form>
                             {% else %}
                                 <form method="POST"
                                     action="{{ url_for('views.follow', user_id=blog.author.id) }}"
                                     class="follow-form">
-                                    <button type="submit" class="follow-btn py-1">Follow</button>
+                                    <button type="submit" class="main-btn py-1 px-3 fw-light">Follow</button>
                                 </form>
                             {% endif %}
                         </div>

@@ -827,7 +827,7 @@ trix-editor {
     width: 30%;
 }
 
-   /* ASIDE & TOPICS */
+   /* ASIDE */
 
 aside {
     position: sticky;
@@ -847,23 +847,6 @@ aside {
 
 aside::-webkit-scrollbar {
     display: none;
-}
-
-.topic {
-    color: var(--primary-color);
-    border: 0;
-    text-transform: capitalize;
-    display: inline-block;
-    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(0.8rem, 1.2vw, 1rem);
-    margin: 0.3rem 0.3rem 0.3rem 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 100px;
-    font-size: clamp(12px, 1.1vw, 14px);
-}
-
-.topic:hover {
-    color: var(--primary-color);
-    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .follow-content p {
@@ -924,18 +907,31 @@ aside::-webkit-scrollbar {
 
 .profile-container {
     position: absolute;
-    top: 170%;
-    right: 2%;
-    width: clamp(10rem, 15vw, 12rem);
-    z-index: 1000;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    padding: 15px;
+    min-width: 220px;
+    z-index: 9999 !important;
+}
+
+.profile-container .w-100 {
+    padding: 10px;
     border-radius: 8px;
-    padding: 2rem 1rem 1rem 1rem;
-    background-color: var(--white-color);
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    font-size: clamp(13px, 1.2vw, 16px);
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.profile-container .links {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* Make sure parent has position relative */
+.position-relative {
+    position: relative !important;
 }
 
 .profile-side-container {
@@ -1076,21 +1072,7 @@ aside::-webkit-scrollbar {
     text-decoration: none;
 }
 
-.logout-link {
-    padding: clamp(0.4rem, 0.8vw, 0.5rem) clamp(1.5rem, 2vw, 2rem);
-    border-radius: 50px;
-    background-color: rgba(38, 97, 80, 0.15);
-    text-decoration: none;
-    color: var(--btn-color);
-    font-size: clamp(13px, 1.1vw, 15px);
-}
-
-.logout-link:hover {
-    background-color: var(--btn-color);
-    color: white;
-}
-
-   /* ALERTS */
+/* ALERTS */
 
 .alert-style {
     position: absolute;

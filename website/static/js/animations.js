@@ -1,11 +1,7 @@
-// Global GSAP Animations - Used across all marketing pages
-
 (function() {
     'use strict';
 
-    // Wait for GSAP to load
     function initGlobalAnimations() {
-        // Register ScrollTrigger plugin
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
             console.warn('GSAP or ScrollTrigger not loaded');
             return;
@@ -15,7 +11,6 @@
 
         // HERO SECTIONS
         
-        // Animate any hero section (welcome-hero, story-hero, pricing-hero, features-hero)
         const heroSelectors = ['.welcome-hero', '.story-hero', '.pricing-hero', '.features-hero'];
         heroSelectors.forEach(selector => {
             const hero = document.querySelector(selector);
@@ -55,7 +50,7 @@
             }
         });
 
-        // CONTENT BLOCKS (Our Story, Features)
+        // CONTENT BLOCKS
         
         gsap.utils.toArray('[data-animate]').forEach((block) => {
             gsap.from(block, {
@@ -175,7 +170,6 @@
                 ease: 'back.out(1.2)'
             });
 
-            // Popular badge animation
             const popularBadge = document.querySelector('.popular-badge');
             if (popularBadge) {
                 gsap.from(popularBadge, {
@@ -192,7 +186,6 @@
                 });
             }
 
-            // Feature items in pricing cards
             pricingCards.forEach((card) => {
                 const features = card.querySelectorAll('.feature-item');
                 if (features.length > 0) {
@@ -329,7 +322,6 @@
                 ease: 'power3.out'
             });
 
-            // Floating animation
             gsap.to(welcomeImg, {
                 y: -15,
                 duration: 3,
@@ -342,7 +334,6 @@
 
         const welcomeContent = document.querySelector('.welcome-content');
         if (welcomeContent) {
-            // Parallax effect
             gsap.to(welcomeContent, {
                 scrollTrigger: {
                     trigger: '.welcome-section',
@@ -389,7 +380,7 @@
             });
         });
 
-        // CARD HOVER EFFECTS (3D Tilt)
+        // CARD HOVER EFFECTS
         
         gsap.utils.toArray('.pricing-card, .feature-content').forEach((card) => {
             card.addEventListener('mouseenter', () => {
@@ -423,6 +414,198 @@
                 ease: 'none'
             });
         });
+
+        // PROFILE DROPDOWN ANIMATION =====
+        const profileContainer = document.getElementById('profileContainer');
+        const profileBtn = document.getElementById('profileBtn');
+
+        if (profileContainer && profileBtn) {
+            profileContainer.style.display = 'none';
+            profileContainer.classList.add('d-none');
+            
+            let isOpen = false;
+
+            function toggleDropdown(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                if (isOpen) {
+                    gsap.to(profileContainer, {
+                        opacity: 0,
+                        y: -10,
+                        scale: 0.95,
+                        duration: 0.2,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            profileContainer.style.display = 'none';
+                            profileContainer.classList.add('d-none');
+                            isOpen = false;
+                        }
+                    });
+                } else {
+                    console.log('Opening...');
+                    profileContainer.classList.remove('d-none');
+                    profileContainer.style.display = 'block';
+                    
+                    gsap.set(profileContainer, {
+                        opacity: 0,
+                        y: -20,
+                        scale: 0.95
+                    });
+                    
+                    const tl = gsap.timeline({
+                        onStart: () => {
+                            isOpen = true;
+                        }
+                    });
+                    
+                    tl.to(profileContainer, {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.4,
+                        ease: 'back.out(1.7)'
+                    });
+
+                    const menuItems = profileContainer.querySelectorAll('.w-100, .logout-link');
+                    tl.from(menuItems, {
+                        opacity: 0,
+                        x: -20,
+                        duration: 0.3,
+                        stagger: 0.08,
+                        ease: 'power2.out'
+                    }, '-=0.25');
+                }
+            }
+
+            profileBtn.addEventListener('click', toggleDropdown);
+            
+            profileContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            document.addEventListener('click', (e) => {
+                if (isOpen && 
+                    !profileContainer.contains(e.target) && 
+                    !profileBtn.contains(e.target)) {
+                    toggleDropdown();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isOpen) {
+                    toggleDropdown();
+                }
+            });
+
+            // Hover effects
+            profileBtn.addEventListener('mouseenter', () => {
+                if (!isOpen) {
+                    gsap.to(profileBtn, {
+                        scale: 1.1,
+                        duration: 0.3,
+                        ease: 'back.out(1.7)'
+                    });
+                }
+            });
+
+            profileBtn.addEventListener('mouseleave', () => {
+                if (!isOpen) {
+                    gsap.to(profileBtn, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+
+            const menuItems = profileContainer.querySelectorAll('.w-100');
+            menuItems.forEach(item => {
+                const icon = item.querySelector('.write-img');
+                const link = item.querySelector('.links');
+
+                item.addEventListener('mouseenter', () => {
+                    gsap.to(item, {
+                        x: 8,
+                        backgroundColor: 'rgba(244, 60, 9, 0.08)',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                    
+                    if (icon) {
+                        gsap.to(icon, {
+                            rotation: 8,
+                            scale: 1.15,
+                            duration: 0.3,
+                            ease: 'back.out(1.7)'
+                        });
+                    }
+
+                    if (link) {
+                        gsap.to(link, {
+                            color: '#f43a09',
+                            duration: 0.2
+                        });
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item, {
+                        x: 0,
+                        backgroundColor: 'transparent',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                    
+                    if (icon) {
+                        gsap.to(icon, {
+                            rotation: 0,
+                            scale: 1,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    }
+
+                    if (link) {
+                        gsap.to(link, {
+                            color: '',
+                            duration: 0.2
+                        });
+                    }
+                });
+            });
+
+            const logoutLink = profileContainer.querySelector('.logout-link');
+            if (logoutLink) {
+                logoutLink.addEventListener('mouseenter', () => {
+                    gsap.to(logoutLink, {
+                        scale: 1.08,
+                        color: '#dc3545',
+                        duration: 0.3,
+                        ease: 'back.out(1.7)'
+                    });
+                });
+
+                logoutLink.addEventListener('mouseleave', () => {
+                    gsap.to(logoutLink, {
+                        scale: 1,
+                        color: '',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+            
+            console.log('✅ All event listeners attached');
+        } else {
+            console.error('❌ Profile elements not found:', {
+                profileBtn: !!profileBtn,
+                profileContainer: !!profileContainer
+            });
+        }
+
     }
 
     // Initialize when DOM and GSAP are ready

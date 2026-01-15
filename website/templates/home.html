@@ -16,7 +16,7 @@
                 <h6 class="mb-4 poppins ">Recommended topics</h6>
                 <div>
                     {% for tag in tags[:8] %}
-                        <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="topic text-decoration-none">
+                        <a href="{{ url_for('views.posts_by_tag', tag_id=tag.id) }}" class="third-btn py-1 px-3 fw-light">
                             {{ tag.name }}
                         </a>
                     {% endfor %}
@@ -54,7 +54,7 @@
                             <!-- Only the button inside the form -->
                             <div class="follow-button-container" data-user-id="{{ user.id }}">
                                 <form method="POST" action="{{ url_for('views.follow', user_id=user.id) }}" class="follow-form" >
-                                    <button class="follow-btn py-1" type="submit">Follow</button>
+                                    <button class="follow-btn main-btn fw-light px-3 py-1" type="submit">Follow</button>
                                 </form>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
             <div class="aside-links">
                 <ul class="list-unstyled d-flex align-items-center gap-2 flex-wrap ">
                     <li>
-                        <a href="/about">About</a>
+                        <a href="/our-story">About</a>
                     </li>
                     <li>
                         <a href="#">Status</a>
