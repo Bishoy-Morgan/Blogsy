@@ -1,60 +1,7 @@
-# Blogsy
+# 📝 Blogsy
 
-**Blogsy** is a backend-focused blogging platform built to demonstrate how a real-world content application is designed, structured, and evolved — beyond basic CRUD functionality.
-
-The goal of this project is to showcase **backend engineering fundamentals**: authentication, relational data modeling, user interactions, media handling, and maintainable application structure.
-
----
-
-## 🎯 What This Project Is For
-
-This project was built to demonstrate:
-
-- How to design a multi-user content platform
-- How social features (likes, comments, saves) affect data modeling
-- How to structure a Flask application for long-term maintainability
-- How to safely handle user-generated content and file uploads
-- How to think about scalability and production concerns early
-
-Blogsy is intentionally **feature-complete**, not experimental, and focuses on *real product behavior* rather than isolated examples.
-
----
-
-## 🧠 Why Blogsy Exists
-
-Many demo projects stop at “users can create posts.”
-
-Blogsy goes further by addressing:
-- **User interaction** (likes, comments, reading lists)
-- **Content discovery** (tags)
-- **Media handling** (image uploads and optimization)
-- **Account ownership** (profiles, saved content)
-
-The goal was to build something that behaves like a real blogging product, even at a small scale.
-
----
-
-## 🏗 Engineering Focus
-
-Key engineering areas this project emphasizes:
-
-- Authentication and session management
-- Relational database modeling with SQLAlchemy
-- Many-to-many relationships (posts ↔ tags, users ↔ saved posts)
-- Server-side image processing and validation
-- Modular Flask architecture with clear separation of concerns
-
----
-
-## 🚀 Core Capabilities
-
-- User authentication and profiles
-- Blog post creation with tags and images
-- Likes, comments, and reading lists
-- Tag-based post discovery
-- Responsive UI using server-side rendering
-
-(Features are implemented to support the engineering goals above.)
+**Blogsy** is a modern, full-featured blogging platform built with **Flask**, designed to showcase clean architecture, authentication flows, and real-world backend features.  
+It supports writing rich blog posts with images and tags, user interaction (likes, comments, reading lists), and a hybrid authentication system using **Supabase Auth + Flask sessions**.
 
 ---
 
@@ -70,50 +17,101 @@ Key engineering areas this project emphasizes:
 
 ---
 
-## 🧱 Application Structure
+## 🚀 Features
 
-The application follows a modular Flask structure:
+### 🔐 Authentication & Users
+- User sign up & login via **Supabase Authentication**
+- Flask session handling with **Flask-Login**
+- Automatic local user creation on first Supabase login
+- Logout support
+- Update profile information (name, password)
+- Upload profile image (validated, cropped, resized)
+- User profile pages via `/your-name`
 
-- `views.py` — request handling and routing
-- `models.py` — database schema and relationships
-- `utils.py` — shared utilities and helpers
-- `templates/` — server-rendered UI with reusable components
-- `static/` — styles, scripts, and uploaded media
+### ✍️ Blog Posts
+- Create blog posts with:
+  - Title, content, tags (comma-separated), and image
+  - Minimum length validation
+  - First-letter drop-cap styling
+- Uploaded post images:
+  - Automatically converted to optimized `.webp`
+  - Compressed for performance
 
-This structure was chosen to keep the codebase readable and scalable as features grow.
+### 🏷️ Tags & Topics
+- Tags are auto-created or reused during post creation
+- Browse posts by tag via `/tag/<id>`
+- View all tags with search support
+
+### 💬 Interaction
+- Comment on posts (with empty-content validation)
+- Like posts (AJAX supported)
+- Save / remove posts from personal reading list (AJAX supported)
+
+### 📚 Reading List
+- Each user has a personal reading list
+- Accessible at `/reading-list`
+
+### 🧍 Social Features
+- Follow / unfollow users
+- Suggested users system
+- User profile pages with authored posts
+
+### 📃 Static Pages
+- Welcome page (`/`)
+- Terms of use (`/terms`)
+- Privacy policy (`/privacy-policy`)
+- Pricing, Features, and Story pages
+
+### ⚙️ Image Processing
+- Blog images converted to `.webp`
+- Profile images:
+  - Center-cropped
+  - Resized to square format
+  - Renamed uniquely per user
+
+### 🧠 UX & Performance
+- Clean, responsive UI
+- Server-side rendering with Jinja2
+- Optimized images for fast loading
+- Accessible, readable layout
 
 ---
 
-## 🔐 Security & Data Handling
+## 🔐 Authentication Architecture (Important)
 
-- Passwords are hashed using Werkzeug
-- Authentication handled via Flask-Login
-- Uploaded images are validated and processed server-side
-- Media is optimized by converting images to WebP format
-- Sensitive configuration is intended to be managed via environment variables
+Blogsy uses a **hybrid authentication approach**:
 
----
+1. User signs up / logs in via **Supabase Auth** (client-side)
+2. Supabase validates credentials securely
+3. Flask receives the authenticated email
+4. Flask creates or retrieves a local user record
+5. Flask session is established using **Flask-Login**
 
-## 📈 Future Direction
-
-If extended further, the project could include:
-- Pagination and performance optimizations
-- Automated tests for core flows
-- REST API layer for frontend separation
-- Production database (PostgreSQL)
-- Advanced authorization rules
+This approach allows:
+- Secure auth without storing raw passwords
+- Full control over backend permissions and data
+- Easy future migration to production databases
 
 ---
 
-## 👤 Author
+## 📂 Project Structure
 
-**Bishoy Morgan**  
-Full-Stack Developer
-
-GitHub: https://github.com/Bishoy-Morgan
-
----
-
-## 📄 License
-
-MIT License
+```bash
+blogsy/
+├── website/
+│   ├── static/
+│   │   ├── uploads/
+│   │   ├── profile_images/
+│   │   ├── js/
+│   │   ├── css/
+│   │   ├── fonts/
+│   │   └── images/
+│   ├── templates/
+│   ├── __init__.py
+│   ├── views.py
+│   ├── auth.py
+│   ├── models.py
+│   └── utils.py
+├── main.py
+├── requirements.txt
+└── README.md
