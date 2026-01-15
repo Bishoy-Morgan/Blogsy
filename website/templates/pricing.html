@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <!-- Header -->
+    <div class="text-center" style="margin-bottom: 5rem">
+        <h1 class="mb-3">Pricing Plans</h1>
+        <p class="subtitle text-gray">Choose a plan that fits your creative workflow</p>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="row justify-content-center g-4">
+        <!-- Free Plan -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4">
+                <div class="card-body p-0">
+                    <h4 class="mb-4">Free</h4>
+                    <div class="d-flex align-items-baseline mb-4">
+                        <h2 class="mb-0 me-1">$0</h2>
+                        <span class="text-gray">/ month</span>
+                    </div>
+                    
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Browse public posts</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Follow authors</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Save up to 10 posts</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start text-muted">
+                            <span class="me-2">✗</span>
+                            <span>Post analytics</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ url_for('auth.sign_up') }}" class="button-style w-100 text-center d-block text-decoration-none m-0 mt-5">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creator Plan -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-lg position-relative p-4 rounded-4" style="transform: scale(1.05);">
+                <span class="badge position-absolute top-0 start-50 translate-middle px-3 py-2 rounded-pill" 
+                      style="background-color: var(--btn-color); color: white;">
+                    Most Popular
+                </span>
+
+                <div class="card-body p-0 mt-2">
+                    <h4 class="mb-4">Creator</h4>
+                    <div class="d-flex align-items-baseline mb-4">
+                        <h2 class="mb-0 me-1">$9</h2>
+                        <span class="text-gray">/ month</span>
+                    </div>
+                    
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Unlimited posts</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Unlimited saves</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Post analytics</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Custom profile URL</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ url_for('auth.sign_up', plan='creator') }}" class="button-style w-100 text-center d-block text-decoration-none m-0 mt-5">
+                        Start Free Trial
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4">
+                <div class="card-body p-0">
+                    <h4 class="mb-4">Pro</h4>
+                    <div class="d-flex align-items-baseline mb-4">
+                        <h2 class="mb-0 me-1">$19</h2>
+                        <span class="text-gray">/ month</span>
+                    </div>
+                    
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Everything in Creator</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Featured posts</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Advanced analytics</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <span class="me-2">✓</span>
+                            <span>Priority support</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="{{ url_for('auth.sign_up', plan='pro') }}" class="button-style w-100 text-center d-block text-decoration-none m-0 mt-5">
+                        Upgrade Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="text-center mt-5">
+        <p class="font-11 text-gray mb-0">
+            All paid plans include a 30-day free trial — no credit card required
+        </p>
+    </div>
+</section>
+{% endblock %}

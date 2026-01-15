@@ -1,25 +1,72 @@
 {% extends "base.html" %}
-{% block title %}Profile{% endblock %}
-
-{% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% block title %}
+    Profile
 {% endblock %}
 
 {% block content %}
 <section class="w-100 d-flex align-items-center justify-content-center">
-    <div class="custom-width text-start profile-info-container">
+    <div class="profile-side-container" id="profile-side-container" style="display: none;">
+        <button type="button" class="close-profile-container" aria-label="Close">×</button>
+        <!-- Followers list -->
+        <div id="followers-list" class="user-list" style="display: none;">
+            <h4 class="mb-5">Followers</h4>
+            <ul class="list-group ">
+                {% for follower in user.followers %}
+                    <li class="list-group-item d-flex align-items-center gap-3 bg-transparent border-0">
+                        {% if follower.profile_image %}
+                            <img src="{{ url_for('static', filename='profile_images/' + follower.profile_image) }}"
+                                class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+                        {% else %}
+                            <div class="letter-avatar small-avatar d-flex align-items-center justify-content-center rounded-circle">
+                                {{ follower.first_name[0]|upper }}
+                            </div>
+                        {% endif %}
+                        <a href="{{ url_for('views.profile', first_name=follower.first_name|replace(' ', '-') ) }}" class="fw-bold poppins text-decoration-none text-black">
+                            {{ follower.first_name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Following list -->
+        <div id="following-list" class="user-list" style="display: none;">
+            <h4 class="mb-5">Following</h4>
+            <ul class="list-group">
+                {% for followed in user.followed %}
+                    <li class="list-group-item d-flex align-items-center gap-3 bg-transparent border-0">
+                        {% if followed.profile_image %}
+                            <img src="{{ url_for('static', filename='profile_images/' + followed.profile_image) }}"
+                                class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+                        {% else %}
+                            <div class="letter-avatar small-avatar d-flex align-items-center justify-content-center rounded-circle">
+                                {{ followed.first_name[0]|upper }}
+                            </div>
+                        {% endif %}
+                        <a href="{{ url_for('views.profile', first_name=followed.first_name|replace(' ', '-') ) }}" class="fw-bold poppins text-decoration-none text-black">
+                            {{ followed.first_name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="custom-w-50 text-start profile-info-container">
         <div class="text-start mt-5">
             <h2 class="w-100 fw-bold">{{ user.first_name }}</h2>
         </div>
 
         {% if user.profile_image %}
-            <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
-            alt="{{ user.first_name }}'s Profile Image"
-            style="width: 120px; height: 120px; object-fit: cover;"
-            class="rounded-circle mt-5"
-            loading="lazy"
-            />
+            <div class="rounded-circle overflow-hidden mt-5" style="width: 150px; height: 150px;">
+                <img 
+                    src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}"
+                    alt="{{ user.first_name }}'s Profile Image"
+                    class="d-block w-100 h-100"
+                    style="object-fit: cover;"
+                    loading="lazy"
+                />
+            </div>
         {% else %}
             <div class="letter-avatar mt-5 d-flex align-items-center justify-content-center rounded-circle">
                 {{ user.first_name[0]|upper }}
@@ -27,20 +74,32 @@
         {% endif %}
 
         <!-- Followers and Following -->
-        <div class="mt-3 d-flex align-items-center gap-4">
-            <p class="mb-0"><strong>{{ user.followers.count() }}</strong> Followers</p>
-            <p class="mb-0"><strong>{{ user.followed.count() }}</strong> Following</p>
+        <div class="mt-4 d-flex align-items-center gap-4">
+            <button type="button" class="followers-btn ">
+                <strong>{{ user.followers.count() }}</strong> Followers
+            </button>
+            <button type="button" class="following-btn ">
+                <strong>{{ user.followed.count() }}</strong> Following
+            </button>
         </div>
 
         <!-- Follow / Unfollow -->
-        {% if current_user.is_authenticated and current_user.id != user.id %}
-            <div class="mt-3">
-                {% if current_user.is_following(user) %}
-                    <a href="{{ url_for('views.unfollow', user_id=user.id) }}" class="btn btn-outline-danger">Unfollow</a>
-                {% else %}
-                    <a href="{{ url_for('views.follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
-                {% endif %}
-            </div>
+        {% if current_user.is_authenticated %}
+            {% if current_user.id != user.id %}
+                <div class="mt-3">
+                    {% if current_user.is_following(user) %}
+                        <a href="{{ url_for('views.unfollow', user_id=user.id) }}"
+                        class="btn btn-outline-danger">
+                            Unfollow
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('views.follow', user_id=user.id) }}"
+                        class="btn btn-primary">
+                            Follow
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endif %}
 
         <!-- Edit Profile Image Button -->
@@ -100,19 +159,21 @@
                     <li class="list-group-item d-flex flex-column p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <a class="blog-title" href="{{ url_for('views.view_post', blog_id=blog.id) }}">{{ blog.title }}</a>
-                            <small class="text-muted">{{ blog.date_created.strftime('%b %d, %Y') }}</small>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-4 mt-3">
-                            <a href="{{ url_for('views.edit_post', blog_id=blog.id) }}" class="edit-post-btn">Edit</a>
-                            <form action="{{ url_for('views.delete_post', blog_id=blog.id) }}" method="POST">
-                                <button type="submit" class="delete-post-btn">
-                                    <img src="{{ url_for('static', filename='images/delete.svg') }}"
-                                        alt="Delete"
-                                        style="width: 18px; height: 18px;" />
-                                    Delete
-                                </button>
-                            </form>
+                        <div class="d-flex justify-content-between gap-4 mt-3">
+                            <small class="text-muted">{{ blog.date_created.strftime('%b %d, %Y') }}</small>
+                            <div class="d-flex justify-content-end gap-4">
+                                <a href="{{ url_for('views.edit_post', blog_id=blog.id) }}" class="edit-post-btn">Edit</a>
+                                <form action="{{ url_for('views.delete_post', blog_id=blog.id) }}" method="POST">
+                                    <button type="submit" class="delete-post-btn">
+                                        <img src="{{ url_for('static', filename='images/delete.svg') }}"
+                                            alt="Delete"
+                                            style="width: 18px; height: 18px;" />
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </li>
                 {% endfor %}

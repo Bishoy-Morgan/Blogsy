@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, jsonify
 from flask_login import login_required, current_user
 from . import db
 from .models import Blog, Like, Comment, Tag, User
 import os
 from werkzeug.utils import secure_filename
 from .utils import save_compressed_image
-from flask import jsonify, request
-
+from PIL import Image
 
 views = Blueprint('views', __name__)
 
@@ -14,9 +13,45 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Pricing Page
+@views.route('/pricing')
+def pricing():
+    # You can later pass plan data or user status here
+    return render_template('marketing/pricing.html', current_user=current_user)
+
+# Our Story Page
+@views.route('/our-story')
+def ourStory():
+    return render_template('marketing/our-story.html')
+
+# Features Page
+@views.route("/features")
+def features():
+    return render_template("marketing/features.html")
+
+
 @views.route('/')
 def welcome():
-    return render_template('welcome.html', current_user=current_user,  GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID'])
+    return render_template(
+        'marketing/welcome.html',
+        current_user=current_user,
+        GA_MEASUREMENT_ID=current_app.config['GA_MEASUREMENT_ID']
+    )
+
+
+#Explore Page
+@views.route('/explore')
+def explore():
+    blogs = Blog.query.order_by(Blog.date_created.desc()).limit(10).all()
+    tags = Tag.query.all()
+    suggested_users = User.query.limit(3).all()
+
+    return render_template(
+        "explore.html",
+        blogs=blogs,
+        tags=tags,
+        suggested_users=suggested_users
+    )
 
 @views.route('/home')
 @login_required
@@ -55,9 +90,7 @@ def load_blogs():
 
     return render_template('partials/blogs.html', blogs=blogs)
 
-@views.route('/about')
-def about():
-    return render_template('about.html')
+# 
 
 @views.route('/write', methods=['GET', 'POST'])
 @login_required
@@ -109,6 +142,7 @@ def write():
     return render_template('write.html')
 
 @views.route('/post/<int:blog_id>', methods=['GET', 'POST'])
+@login_required
 def view_post(blog_id):
     blog = Blog.query.get_or_404(blog_id)
     reading_ids = [b.id for b in current_user.reading_list]
@@ -181,48 +215,59 @@ def profile(first_name):
         return render_template('not-found.html'), 404
     return render_template('profile.html', user=current_user, profile_user=user)
 
-from PIL import Image
 
-# Upload user profile image 
+# Upload user profile image
 @views.route('/upload_profile_image', methods=['POST'])
 @login_required
 def upload_profile_image():
-    if 'profile_image' not in request.files:
-        flash('No file part', category='error')
+    file = request.files.get('profile_image')
+
+    if not file or file.filename == '':
+        flash('No image selected.', category='error')
         return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
-    
-    file = request.files['profile_image']
-    if file.filename == '':
-        flash('No selected file', category='error')
+
+    if not allowed_file(file.filename):
+        flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
         return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
-    
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        _, ext = os.path.splitext(filename)
-        filename = f"user_{current_user.id}{ext}"
-        
+
+    try:
+        # Prepare the secure filename and path
+        _, ext = os.path.splitext(secure_filename(file.filename))
+        filename = f"user_{current_user.id}{ext.lower()}"
         upload_folder = os.path.join('website', 'static', 'profile_images')
         os.makedirs(upload_folder, exist_ok=True)
-        
         file_path = os.path.join(upload_folder, filename)
 
-        try:
-            image = Image.open(file)
-            image = image.convert("RGB")  # Ensure compatibility
-            image = image.resize((240, 240), Image.LANCZOS)  # High-quality resize
-            image.save(file_path, optimize=True, quality=90)
-        except Exception as e:
-            flash('Error processing image.', category='error')
-            print("Image processing error:", e)
-            return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
+        # Open and convert the image
+        image = Image.open(file)
+        image = image.convert("RGB")  # Ensure consistent format
+        
+        # Crop to square (center crop)
+        width, height = image.size
+        size = min(width, height)
+        
+        # Calculate crop box for center crop
+        left = (width - size) // 2
+        top = (height - size) // 2
+        right = left + size
+        bottom = top + size
+        
+        # Crop to square
+        image = image.crop((left, top, right, bottom))
+        
+        # Now resize the square image
+        image = image.resize((240, 240), Image.LANCZOS)  # High-quality resize
+        image.save(file_path, optimize=True, quality=90)
 
+        # Save to database
         current_user.profile_image = filename
         db.session.commit()
-        
+
         flash('Profile image updated successfully!', category='success')
-    else:
-        flash('Allowed image types are png, jpg, jpeg, gif.', category='error')
-    
+    except Exception as e:
+        print("Image processing error:", e)
+        flash('There was an error processing the image.', category='error')
+
     return redirect(url_for('views.profile', first_name=current_user.first_name.replace(' ', '-')))
 
 
@@ -247,6 +292,7 @@ def update_profile():
     return redirect(url_for('views.profile', first_name=first_name.replace(' ', '-')))
 
 @views.route('/tag/<int:tag_id>')
+@login_required
 def posts_by_tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     blogs = Blog.query\
@@ -274,6 +320,7 @@ def posts_by_tag(tag_id):
 
 # all tags page 
 @views.route('/all-tags')
+@login_required
 def all_tags():
     q = request.args.get('q', '').strip()
     if q:
@@ -364,6 +411,7 @@ def unfollow(user_id):
 
 # User Profile 
 @views.route('/user/<username>')
+@login_required
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
     if not user:

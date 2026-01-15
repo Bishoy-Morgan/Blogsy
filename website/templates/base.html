@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Meta -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Blogsy - Read, Write & Connect. A place to share your thoughts and connect with readers." />
+        <meta name="keywords" content="Blogsy, blogging, write, read, stories, articles" />
+        <meta name="author" content="Blogsy Team" />
+        <meta name="robots" content="index, follow" />
+        <!-- Title -->
         <title>
-            Blogsy | 
-            {% block title %}    
-                Read, Write & Connect
-            {% endblock %}
+            Blogsy | {% block title %}Read, Write & Connect{% endblock %}
         </title>
-        <link 
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
-            rel="stylesheet" 
-            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
-            crossorigin="anonymous"
-        >
-        <link 
-            rel="stylesheet" 
-            href="{{ url_for('static', filename='css/styles.css') }}"
-        >
+        <!-- Favicon -->
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <!-- Google tag (gtag.js) -->
+        <!-- Styles -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
+        <!-- Trix Editor -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
+        <!-- Google Analytics -->
         {% if GA_MEASUREMENT_ID %}
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
             <script>
@@ -30,89 +33,127 @@
                 gtag('config', '{{ GA_MEASUREMENT_ID }}');
             </script>
         {% endif %}
-        <!-- Trix Editor CSS and JS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
     </head>
 
     <body>
         <div class="layout">
             <nav>
-                <div class="d-flex align-items-center justify-content-between {% if current_user.is_authenticated %} w-95 {% else %}container{% endif %}">
-                        <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}" class="blogsy-font text-left">Blogsy</a>
-                        <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1 ">
-                            {% if current_user.is_authenticated %}
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <img
-                                    src="{{ url_for('static', filename='images/write.svg')}}"
-                                    alt="write and pencile"
-                                    class="write-img"
-                                    loading="lazy"
-                                    />
-                                    <a class="nav-item nav-link " style="margin-left: .5rem; margin-right: 0.5rem" id="home" href="/write">Write</a>
-                                </div>
-                                <a class="nav-item nav-link pe-md-3 pe-2" id="home" href="/home">Home</a>
-                                {% if current_user.profile_image %}
-                                    <img 
-                                    id="profileBtn" 
-                                    src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}"
-                                    alt="{{ current_user.first_name }}'s Profile Image"
-                                    class="position-relative"
-                                    style="width: 35px; height: 35px; object-fit: cover; border: none; cursor: pointer;" 
-                                    loading="lazy"
-                                    />
-                                {% else %}
-                                    <button id="profileBtn" class="position-relative">
-                                        {{ current_user.first_name[0] }}
-                                    </button>
-                                {% endif %}
-                                <div id="profileContainer" class="profile-container d-none">
-                                    <div class="w-100 d-flex gap-3">
-                                        <img
-                                        src="{{ url_for('static', filename='images/profile.svg')}}"
-                                        alt="Profile"
-                                        class="write-img"
-                                        loading="lazy"
-                                        />
-                                        <a href="/{{ current_user.first_name.replace(' ', '-') }}" class="links">Profile</a>
-                                    </div>
-                                    <div class="w-100 d-flex gap-3">
-                                        <img
-                                        src="{{ url_for('static', filename='images/blog.svg')}}"
-                                        alt="Profile"
-                                        class="write-img"
-                                        loading="lazy"
-                                        />
-                                        <a href="/reading-list" class="links">Reading List</a>
-                                    </div>
-                                    <!-- <div class="w-100 d-flex gap-3 mb-2">
-                                        <img
-                                        src="{{ url_for('static', filename='images/stories.svg')}}"
-                                        alt="Profile"
-                                        class="write-img"
-                                        loading="lazy"
-                                        />
-                                        <a href="/" class="links">Stories</a>
-                                    </div> -->
-                                    <div class="d-flex align-items-center justify-content-center mt-3">
-                                        <a class="logout-link" id="logout" href="/logout">Logout</a>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                                <a class="sign-up-link " id="sign-up" href="/sign-up">Sign Up</a>
-                            {% endif %}
+                <div class="w-100 d-flex align-items-center justify-content-between {% if current_user.is_authenticated %}w-95{% else %}{% endif %}">
+                    <div class="d-flex align-items-center gap-1">
+                        <a href="{% if current_user.is_authenticated %}/home{% else %}/{% endif %}">
+                            <img 
+                                id="logo" src="{{ url_for('static', filename='images/logo-blogsy.png') }}"
+                                alt="Blogsy image" style="width: 130px; height: 50px;" loading="lazy" 
+                            />
+                        </a>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="position-relative navbar-nav d-flex flex-row align-items-center justify-content-end gap-1 desktop-nav">
+                    {% if current_user.is_authenticated %}
+                        <!-- Write -->
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img src="{{ url_for('static', filename='icons/write.svg') }}" alt="Write Icon" class="write-img" loading="lazy" />
+                            <a class="nav-item nav-link {% if request.path == '/write' %}active-write{% endif %}" style="margin-left: .5rem; margin-right: 0.5rem" href="/write">Write</a>
                         </div>
+
+                        <!-- Home -->
+                        <a class="nav-item nav-link pe-md-3 pe-2 {% if request.path == '/home' %}active-home{% endif %}" href="/home">Home</a>
+
+                        <!-- Profile Button with Dropdown Container -->
+                        <div class="position-relative">
+                            <!-- Profile Button -->
+                            {% if current_user.profile_image %}
+                                <img id="profileBtn" src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}"
+                                    alt="{{ current_user.first_name }}'s profile" style="width: 35px; height: 35px; object-fit: cover; cursor: pointer;" loading="lazy" />
+                            {% else %}
+                                <button class="main-btn p-1" id="profileBtn" aria-label="Profile menu">
+                                    {{ current_user.first_name[0] }}
+                                </button>
+                            {% endif %}
+
+                            <!-- Profile Dropdown (inside the same container) -->
+                            <div id="profileContainer" class="profile-container d-none">
+                                <div class="w-100 d-flex gap-3">
+                                    <img src="{{ url_for('static', filename='icons/profile.svg') }}" alt="Profile Icon" class="write-img" loading="lazy" />
+                                    <a href="/{{ current_user.first_name.replace(' ', '-') }}" class="links">Profile</a>
+                                </div>
+                                <div class="w-100 d-flex gap-3">
+                                    <img src="{{ url_for('static', filename='icons/blog.svg') }}" alt="Reading List Icon" class="write-img" loading="lazy" />
+                                    <a href="/reading-list" class="links">Reading List</a>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mt-3">
+                                    <a class="third-btn px-3 py-1 fw-normal" href="/logout">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="nav-item nav-link {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                        <a class="nav-item nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                        <a class="nav-item nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
+                        <a class="nav-item nav-link ms-3 me-4 {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
+                        <a class="secondary-btn py-2 px-3" href="/sign-up">Sign Up</a>
+                    {% endif %}
+                    </div>
+
+                    <!-- Hamburger Menu Button -->
+                    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </nav>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="menu-overlay" id="menuOverlay"></div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                {% if current_user.is_authenticated %}
+                    <div class="nav-item">
+                        <a class="nav-link" href="/write">
+                            <img src="{{ url_for('static', filename='icons/write.svg') }}" alt="Write Icon" style="width: 20px; margin-right: 10px;" loading="lazy" />
+                            Write
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/{{ current_user.first_name.replace(' ', '-') }}">Profile</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/reading-list">Reading List</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/our-story' %}active{% endif %}" href="/our-story">Our Story</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/features' %}active{% endif %}" href="/features">Features</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/pricing' %}active{% endif %}" href="/pricing">Pricing</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="/login">Login</a>
+                    </div>
+                    
+                    <a class="secondary-btn py-2 px-3 mt-3 mx-auto" href="/sign-up">Sign Up</a>
+                    
+                {% endif %}
+            </div>
+
+            <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div
-                        class="alert-style alert-{{ 'danger' if category == 'error' else category }} "
-                        role="alert"
-                        >
-                            <div class="d-flex align-items-center justify-content-start " >
+                        <div class="alert-style alert-{{ 'danger' if category == 'error' else category }}" role="alert" data-aos="fade-down">
+                            <div class="d-flex align-items-center justify-content-start">
                                 <span class="d-block no-wrap">{{ message }}</span>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -120,32 +161,44 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <main class="main-content">
-                {% block content %}
-                {% endblock %}
+
+            <!-- Main Content -->
+            <main class="main-content" data-aos="fade-up">
+                {% block content %}{% endblock %}
             </main>
+
+            <!-- Footer -->
             {% if request.endpoint != 'views.home' %}
                 <footer>
                     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-                        <ul class="nav d-flex ">
-                            <li class="nav-item ">
-                                <a class="font-11 nav-link" href="/about">About</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="font-11 nav-link" href="/privacy-policy">Privacy</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="font-11 nav-link" href="/terms">Terms</a>
-                            </li>
+                        <ul class="nav d-flex">
+                            <li class="nav-item"><a class="font-11 nav-link" href="/privacy-policy">Privacy</a></li>
+                            <li class="nav-item"><a class="font-11 nav-link" href="/terms">Terms</a></li>
                         </ul>
-                        <p class="font-11 mb-0 ">© 2025 Blogsy. All rights reserved.</p>
+                        <p class="font-11 mb-0">© 2025 Blogsy. All rights reserved.</p>
                     </div>
                 </footer>
             {% endif %}
         </div>
-        <!-- Bootstrap  -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-        <!-- index.js  -->
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                crossorigin="anonymous"></script>
         <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+        <script>
+            AOS.init({
+            duration: 500,
+            once: true
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+        <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
     </body>
 </html>
